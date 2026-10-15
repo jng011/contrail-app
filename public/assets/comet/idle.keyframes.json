@@ -1,0 +1,365 @@
+{
+ "clip": "idle",
+ "fps": 60,
+ "duration": 2.4,
+ "loop": true,
+ "artboard": [
+  512,
+  512
+ ],
+ "units": "artboard points (512-pt canvas), seconds, degrees (+ = clockwise), opacity 0-1",
+ "pivots": {
+  "ballCenter": [
+   300.0,
+   180.0
+  ],
+  "ballBottom": [
+   300.0,
+   297.0
+  ]
+ },
+ "rig": {
+  "order_back_to_front": [
+   "tail",
+   "ball",
+   "face",
+   "faceClosed",
+   "faceTalk",
+   "sparkles"
+  ],
+  "assets": {
+   "tail": "comet-tail.svg",
+   "ball": "comet-ball.svg",
+   "face": "comet-face.svg",
+   "faceClosed": "comet-face-closed.svg",
+   "faceTalk": "comet-face-talk.svg",
+   "sparkles": "comet-sparkles.svg"
+  },
+  "group": "body wraps all layers",
+  "transforms": {
+   "body.squash": "scale [sx,sy] about ballBottom",
+   "body.rotation": "rotate about ballCenter (after squash)",
+   "body.offset": "translate [dx,dy] (after rotation)",
+   "body.offsetX/offsetY": "same translate with separate x/y keys and easing (hop); replaces body.offset",
+   "body.opacity": "whole character",
+   "tail.rotation/scale": "about ballCenter, inside body",
+   "sparkles.rotation/scale": "about ballCenter, inside body",
+   "face*.opacity": "hold keys; exactly one face visible"
+  },
+  "swiftUI": "ZStack(layers){ tail.scaleEffect(s, anchor:C).rotationEffect(r, anchor:C) ... }.scaleEffect(x:sx, y:sy, anchor:B).rotationEffect(.degrees(rot), anchor:C).offset(x:dx*k, y:dy*k).opacity(o)  // k = rendered size / 512"
+ },
+ "easing": "each key's `ease` applies to the segment from that key to the next: cubic-bezier [x1,y1,x2,y2] (SwiftUI: .timingCurve(x1,y1,x2,y2, duration: \u00ce\u201dt)) or \"hold\". Values hold after the last key.",
+ "tracks": {
+  "body": {
+   "offset": [
+    {
+     "t": 0.0,
+     "v": [
+      0,
+      0
+     ],
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 1.2,
+     "v": [
+      0,
+      -8
+     ],
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 2.4,
+     "v": [
+      0,
+      0
+     ],
+     "ease": "hold",
+     "easeName": "hold"
+    }
+   ],
+   "squash": [
+    {
+     "t": 0.0,
+     "v": [
+      1,
+      1
+     ],
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 1.2,
+     "v": [
+      0.985,
+      1.015
+     ],
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 2.4,
+     "v": [
+      1,
+      1
+     ],
+     "ease": "hold",
+     "easeName": "hold"
+    }
+   ],
+   "rotation": [
+    {
+     "t": 0.0,
+     "v": 0,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 0.6,
+     "v": 2.5,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 1.8,
+     "v": -2.5,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 2.4,
+     "v": 0,
+     "ease": "hold",
+     "easeName": "hold"
+    }
+   ]
+  },
+  "tail": {
+   "rotation": [
+    {
+     "t": 0.0,
+     "v": 0,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 0.6,
+     "v": 3,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 1.2,
+     "v": 0,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 1.8,
+     "v": -3,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 2.4,
+     "v": 0,
+     "ease": "hold",
+     "easeName": "hold"
+    }
+   ],
+   "scale": [
+    {
+     "t": 0.0,
+     "v": 1.0,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 0.3,
+     "v": 1.06,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 0.6,
+     "v": 1.0,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 0.9,
+     "v": 1.06,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 1.2,
+     "v": 1.0,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 1.5,
+     "v": 1.06,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 1.8,
+     "v": 1.0,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 2.1,
+     "v": 1.06,
+     "ease": [
+      0.37,
+      0,
+      0.63,
+      1
+     ],
+     "easeName": "sine"
+    },
+    {
+     "t": 2.4,
+     "v": 1.0,
+     "ease": "hold",
+     "easeName": "hold"
+    }
+   ]
+  },
+  "sparkles": {
+   "opacity": [
+    {
+     "t": 0.0,
+     "v": 0.0,
+     "ease": "hold",
+     "easeName": "hold"
+    }
+   ]
+  },
+  "face": {
+   "opacity": [
+    {
+     "t": 0.0,
+     "v": 1.0,
+     "ease": "hold",
+     "easeName": "hold"
+    }
+   ]
+  },
+  "faceClosed": {
+   "opacity": [
+    {
+     "t": 0.0,
+     "v": 0.0,
+     "ease": "hold",
+     "easeName": "hold"
+    }
+   ]
+  },
+  "faceTalk": {
+   "opacity": [
+    {
+     "t": 0.0,
+     "v": 0.0,
+     "ease": "hold",
+     "easeName": "hold"
+    }
+   ]
+  }
+ }
+}

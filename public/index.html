@@ -1,18 +1,1017 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Contrail — Contrail</title><link rel="stylesheet" href="/style.css"></head><body><div class="wrap">
-<header><div class="mark">Contrail</div><nav>
-<a href="/" aria-current="page">Home</a>
-<a href="/support" >Support</a>
-<a href="/privacy" >Privacy</a>
-</nav></header>
-<h1>See every shot's flight</h1>
-<div class="updated">Contrail for iPhone</div>
-<p class="lead">Contrail films your range session, finds each shot on its own, and draws the
-ball's flight over the video.</p>
-<p>Set your iPhone on the ground behind you, start recording, and hit. When you stop, Contrail
-goes through the session, cuts out each shot and traces it. Everything runs on your iPhone:
-no account, no server, no internet needed.</p>
-<div class="card"><p style="margin:0">Free for 7 days, then a one-time $2.99 unlock. No subscription.</p></div>
-<h2>Requirements</h2><p>iPhone running iOS 26 or later. Works best on iPhone 15 Pro or later.</p>
-<footer>Contrail for iPhone.</footer></div></body></html>
+<!doctype html>
+<!--
+Contrail home page ("the app, expanded")
+Direction: the site is the Contrail iPhone app opened up to a web page. Night ground (#0F140F) like the app, real
+range photography full-bleed, the lime tracer as the hero element, white Poppins, and Liquid Glass only on the
+functional layer that floats over content (nav capsule, caption chip over the hero photo, the step caption over the
+pinned phone). Everything in the content layer is opaque.
+References: Halide (the product's output as hero, one colour with one job), Arccos (the ball path drawn straight on
+range photography), Flighty (large unframed app screens, a pinned product walk-through), (Not Boring) (one owned
+character, Comet, carries the personality).
+Motion (scroll-animation-expert): hero pins and the tracer draws itself, scrubbed, from the ball to the landing dot;
+a pinned iPhone steps through Record, Recording, Finding shots, Library and Shot; Comet plays its real layer keyframes;
+Lenis smooth scroll on desktop. Reduced motion shows every final state.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contrail: Shot Tracer for iPhone</title>
+<meta name="description" content="Stand your iPhone behind you and hit your bucket. Contrail finds every swing, cuts it into its own clip and draws the ball’s flight over it, all on the phone. Coming soon to the App Store.">
+<meta property="og:title" content="Contrail: Shot Tracer for iPhone">
+<meta property="og:description" content="Every swing, traced. Coming soon to the App Store.">
+<meta property="og:image" content="https://contrailgolf.app/assets/og-image.jpg">
+<meta property="og:url" content="https://contrailgolf.app/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://contrailgolf.app/">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#1d1b1c">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/assets/app-icon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/poppins-semibold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/poppins-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" type="image/webp" imagesrcset="/assets/img/hero-drive-900.webp 900w, /assets/img/hero-drive-1600.webp 1600w, /assets/img/hero-drive-2400.webp 2400w" imagesizes="(max-width: 760px) 200vw, 125vw">
+<style>
+@font-face { font-family: "Poppins"; src: url("/assets/fonts/poppins-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("/assets/fonts/poppins-semibold.woff2") format("woff2"); font-weight: 500 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("/assets/fonts/poppins-bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+/* Hallmark · macrostructure: Marquee Hero (photographic, pinned) + Workbench walk-through · tone: exact, calm, night
+ * theme: studied-DNA (source: Contrail app redesign mockups, assets-src/mockups/*-after.png)
+ * paper: ink #1d1b1c · accent: #c8f169 (tracer + one primary action) · tokens from contrail-app public/style.css
+ * display: Poppins 600 / 400 numerals (self-hosted woff2) · body: Poppins 400 · glass: functional layer only (nav, chip, step caption)
+ */
+:root {
+  /* Colour: the app's own palette */
+  --night: oklch(22.5% 0.004 345.6);        /* #1d1b1c ink (contrail-app tokens) */
+  --night-raised: oklch(26% 0.005 355.1);   /* #262324 surface */
+  --night-80: oklch(22.5% 0.004 345.6 / 0.8);
+  --night-55: oklch(22.5% 0.004 345.6 / 0.55);
+  --night-35: oklch(22.5% 0.004 345.6 / 0.35);
+  --night-18: oklch(22.5% 0.004 345.6 / 0.18);
+  --white: oklch(94.3% 0.007 88.6);         /* #eeece7 text */
+  --white-2: oklch(94.3% 0.007 88.6 / 0.74); /* secondary text, 8.5:1 on ink */
+  --white-3: oklch(94.3% 0.007 88.6 / 0.58); /* tertiary, 5.7:1 on ink */
+  --hairline: oklch(100% 0 0 / 0.1);
+  --lime: oklch(90.2% 0.169 123.8);         /* #c8f169 accent: tracer + primary action */
+  --lime-press: oklch(84.3% 0.16 123);
+  --fairway: oklch(39% 0.084 136.9);        /* #2E4F1F Comet outline, icon */
+  --tracer-under: oklch(20% 0.04 135 / 0.5);
+  --focus: oklch(90.2% 0.169 123.8);
+
+  /* Glass (functional layer only) */
+  --glass-fill: oklch(22.5% 0.004 345.6 / 0.55);
+  --glass-fill-clear: oklch(22.5% 0.004 345.6 / 0.36);
+  --glass-border: oklch(100% 0 0 / 0.14);
+  --glass-highlight: inset 0 1px 0 oklch(100% 0 0 / 0.12);
+  --glass-blur: saturate(170%) blur(22px);
+  --glass-blur-clear: saturate(150%) blur(12px);
+  --glass-solid: oklch(26% 0.005 355.1);    /* Reduce Transparency fallback */
+
+  /* Type */
+  --font: "Poppins", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --text-body: 1.0625rem;   /* 17px */
+  --text-lede: clamp(1.0625rem, 0.98rem + 0.4vw, 1.3125rem);
+  --text-h2: clamp(2.25rem, 1.4rem + 3.4vw, 4.25rem);
+  --text-display: clamp(3rem, 1.6rem + 6vw, 6rem);
+  --text-numeral: clamp(9rem, 4rem + 22vw, 22rem);
+
+  /* Space (4pt) */
+  --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px;
+  --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 160px;
+  --gutter: clamp(16px, 5vw, 72px);
+  --max: 1280px;
+
+  /* Radius tiers (from the app redesign) */
+  --r-control: 14px;   /* buttons */
+  --r-chip: 10px;      /* chips over media */
+  --r-capsule: 999px;  /* floating nav, like the app's tab bar */
+  --r-media: 20px;     /* photos */
+  --r-screen: 13.5% / 6.2%; /* iPhone screen corners on 1206x2622 captures */
+
+  /* Shadow (two-layer) */
+  --sh-float: 0 1px 2px oklch(0% 0 0 / 0.3), 0 18px 48px oklch(0% 0 0 / 0.38);
+  --sh-device: 0 2px 6px oklch(0% 0 0 / 0.4), 0 40px 100px -20px oklch(0% 0 0 / 0.7);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-fast: 160ms;
+  --dur: 220ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; background: var(--night); scroll-behavior: auto; }
+body { margin: 0; overflow-x: clip; background: var(--night); color: var(--white); font-family: var(--font); font-size: var(--text-body); line-height: 1.65; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+img, svg, picture { display: block; max-width: 100%; }
+::selection { background: var(--lime); color: var(--night); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; color: var(--white); }
+p { margin: 0; text-wrap: pretty; }
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: var(--space-md); top: -80px; z-index: 40; padding: var(--space-sm) var(--space-md); background: var(--lime); color: var(--night); font-weight: 600; border-radius: var(--r-control); text-decoration: none; }
+.skip:focus { top: var(--space-md); }
+
+/* ---------- Glass: functional layer only ---------- */
+.glass { background: var(--glass-fill); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); box-shadow: var(--glass-highlight), var(--sh-float); }
+.glass-clear { background: var(--glass-fill-clear); -webkit-backdrop-filter: var(--glass-blur-clear); backdrop-filter: var(--glass-blur-clear); border: 1px solid var(--glass-border); box-shadow: var(--glass-highlight); }
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .glass-clear { background: var(--glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  .glass, .glass-clear { background: var(--night); -webkit-backdrop-filter: none; backdrop-filter: none; border-color: oklch(100% 0 0 / 0.6); }
+  :root { --white-2: var(--white); --white-3: var(--white); --hairline: oklch(100% 0 0 / 0.4); }
+}
+
+/* ---------- Nav: floating glass capsule, like the app's tab bar ---------- */
+.nav { position: fixed; top: max(12px, env(safe-area-inset-top)); left: 50%; z-index: 30; translate: -50% 0; width: min(calc(100% - 24px), 760px); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); height: 60px; padding: 0 var(--space-xs) 0 var(--space-md); border-radius: var(--r-capsule); }
+.brand { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding-right: var(--space-xs); font-weight: 600; font-size: 17px; letter-spacing: -0.01em; text-decoration: none; border-radius: var(--r-capsule); }
+.brand img { width: 30px; height: 30px; }
+.nav ul { display: flex; align-items: center; gap: var(--space-2xs); list-style: none; margin: 0; padding: 0; }
+.nav-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--space-md); border-radius: var(--r-capsule); font-size: 15px; font-weight: 500; color: var(--white); text-decoration: none; transition: background-color var(--dur-fast) var(--ease-out); }
+.nav-link:hover { background: oklch(100% 0 0 / 0.1); }
+.nav-link:active { background: oklch(100% 0 0 / 0.16); }
+
+/* ---------- Buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs); min-height: 52px; padding: 0 var(--space-lg); border-radius: var(--r-control); font: 600 17px/1 var(--font); letter-spacing: -0.005em; text-decoration: none; white-space: nowrap; transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); }
+.btn-primary { background: var(--lime); color: var(--night); }
+.btn-primary:hover { background: var(--lime-press); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:focus-visible { outline-color: var(--white); }
+
+/* ---------- Hero: full-bleed range photo + tracer ---------- */
+.hero { position: relative; height: 100svh; height: 100dvh; min-height: 640px; overflow: clip; isolation: isolate; }
+.hero-media { position: absolute; inset: 0; z-index: -1; }
+.hero-media { container-type: size; --hero-ar: 1.9567; --frame-x: 0%; --frame-shift: 0%; }
+/* Each frame has the photo's exact aspect and covers the media box, so the SVG tracer stays registered to the photo.
+   Desktop anchors the photo's left edge (golfer sits right of the copy); mobile centres it. */
+.hero-frame { position: absolute; top: 50%; left: var(--frame-x); width: max(100cqw, 100cqh * var(--hero-ar)); height: max(100cqh, 100cqw / var(--hero-ar)); transform: translate(var(--frame-shift), -50%); }
+.hero-frame img, .hero-frame .tracer { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-scrim { position: absolute; inset: 0; }
+.hero-scrim { background:
+  linear-gradient(to bottom, var(--night-55) 0%, transparent 16%),
+  linear-gradient(to right, var(--night-80) 0%, var(--night-55) 32%, transparent 60%),
+  linear-gradient(to top, var(--night) 0%, var(--night) 12%, var(--night-80) 34%, transparent 66%),
+  linear-gradient(var(--night-0, transparent), transparent); }
+.tracer path, .tracer circle { vector-effect: non-scaling-stroke; }
+.tracer path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.t-under { stroke: var(--tracer-under); stroke-width: 10; }
+.t-obs { stroke: var(--lime); stroke-width: 5.5; }
+.t-pred { stroke: var(--lime); stroke-width: 5.5; stroke-dasharray: 13 10; opacity: 0.72; }
+.t-land { fill: var(--lime); stroke: var(--tracer-under); stroke-width: 2; }
+.hero-copy { position: absolute; inset: auto 0 0 0; padding-bottom: clamp(40px, 9vh, 96px); }
+.hero h1 { text-shadow: 0 2px 28px oklch(0% 0 0 / 0.35); font-size: var(--text-display); font-weight: 600; line-height: 0.98; letter-spacing: -0.04em; max-width: 9ch; }
+.hero .lede { margin-top: var(--space-lg); max-width: 34ch; font-size: var(--text-lede); line-height: 1.55; color: var(--white-2); }
+.hero .cta-row { margin-top: var(--space-xl); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md) var(--space-lg); }
+.soon { font-size: 15px; font-weight: 500; color: var(--white-2); }
+.chip { display: inline-flex; align-items: center; gap: var(--space-xs); min-height: 36px; padding: 0 var(--space-sm); border-radius: var(--r-chip); font-size: 14px; font-weight: 600; color: var(--white); }
+.hero-chip { position: absolute; z-index: 2; right: var(--gutter); top: 22%; }
+.hero-chip .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 2px var(--tracer-under); }
+
+/* ---------- Section rhythm ---------- */
+.section { position: relative; padding-block: clamp(var(--space-3xl), 12vw, var(--space-4xl)); scroll-margin-top: 88px; }
+.h2 { font-size: var(--text-h2); font-weight: 600; line-height: 1.02; letter-spacing: -0.035em; }
+.sub { margin-top: var(--space-lg); max-width: 38ch; font-size: var(--text-lede); line-height: 1.55; color: var(--white-2); }
+
+/* ---------- How it works: pinned phone walk-through ---------- */
+.how-head { max-width: 760px; }
+.walk { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2xl); margin-top: var(--space-3xl); }
+.steps { list-style: none; margin: 0; padding: 0; }
+.step { min-height: 78vh; display: flex; flex-direction: column; justify-content: center; padding-block: var(--space-xl); }
+.step:first-child { min-height: 60vh; justify-content: flex-start; padding-top: 12vh; }
+.step-k { font-size: 15px; font-weight: 600; color: var(--white-3); font-variant-numeric: tabular-nums; }
+.step h3 { margin-top: var(--space-xs); font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem); font-weight: 600; line-height: 1.08; letter-spacing: -0.03em; max-width: 14ch; }
+.step p { margin-top: var(--space-md); max-width: 36ch; font-size: 1.125rem; color: var(--white-2); }
+.step-shot { display: none; }
+.device-col { position: relative; }
+.device { position: sticky; top: calc(50vh - min(37vh, 330px)); margin-inline: auto; width: min(100%, calc(min(74vh, 660px) * 0.46)); }
+.device-screens { position: relative; aspect-ratio: 1206 / 2622; border-radius: var(--r-screen); overflow: hidden; background: #000; box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.16), 0 0 0 6px oklch(30% 0.006 350), 0 0 0 7px oklch(100% 0 0 / 0.1), var(--sh-device); }
+.device-screens img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.device-screens img.is-active { opacity: 1; }
+.device-caption { position: absolute; left: 50%; bottom: -26px; translate: -50% 0; white-space: nowrap; }
+.progress { display: flex; gap: 6px; }
+.progress span { width: 22px; height: 4px; border-radius: 2px; background: oklch(100% 0 0 / 0.28); transform-origin: left center; }
+.progress span.is-done { background: var(--lime); }
+
+/* ---------- Privacy: one honest number ---------- */
+.privacy { overflow: clip; }
+.privacy-media { position: absolute; inset: 0; z-index: -1; }
+.privacy-media img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 35%; opacity: 0.42; filter: saturate(0.85); }
+.privacy-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, var(--night) 0%, transparent 30%, transparent 70%, var(--night) 100%); }
+.privacy .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-xl); align-items: center; }
+.zero-wrap { margin: 0; }
+.zero { display: block; font-size: var(--text-numeral); font-weight: 400; line-height: 0.8; letter-spacing: -0.06em; font-variant-numeric: tabular-nums; color: var(--white); }
+.zero-label { display: block; margin-top: var(--space-md); font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); font-weight: 500; letter-spacing: -0.015em; color: var(--white); }
+.facts { list-style: none; margin: var(--space-xl) 0 0; padding: 0; border-top: 1px solid var(--hairline); }
+.facts li { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: var(--space-md); padding-block: var(--space-md); border-bottom: 1px solid var(--hairline); }
+.facts b { font-weight: 600; color: var(--white); }
+.facts span { color: var(--white-2); }
+
+/* ---------- Comet ---------- */
+.comet .wrap { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: var(--space-2xl); align-items: center; }
+.comet-stage { position: relative; aspect-ratio: 1; max-width: 520px; width: 100%; margin-inline: auto; }
+.comet-stage svg { width: 100%; height: 100%; overflow: visible; }
+.comet-floor { position: absolute; left: 22%; right: 22%; bottom: 14%; height: 18px; border-radius: 50%; background: radial-gradient(closest-side, oklch(0% 0 0 / 0.45), transparent); }
+.bubble { position: relative; display: inline-block; margin-top: var(--space-xl); padding: var(--space-md) var(--space-lg); border-radius: 18px 18px 18px 6px; background: var(--white); color: var(--night); font-weight: 600; font-size: 1.125rem; line-height: 1.4; max-width: 30ch; }
+.bubble small { display: block; margin-top: var(--space-2xs); font-weight: 400; font-size: 15px; color: oklch(36% 0.006 350); }
+
+/* ---------- Coming soon ---------- */
+.soon-block { position: relative; isolation: isolate; overflow: clip; padding-block: clamp(var(--space-3xl), 10vw, var(--space-4xl)); text-align: left; }
+.soon-media { position: absolute; inset: 0 0 0 auto; width: 62%; z-index: -1; }
+.soon-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; opacity: 0.55; }
+.soon-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, var(--night) 0%, var(--night-55) 35%, transparent 70%), linear-gradient(to bottom, var(--night) 0%, transparent 25%, transparent 75%, var(--night) 100%); }
+.soon-block .wrap > div { max-width: 600px; }
+.soon-block .wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-xl); align-items: center; }
+.soon-block .wrap > img { width: clamp(96px, 12vw, 148px); height: auto; border-radius: 23%; box-shadow: var(--sh-float); }
+.soon-block h2 { font-size: var(--text-h2); font-weight: 600; letter-spacing: -0.035em; line-height: 1.02; }
+.soon-block p { margin-top: var(--space-md); color: var(--white-2); font-size: var(--text-lede); }
+.soon-block a { color: var(--white); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+footer { border-top: 1px solid var(--hairline); padding-block: var(--space-lg) calc(var(--space-lg) + env(safe-area-inset-bottom)); font-size: 15px; color: var(--white-2); }
+footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-xs) var(--space-lg); }
+footer ul { display: flex; flex-wrap: wrap; gap: 0 var(--space-lg); list-style: none; margin: 0; padding: 0; }
+footer a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: var(--white); }
+footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- App Store "coming soon" badge (glass, not a link) ---------- */
+.store { display: inline-flex; align-items: center; gap: var(--space-sm); min-height: 52px; margin: 0; padding: 0 var(--space-lg) 0 10px; border-radius: var(--r-control); color: var(--white); font-size: 16px; font-weight: 600; letter-spacing: -0.005em; white-space: nowrap; }
+.store img { width: 32px; height: 32px; border-radius: 8px; }
+.store-text { display: grid; line-height: 1.1; }
+.store-text small { font-size: 12px; font-weight: 500; letter-spacing: 0.01em; color: var(--white-2); }
+.store-text strong { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; }
+.store-solid, .solid { background: var(--night-raised); border: 1px solid var(--hairline); }
+.round-btn.solid:hover:not([disabled]) { background: oklch(30% 0.006 350); }
+.text-link { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; color: var(--white); text-decoration: underline; text-decoration-color: oklch(100% 0 0 / 0.35); text-underline-offset: 5px; transition: text-decoration-color var(--dur-fast) var(--ease-out); }
+.text-link:hover { text-decoration-color: var(--lime); }
+
+/* ---------- Benefits: one surface, hairline rows (no card grid) ---------- */
+.gains-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-2xl); margin-top: var(--space-2xl); border-top: 1px solid var(--hairline); }
+.gain { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); gap: var(--space-md); padding-block: var(--space-lg); border-bottom: 1px solid var(--hairline); }
+.gain svg { width: 26px; height: 26px; margin-top: 3px; color: var(--white-2); }
+.gain h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.3; }
+.gain p { margin-top: var(--space-2xs); color: var(--white-2); max-width: 40ch; }
+
+/* ---------- Gallery: real app screens, scroll-snap ---------- */
+.gallery-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-lg); }
+.gallery-ctrl { display: flex; gap: var(--space-xs); }
+.round-btn { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; color: var(--white); cursor: pointer; transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out); }
+.round-btn:active { transform: scale(0.94); }
+.round-btn[disabled] { opacity: 0.35; cursor: default; }
+.round-btn svg { width: 20px; height: 20px; }
+.rail { display: grid; grid-auto-flow: column; grid-auto-columns: clamp(220px, 24vw, 300px); gap: clamp(20px, 3vw, 40px); margin-top: var(--space-2xl); padding: var(--space-xs) var(--gutter) var(--space-lg); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+.rail::-webkit-scrollbar { display: none; }
+.rail:focus-visible { outline-offset: -2px; }
+.shot { margin: 0; scroll-snap-align: start; }
+.shot .frame { border-radius: var(--r-screen); overflow: hidden; aspect-ratio: 1206 / 2622; background: #000; box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.16), 0 0 0 5px oklch(30% 0.006 350), 0 0 0 6px oklch(100% 0 0 / 0.1), var(--sh-device); margin: 6px; }
+.shot .frame img { width: 100%; height: 100%; object-fit: cover; }
+.shot figcaption { margin-top: var(--space-lg); }
+.shot figcaption b { display: block; font-weight: 600; font-size: 1.0625rem; }
+.shot figcaption span { display: block; margin-top: 2px; font-size: 15px; color: var(--white-2); }
+
+/* ---------- FAQ ---------- */
+.faq .wrap { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-2xl); }
+.faq-list { border-top: 1px solid var(--hairline); }
+.faq details { border-bottom: 1px solid var(--hairline); }
+.faq summary { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); min-height: 64px; padding-block: var(--space-md); cursor: pointer; list-style: none; font-size: 1.1875rem; font-weight: 600; letter-spacing: -0.01em; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 12px; height: 12px; border-right: 2px solid var(--white-2); border-bottom: 2px solid var(--white-2); transform: translateY(-3px) rotate(45deg); transition: transform var(--dur) var(--ease-out); }
+.faq details[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+.faq summary:hover { color: var(--lime); }
+.faq details p a { color: var(--white); text-underline-offset: 4px; }
+.faq details p { padding-bottom: var(--space-lg); max-width: 60ch; color: var(--white-2); }
+
+@media (max-width: 900px) {
+  .faq .wrap { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
+}
+@media (max-width: 760px) {
+  .gains-grid { grid-template-columns: minmax(0, 1fr); }
+  .rail { grid-auto-columns: 68%; }
+  .gallery-ctrl { display: none; }
+  .soon-block .store { margin-top: var(--space-lg); }
+}
+
+/* ---------- Download (primary): not a live link until launch, so it is a status element, not a button ---------- */
+.download { display: inline-flex; align-items: center; gap: 14px; margin: 0; padding: 10px 22px 10px 10px; border-radius: 18px; background: var(--lime); color: var(--night); box-shadow: 0 1px 2px oklch(0% 0 0 / 0.25), 0 14px 36px -10px oklch(0% 0 0 / 0.5); }
+.download img { width: 44px; height: 44px; border-radius: 11px; box-shadow: 0 0 0 1px oklch(0% 0 0 / 0.12); }
+.download span { display: grid; line-height: 1.2; }
+.download strong { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+.download small { margin-top: 2px; font-size: 14px; font-weight: 500; color: var(--night); opacity: 0.78; }
+.hero .download { margin-bottom: var(--space-xl); }
+.soon-block .download { margin-top: var(--space-lg); }
+.download:target, .download[data-focus-target]:focus { outline: 2px solid var(--white); outline-offset: 4px; }
+.nav-dl { display: inline-flex; align-items: center; min-height: 44px; margin-left: var(--space-2xs); padding: 0 var(--space-md); border-radius: var(--r-capsule); background: var(--lime); color: var(--night); font-size: 15px; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); }
+.nav-dl:hover { background: var(--lime-press); }
+.nav-dl:active { transform: scale(0.97); }
+.nav-dl:focus-visible { outline-color: var(--white); }
+.hero .cta-row { margin-top: var(--space-lg); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .privacy .wrap, .comet .wrap { grid-template-columns: minmax(0, 1fr); }
+  .comet-stage { max-width: 360px; order: -1; }
+}
+@media (max-width: 760px) {
+  .hero { height: auto; min-height: 0; display: flex; flex-direction: column; padding-top: calc(76px + env(safe-area-inset-top)); }
+  .hero-media { --frame-x: 50%; --frame-shift: -50%; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%); mask-image: linear-gradient(to bottom, transparent 0, #000 14%); }
+  .hero-media { position: relative; inset: auto; height: 46svh; min-height: 320px; z-index: 0; overflow: clip; }
+  .hero-scrim { background: linear-gradient(to bottom, var(--night-55) 0%, transparent 20%, transparent 70%, var(--night) 100%); }
+  .hero-copy { position: relative; order: -1; padding-top: var(--space-lg); padding-bottom: var(--space-xl); }
+  .hero .download { margin-bottom: var(--space-lg); }
+  .nav-link[href="#how"] { display: none; }
+  .hero-chip { top: auto; bottom: 18%; }
+  .walk { display: block; margin-top: var(--space-2xl); }
+  .device-col { display: none; }
+  .step, .step:first-child { min-height: 0; padding-block: var(--space-xl); padding-top: var(--space-xl); }
+  .step-shot { display: block; margin-top: var(--space-lg); width: min(72%, 300px); height: auto; aspect-ratio: 1206 / 2622; border-radius: var(--r-screen); box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.16), var(--sh-device); }
+  .facts li { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
+  .soon-block .wrap { grid-template-columns: minmax(0, 1fr); }
+  .soon-media { inset: 0; width: 100%; }
+  .soon-media img { opacity: 0.32; object-position: 50% 30%; }
+  .soon-media::after { background: linear-gradient(to bottom, var(--night) 0%, var(--night-55) 40%, var(--night) 100%); }
+  .nav-inner { height: 56px; }
+  .nav-link { padding: 0 var(--space-sm); }
+}
+@media (max-width: 480px) {
+  .hide-xs { display: none; }
+}
+@media (max-width: 380px) {
+  .brand span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; animation-iteration-count: 1 !important; }
+}
+</style>
+<style data-motion>
+/* Motion layer only. Nothing here hides content: every rule targets classes/elements the motion script adds. */
+/* Lenis 1.1.13 required stylesheet (dist/lenis.css), inlined */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+/* In-page anchor targets get tabindex=-1 for focus; no ring on the whole section */
+[data-focus-target]:focus { outline: none; }
+/* Progress pill: once the script adds fills, lime comes from a scrubbed fill instead of the class */
+.progress.has-fill span { position: relative; overflow: hidden; }
+.progress.has-fill span.is-done { background: oklch(100% 0 0 / 0.28); }
+.progress.has-fill i { position: absolute; inset: 0; background: var(--lime); transform-origin: left center; }
+/* Comet tap target (added by the script only when motion is allowed) */
+.comet-hit { display: block; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; border-radius: 28px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.comet-hit:focus-visible { outline: 2px solid var(--focus); outline-offset: 6px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav-inner glass">
+    <a class="brand" href="#top" aria-label="Contrail, back to top"><img src="/assets/app-icon.svg" alt="" width="30" height="30"><span>Contrail</span></a>
+    <nav aria-label="Site">
+      <ul>
+        <li><a class="nav-link" href="#how">How it works</a></li>
+        <li><a class="nav-link" href="#privacy">Privacy</a></li>
+        <li class="hide-xs"><a class="nav-link" href="#faq">FAQ</a></li>
+        <li><a class="nav-dl" href="#download">Download</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- HERO: pinned by JS; the tracer draws as you scroll. Static default = finished tracer. -->
+  <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
+    <div class="hero-media" data-hero-media>
+      <!-- HERO PHOTO: swap here only. Keep --hero-ar (CSS) = width/height of the photo; the tracer viewBox is the photo
+           scaled to 1200 wide (1200 x 1200/ar), so its points are photo coordinates. Tee = where the line starts. -->
+      <div class="hero-frame">
+        <img src="/assets/img/hero-drive-1600.webp" srcset="/assets/img/hero-drive-900.webp 900w, /assets/img/hero-drive-1600.webp 1600w, /assets/img/hero-drive-2400.webp 2400w" sizes="(max-width: 760px) 200vw, 125vw" width="2400" height="1227" fetchpriority="high" data-hero-img alt="A golfer seen from behind at the end of his drive on a tee, with a wide cloudy sky over the fairway.">
+      </div>
+      <div class="hero-scrim"></div>
+      <div class="hero-frame">
+        <svg class="tracer" viewBox="0 0 1200 613" preserveAspectRatio="none" aria-hidden="true" data-tracer>
+          <defs>
+            <mask id="tracer-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="613">
+              <path data-tracer-mask d="M518 448 C 536 372, 566 272, 606 205 C 628 168, 656 152, 676 160 C 688 165, 694 176, 696 188" fill="none" stroke="#fff" stroke-width="40" stroke-linecap="round"/>
+            </mask>
+          </defs>
+          <g mask="url(#tracer-reveal)">
+            <path class="t-under" d="M518 448 C 536 372, 566 272, 606 205 C 628 168, 656 152, 676 160 C 688 165, 694 176, 696 188"/>
+            <path class="t-obs" d="M518 448 C 536 372, 566 272, 606 205"/>
+            <path class="t-pred" d="M606 205 C 628 168, 656 152, 676 160 C 688 165, 694 176, 696 188"/>
+          </g>
+          <circle class="t-land" data-tracer-land cx="696" cy="188" r="6"/>
+        </svg>
+      </div>
+      <p class="chip glass-clear hero-chip" data-hero-chip><span class="dot" aria-hidden="true"></span>Example shot</p>
+    </div>
+    <div class="hero-copy">
+      <div class="wrap" data-hero-copy>
+        <p class="download" id="download"><img src="/assets/app-icon.svg" alt="" width="44" height="44"><span><strong>Download the app</strong><small>Coming soon to the App Store</small></span></p>
+        <h1 id="hero-title">Every swing, traced.</h1>
+        <p class="lede">Stand your iPhone behind you and hit your whole bucket. Contrail finds every swing, cuts it into its own clip and draws the ball’s flight over the video, all on the phone.</p>
+        <p class="cta-row"><a class="text-link" href="#how">See how it works</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS: pinned phone steps through the real app screens -->
+  <section class="section how" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="how-head">
+        <h2 class="h2" id="how-title">Hit the whole bucket. Get one clip per ball.</h2>
+        <p class="sub">No holding the phone, no trimming video. Set it up once and leave it running.</p>
+      </div>
+      <div class="walk" data-walk>
+        <ol class="steps">
+          <li class="step" data-step="0">
+            <span class="step-k">Step 1 of 5</span>
+            <h3>Stand it behind you.</h3>
+            <p>Put your iPhone on a stand a few steps back, pointing down your target line. Contrail shows a level while you set up and finds the ball on your first swing. If a ball is already down, you can tap it to lock focus.</p>
+            <img class="step-shot" src="/assets/screens/08-record-done.webp" width="720" height="1565" loading="lazy" alt="Contrail’s record screen: the ball on the mat, a dashed target line down the range and the lime record button.">
+          </li>
+          <li class="step" data-step="1">
+            <span class="step-k">Step 2 of 5</span>
+            <h3>Record and keep hitting.</h3>
+            <p>One take for the whole bucket, filmed at 240 frames a second. No tapping between swings.</p>
+            <img class="step-shot" src="/assets/screens/08-record-recording.webp" width="720" height="1565" loading="lazy" alt="Contrail recording: a timer at the top of the camera view and a stop button.">
+          </li>
+          <li class="step" data-step="2">
+            <span class="step-k">Step 3 of 5</span>
+            <h3>It finds every swing.</h3>
+            <p>When you stop, Contrail goes through the video on the phone and cuts each swing into its own clip. Keep it open or let it work in the background.</p>
+            <img class="step-shot" src="/assets/screens/09-processing.webp" width="720" height="1565" loading="lazy" alt="Contrail finding shots: a count of shots found so far, a progress bar and new clips appearing in a grid.">
+          </li>
+          <li class="step" data-step="3">
+            <span class="step-k">Step 4 of 5</span>
+            <h3>Your shots, by day.</h3>
+            <p>Every clip lands in your library, grouped by day, with its tracer already drawn. Favorite the keepers and delete the rest.</p>
+            <img class="step-shot" src="/assets/screens/02-library.webp" width="720" height="1565" loading="lazy" alt="Contrail library: shot thumbnails grouped under Today and Sunday, each showing its tracer line.">
+          </li>
+          <li class="step" data-step="4">
+            <span class="step-k">Step 5 of 5</span>
+            <h3>Watch it fly. Again.</h3>
+            <p>Each shot loops with the line drawn over the ball’s flight. Swipe through the session one ball at a time.</p>
+            <img class="step-shot" src="/assets/screens/02b-shot.webp" width="720" height="1565" loading="lazy" alt="Contrail shot view: a range video with a lime tracer rising into the sky, a strip of other shots below.">
+          </li>
+        </ol>
+        <div class="device-col" aria-hidden="true">
+          <div class="device" data-device>
+            <div class="device-screens">
+              <img class="is-active" src="/assets/screens/08-record-done.webp" width="720" height="1565" alt="" data-screen="0">
+              <img src="/assets/screens/08-record-recording.webp" width="720" height="1565" alt="" loading="lazy" data-screen="1">
+              <img src="/assets/screens/09-processing.webp" width="720" height="1565" alt="" loading="lazy" data-screen="2">
+              <img src="/assets/screens/02-library.webp" width="720" height="1565" alt="" loading="lazy" data-screen="3">
+              <img src="/assets/screens/02b-shot.webp" width="720" height="1565" alt="" loading="lazy" data-screen="4">
+            </div>
+            <div class="chip solid device-caption"><span class="progress" data-progress><span class="is-done"></span><span></span><span></span><span></span><span></span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- BENEFITS (icons: Phosphor regular, MIT) -->
+  <section class="section gains" id="benefits" aria-labelledby="gains-title">
+    <div class="wrap">
+      <h2 class="h2" id="gains-title">What it changes about range practice.</h2>
+      <p class="sub">You stop guessing which shots were good. Every ball gets its own clip and its own line, and you can watch them back whenever you like.</p>
+      <ul class="gains-grid" role="list">
+        <li class="gain"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M176,100a12,12,0,1,1-12-12A12,12,0,0,1,176,100Zm-44,20a12,12,0,1,0,12,12A12,12,0,0,0,132,120Zm84-24A88,88,0,1,1,128,8,88.1,88.1,0,0,1,216,96Zm-16,0a72,72,0,1,0-72,72A72.08,72.08,0,0,0,200,96Zm-34.86,96.53C152,197.56,139.85,200,128,200s-24-2.44-37.14-7.47a8,8,0,1,0-5.72,14.94A125.91,125.91,0,0,0,120,215.68V248a8,8,0,0,0,16,0V215.68a125.91,125.91,0,0,0,34.86-8.21,8,8,0,1,0-5.72-14.94Z"/></svg><div><h3>See every ball’s flight</h3><p>The line shows how each shot started, peaked and curved. You don’t need a launch monitor to see what the ball did.</p></div></li>
+        <li class="gain"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,88h80v80H40Zm96-16V56h32V72Zm-16,0H88V56h32Zm0,112v16H88V184Zm16,0h32v16H136Zm0-16V88h80v80Zm80-96H184V56h32ZM72,56V72H40V56ZM40,184H72v16H40Zm176,16H184V184h32v16Z"/></svg><div><h3>Review a whole session</h3><p>Go back through the bucket one ball at a time, in order, without scrubbing through a long video.</p></div></li>
+        <li class="gain"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,112v96a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V112A16,16,0,0,1,56,96H80a8,8,0,0,1,0,16H56v96H200V112H176a8,8,0,0,1,0-16h24A16,16,0,0,1,216,112ZM93.66,69.66,120,43.31V136a8,8,0,0,0,16,0V43.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,69.66Z"/></svg><div><h3>Keep the best ones</h3><p>Favorite a shot and filter the library down to your favorites. Delete the ones you don’t want.</p></div></li>
+        <li class="gain"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg><div><h3>Private by default</h3><p>No account, no uploads, no tracking. Your practice stays on your phone.</p></div></li>
+        <li class="gain"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16ZM72,64H184V192H72Zm8-32h96a8,8,0,0,1,8,8v8H72V40A8,8,0,0,1,80,32Zm96,192H80a8,8,0,0,1-8-8v-8H184v8A8,8,0,0,1,176,224Z"/></svg><div><h3>Just your iPhone</h3><p>No sensors to clip on and no extra hardware to buy. Something to stand the phone on is all you add.</p></div></li>
+        <li class="gain"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M213.92,210.62a8,8,0,1,1-11.84,10.76l-52-57.15a60,60,0,0,0-57.41,7.24,8,8,0,1,1-9.42-12.93A75.43,75.43,0,0,1,128,144c1.28,0,2.55,0,3.82.1L104.9,114.49A108,108,0,0,0,61,135.31,8,8,0,0,1,49.73,134,8,8,0,0,1,51,122.77a124.27,124.27,0,0,1,41.71-21.66L69.37,75.4a155.43,155.43,0,0,0-40.29,24A8,8,0,0,1,18.92,87,171.87,171.87,0,0,1,58,62.86L42.08,45.38A8,8,0,1,1,53.92,34.62ZM128,192a12,12,0,1,0,12,12A12,12,0,0,0,128,192ZM237.08,87A172.3,172.3,0,0,0,106,49.4a8,8,0,1,0,2,15.87A158.33,158.33,0,0,1,128,64a156.25,156.25,0,0,1,98.92,35.37A8,8,0,0,0,237.08,87ZM195,135.31a8,8,0,0,0,11.24-1.3,8,8,0,0,0-1.3-11.24,124.25,124.25,0,0,0-51.73-24.2A8,8,0,1,0,150,114.24,108.12,108.12,0,0,1,195,135.31Z"/></svg><div><h3>No signal needed</h3><p>Recording, finding and tracing all happen on the phone, so a range with no reception is fine.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- GALLERY: real screens from the app -->
+  <section class="section gallery" id="inside" aria-labelledby="gallery-title">
+    <div class="wrap gallery-head">
+      <div>
+        <h2 class="h2" id="gallery-title">A look inside the app.</h2>
+        <p class="sub">The same night screens and lime line you’ll use at the range.</p>
+      </div>
+      <div class="gallery-ctrl">
+        <button class="round-btn solid" type="button" data-rail-prev aria-label="Previous screens" disabled><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/></svg></button>
+        <button class="round-btn solid" type="button" data-rail-next aria-label="Next screens"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg></button>
+      </div>
+    </div>
+    <div class="rail" tabindex="0" role="region" aria-label="App screens, scroll sideways" data-rail>
+      <figure class="shot"><div class="frame"><img src="/assets/screens/01b-home-shots.webp" width="720" height="1565" loading="lazy" alt="Contrail home screen: today’s latest shot with its tracer, a count of 14 shots today, a lime Record button and recent clips."></div><figcaption><b>Home</b><span>Your latest shot, today’s count and one button to record.</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="/assets/screens/06-onboarding-0.webp" width="720" height="1565" loading="lazy" alt="Contrail onboarding: Comet waves next to a speech bubble that says this is how you use the app, above an example shot with a tracer."></div><figcaption><b>First run</b><span>Comet walks you through setup the first time you open the app.</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="/assets/screens/03-library-favorites.webp" width="720" height="1565" loading="lazy" alt="Contrail library filtered to Favorites, showing shots from Today and Sunday."></div><figcaption><b>Favorites</b><span>Filter the library down to the shots you kept.</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="/assets/screens/05-settings.webp" width="720" height="1565" loading="lazy" alt="Contrail settings: a tracer color picker, camera format and the list of permissions."></div><figcaption><b>Your line, your color</b><span>Lime by default, or red, yellow, white or green. Permissions live here too.</span></figcaption></figure>
+    </div>
+  </section>
+
+  <!-- PRIVACY: one honest number -->
+  <section class="section privacy" id="privacy" aria-labelledby="privacy-title">
+    <div class="privacy-media" aria-hidden="true">
+      <!-- PRIVACY PHOTO: swap here only -->
+      <img src="/assets/img/range-dtl-1600.webp" srcset="/assets/img/range-dtl-900.webp 900w, /assets/img/range-dtl-1600.webp 1600w" sizes="100vw" width="1600" height="1061" alt="" loading="lazy">
+    </div>
+    <div class="wrap">
+      <p class="zero-wrap"><span class="zero" data-zero>0</span> <span class="zero-label">network requests</span></p>
+      <div>
+        <h2 class="h2" id="privacy-title">Your swings never leave your iPhone.</h2>
+        <p class="sub">Video and sensor data never leave the phone. Contrail doesn’t talk to a server, so it works the same offline.</p>
+        <ul class="facts">
+          <li><b>No account</b><span>Open the app and record. Nothing to sign up for.</span></li>
+          <li><b>No uploads</b><span>Finding, cutting and tracing all happen on the phone.</span></li>
+          <li><b>No tracking</b><span>No analytics, no ads, nothing sent anywhere.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMET: plays its real layer keyframes -->
+  <section class="section comet" id="comet" aria-labelledby="comet-title">
+    <div class="wrap">
+      <div>
+        <h2 class="h2" id="comet-title">Meet Comet.</h2>
+        <p class="sub">A golf ball with a lime contrail. Comet shows up when the app has something to tell you, like the first time you open it or when a shot needs a second look.</p>
+        <p class="bubble">Put your phone behind you, on your target line.<small>About hand height, a few steps back.</small></p>
+      </div>
+      <div class="comet-stage" data-comet-stage>
+        <div class="comet-floor" aria-hidden="true"></div>
+        <svg viewBox="0 0 512 512" role="img" aria-label="Comet, Contrail’s mascot: a smiling golf ball with a lime contrail." data-comet><g data-layer="body"><g data-layer="tail"><g transform="rotate(-62 300 180)"><path d="M300,118.39999999999999 L68.16000000000003,102.99999999999999" fill="none" stroke="#2E4F1F" stroke-width="67.03999999999999" stroke-linecap="round" stroke-linejoin="round" /><path d="M300,180.0 L7.680000000000007,180.0" fill="none" stroke="#2E4F1F" stroke-width="76.0" stroke-linecap="round" stroke-linejoin="round" /><path d="M300,241.60000000000002 L98.4,257.0" fill="none" stroke="#2E4F1F" stroke-width="67.03999999999999" stroke-linecap="round" stroke-linejoin="round" /><path d="M300,118.39999999999999 L68.16000000000003,102.99999999999999" fill="none" stroke="#C6F23F" stroke-width="47.04" stroke-linecap="round" stroke-linejoin="round" /><path d="M300,180.0 L7.680000000000007,180.0" fill="none" stroke="#C6F23F" stroke-width="56.0" stroke-linecap="round" stroke-linejoin="round" /><path d="M300,241.60000000000002 L98.4,257.0" fill="none" stroke="#C6F23F" stroke-width="47.04" stroke-linecap="round" stroke-linejoin="round" /></g></g><g data-layer="ball"><circle cx="300" cy="180" r="112" fill="#FFFFFF" stroke="#2E4F1F" stroke-width="10"/><circle cx="367.2" cy="227.04" r="9.520000000000001" fill="#E4ECDA"/><circle cx="333.6" cy="258.4" r="9.520000000000001" fill="#E4ECDA"/><circle cx="294.4" cy="269.6" r="8.96" fill="#E4ECDA"/><circle cx="255.2" cy="253.92000000000002" r="8.4" fill="#E4ECDA"/><circle cx="387.36" cy="182.24" r="8.4" fill="#E4ECDA"/><circle cx="369.44" cy="135.2" r="7.840000000000001" fill="#E4ECDA"/><circle cx="217.12" cy="202.4" r="7.840000000000001" fill="#E4ECDA"/></g><g data-layer="face"><path d="M247.08,173.68 Q266,141.68 284.92,173.68" fill="none" stroke="#2E4F1F" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" /><path d="M315.08,173.68 Q334,141.68 352.92,173.68" fill="none" stroke="#2E4F1F" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" /><ellipse cx="248.8" cy="200.08" rx="13.416" ry="8.256" fill="#B5E655"/><ellipse cx="351.2" cy="200.08" rx="13.416" ry="8.256" fill="#B5E655"/><clipPath id="cface-m300196_64000000000001"><path d="M270.76,196.64000000000001 Q300,200.64000000000001 329.24,196.64000000000001 Q324.854,231.04000000000002 300,231.04000000000002 Q275.146,231.04000000000002 270.76,196.64000000000001 Z"/></clipPath><path d="M270.76,196.64000000000001 Q300,200.64000000000001 329.24,196.64000000000001 Q324.854,231.04000000000002 300,231.04000000000002 Q275.146,231.04000000000002 270.76,196.64000000000001 Z" fill="#2E4F1F" stroke="#2E4F1F" stroke-width="7" stroke-linejoin="round"/><g clip-path="url(#cface-m300196_64000000000001)"><ellipse cx="300" cy="220.04000000000002" rx="14.62" ry="8.256" fill="#B5E655"/></g></g><g data-layer="faceClosed" opacity="0"><path d="M247.08,173.68 Q266,141.68 284.92,173.68" fill="none" stroke="#2E4F1F" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" /><path d="M315.08,173.68 Q334,141.68 352.92,173.68" fill="none" stroke="#2E4F1F" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" /><ellipse cx="248.8" cy="200.08" rx="13.416" ry="8.256" fill="#B5E655"/><ellipse cx="351.2" cy="200.08" rx="13.416" ry="8.256" fill="#B5E655"/><path d="M276,204 Q300,224 324,204" fill="none" stroke="#2E4F1F" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" /></g><g data-layer="faceTalk" opacity="0"><path d="M247.08,173.68 Q266,141.68 284.92,173.68" fill="none" stroke="#2E4F1F" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" /><path d="M315.08,173.68 Q334,141.68 352.92,173.68" fill="none" stroke="#2E4F1F" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" /><ellipse cx="248.8" cy="200.08" rx="13.416" ry="8.256" fill="#B5E655"/><ellipse cx="351.2" cy="200.08" rx="13.416" ry="8.256" fill="#B5E655"/><clipPath id="cfaceTalk-mtalk"><path d="M274,194 Q300,198 326,194 Q327,254 300,254 Q273,254 274,194 Z"/></clipPath><path d="M274,194 Q300,198 326,194 Q327,254 300,254 Q273,254 274,194 Z" fill="#2E4F1F" stroke="#2E4F1F" stroke-width="7" stroke-linejoin="round"/><g clip-path="url(#cfaceTalk-mtalk)"><ellipse cx="300" cy="244" rx="16" ry="10" fill="#B5E655"/></g></g><g data-layer="sparkles"><path d="M456,274 Q463.28,292.72 482,300 Q463.28,307.28 456,326 Q448.72,307.28 430,300 Q448.72,292.72 456,274 Z" fill="#C6F23F" stroke="#2E4F1F" stroke-width="7.0" stroke-linejoin="round"/><path d="M130,102 Q135.04,114.96 148,120 Q135.04,125.04 130,138 Q124.96,125.04 112,120 Q124.96,114.96 130,102 Z" fill="#C6F23F" stroke="#2E4F1F" stroke-width="7.0" stroke-linejoin="round"/><path d="M460,56 Q463.92,66.08 474,70 Q463.92,73.92 460,84 Q456.08,73.92 446,70 Q456.08,66.08 460,56 Z" fill="#C6F23F" stroke="#2E4F1F" stroke-width="7.0" stroke-linejoin="round"/></g></g></svg>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FAQ -->
+  <section class="section faq" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <h2 class="h2" id="faq-title">Questions.</h2>
+      <div class="faq-list">
+        <details><summary>What do I need?</summary><p>An iPhone running iOS 26 or later (it works best on iPhone 15 Pro or later) and something to stand it on behind you, like a small tripod or a phone stand.</p></details>
+        <details><summary>Is it free?</summary><p>Contrail is free to download and free for 7 days, starting when you choose. After that it’s a one-time $2.99 unlock. No subscription, nothing renews and nothing is charged automatically.</p></details>
+        <details><summary>Does it need an internet connection?</summary><p>No. Recording, finding and tracing your shots all happen on the iPhone, so it works the same at a range with no signal. Starting the trial or unlocking goes through the App Store, like any purchase.</p></details>
+        <details><summary>Can I use videos I’ve already filmed?</summary><p>Not at the moment. Contrail traces sessions you record in the app.</p></details>
+        <details><summary>Who do I ask if something isn’t working?</summary><p>Email <a href="mailto:sammy@contrailgolf.app">sammy@contrailgolf.app</a> or <a href="mailto:jayden@contrailgolf.app">jayden@contrailgolf.app</a>. You can also check the <a href="/support">support page</a>.</p></details>
+        <details><summary>Where do my shots go?</summary><p>Into Contrail’s library on your phone, with every session grouped by day. They stay in the app.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="soon-block" id="soon" aria-labelledby="soon-title">
+    <div class="soon-media" aria-hidden="true">
+      <!-- CLOSING PHOTO: swap here only -->
+      <img src="/assets/img/sunset-swing-1600.webp" srcset="/assets/img/sunset-swing-900.webp 900w, /assets/img/sunset-swing-1600.webp 1600w" sizes="(max-width: 760px) 100vw, 60vw" width="1600" height="1063" alt="" loading="lazy">
+    </div>
+    <div class="wrap">
+      <img src="/assets/app-icon.svg" width="148" height="148" alt="The Contrail app icon: Comet flying over green hills.">
+      <div>
+        <h2 id="soon-title">Coming soon to iPhone.</h2>
+        <p>Free to try for 7 days, then a one-time $2.99 unlock. Questions? Email <a href="mailto:sammy@contrailgolf.app">sammy@contrailgolf.app</a> or <a href="mailto:jayden@contrailgolf.app">jayden@contrailgolf.app</a>.</p>
+        <p class="download" id="download-end"><img src="/assets/app-icon.svg" alt="" width="44" height="44"><span><strong>Download the app</strong><small>Coming soon to the App Store</small></span></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Contrail for iPhone. Made by Sammy and Jayden.</p>
+    <ul>
+      <li><a href="/privacy">Privacy policy</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- Motion layer. The markup above is already the final state; this only sets start states when motion is allowed. -->
+<script defer src="/assets/vendor/gsap.min.js"></script>
+<script defer src="/assets/vendor/ScrollTrigger.min.js"></script>
+<script defer src="/assets/vendor/lenis.min.js"></script>
+<script>
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  /* cubic-bezier(x1,y1,x2,y2) as an easing function: Newton-Raphson on x(t), bisection fallback.
+     Used by the Comet player and as GSAP eases (GSAP accepts a function). */
+  function cubicBezier(x1, y1, x2, y2) {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const X = (t) => ((ax * t + bx) * t + cx) * t;
+    const Y = (t) => ((ay * t + by) * t + cy) * t;
+    const dX = (t) => (3 * ax * t + 2 * bx) * t + cx;
+    return (x) => {
+      if (x <= 0) return 0;
+      if (x >= 1) return 1;
+      let t = x;
+      for (let i = 0; i < 8; i++) {
+        const err = X(t) - x;
+        if (Math.abs(err) < 1e-6) return Y(t);
+        const d = dX(t);
+        if (Math.abs(d) < 1e-6) break;
+        t -= err / d;
+      }
+      let lo = 0, hi = 1;
+      t = x;
+      for (let i = 0; i < 40 && hi - lo > 1e-7; i++) {
+        if (X(t) < x) lo = t; else hi = t;
+        t = (lo + hi) / 2;
+      }
+      return Y(t);
+    };
+  }
+  const springEase = cubicBezier(0.32, 0.72, 0, 1); // the page's --ease-spring
+  const expoOut = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
+  const imageReady = (img) => Promise.race([
+    img && img.decode ? img.decode().catch(() => {}) : Promise.resolve(),
+    new Promise((r) => setTimeout(r, 800)),
+  ]);
+
+  /* ================= Scroll layer (GSAP + ScrollTrigger + Lenis) ================= */
+  function initScroll() {
+    if (!window.gsap || !window.ScrollTrigger) return; // CDN failed: the static page is the design
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    const ok = '(prefers-reduced-motion: no-preference)';
+    gsap.matchMedia().add({
+      desktop: `(min-width: 761px) and ${ok}`,
+      mobile: `(max-width: 760px) and ${ok}`,
+      smooth: `(min-width: 761px) and (pointer: fine) and ${ok}`,
+    }, (ctx) => {
+      const { desktop, mobile, smooth } = ctx.conditions;
+      if (!desktop && !mobile) return; // reduced motion: nothing runs, markup stays final
+      // Created top-to-bottom: hero pin, walk, privacy.
+      const cleanups = [smooth && initLenis(), initHero(desktop), desktop && initWalk(), initZero()];
+      return () => cleanups.forEach((fn) => typeof fn === 'function' && fn());
+    });
+    if (document.fonts) document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }
+
+  function initLenis() {
+    if (!window.Lenis) return;
+    const lenis = new Lenis();
+    lenis.on('scroll', ScrollTrigger.update);
+    const tick = (time) => lenis.raf(time * 1000); // one clock: GSAP's ticker drives Lenis
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+
+    const onClick = (e) => {
+      const a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const id = a.getAttribute('href').slice(1);
+      const target = id && document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      // Focus first (no native jump), then glide; offset clears the fixed glass nav.
+      if (!target.hasAttribute('tabindex')) { target.setAttribute('tabindex', '-1'); target.setAttribute('data-focus-target', ''); }
+      target.focus({ preventScroll: true });
+      lenis.scrollTo(target, { offset: -88, duration: 1.2, easing: expoOut });
+      if (location.hash !== '#' + id) history.pushState(null, '', '#' + id);
+    };
+    document.addEventListener('click', onClick);
+    return () => {
+      document.removeEventListener('click', onClick);
+      gsap.ticker.remove(tick);
+      gsap.ticker.lagSmoothing(500, 33);
+      lenis.destroy();
+    };
+  }
+
+  /* HERO: the tracer draws from the ball up through the curl, then the landing dot pops. */
+  function initHero(desktop) {
+    const hero = $('[data-hero]');
+    const mask = $('[data-tracer-mask]');
+    if (!hero || !mask) return;
+    const svg = $('[data-tracer]');
+    const img = $('[data-hero-img]');
+    const land = $('[data-tracer-land]');
+    const copy = $('[data-hero-copy]');
+    const chip = $('[data-hero-chip]');
+
+    // Two inputs add up to the drawn fraction: a timed intro (so the first frame is never empty)
+    // and the scroll scrub. Adding instead of overwriting means scrolling mid-intro never jumps.
+    const len = mask.getTotalLength();
+    const draw = { intro: 0, scroll: 0 };
+    let live = true;
+    const render = () => {
+      if (live) mask.style.strokeDashoffset = len * (1 - Math.min(1, draw.intro + draw.scroll));
+    };
+    mask.style.vectorEffect = 'none'; // dash units must be viewBox units, like getTotalLength()
+    mask.style.strokeDasharray = `${len} ${len}`;
+    render();
+    gsap.set(land, { scale: 0, transformOrigin: '50% 50%' });
+    gsap.set(chip, { opacity: 0, y: 10 });
+    if (desktop) {
+      const media = [img, svg]; // scaled together so the line stays registered to the photo
+      const INTRO = 0.72; // draw most of the climb on load; scrolling finishes the curl and drops the landing dot
+      gsap.set(media, { scale: 1.08, transformOrigin: '50% 50%' });
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: hero, start: 'top top', end: '+=120%',
+          pin: true, scrub: 0.8, anticipatePin: 1, invalidateOnRefresh: true,
+        },
+      });
+      tl.to(draw, { scroll: 1 - INTRO, duration: 0.7, onUpdate: render }, 0)
+        .to(media, { scale: 1, duration: 1 }, 0)
+        .to(copy, { y: -36, duration: 1 }, 0)
+        .to(land, { scale: 1, duration: 0.08, ease: 'back.out(2.6)' }, 0.7)
+        .to(chip, { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out' }, 0.76);
+      const intro = gsap.to(draw, { intro: INTRO, duration: 1.4, delay: 0.15, ease: 'power3.out', onUpdate: render, paused: true });
+      imageReady(img).then(() => intro.play());
+    } else {
+      // Mobile: no pin. One timed draw on load, decelerating into the apex like a real ball.
+      const tl = gsap.timeline({ paused: true, delay: 0.1 });
+      // (No photo scale here: the stacked mobile hero doesn't clip the media box, so a scale would spill.)
+      tl.to(draw, { intro: 1, duration: 1.7, ease: 'power3.out', onUpdate: render }, 0)
+        .to(land, { scale: 1, duration: 0.4, ease: 'back.out(2.6)' }, 1.3)
+        .to(chip, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 1.45);
+      imageReady(img).then(() => tl.play());
+    }
+    return () => {
+      live = false;
+      mask.style.strokeDasharray = mask.style.strokeDashoffset = mask.style.vectorEffect = '';
+    };
+  }
+
+  /* HOW IT WORKS: CSS-sticky phone; each step crossing the viewport centre swaps the screen. */
+  function initWalk() {
+    const walk = $('[data-walk]');
+    const device = $('[data-device]');
+    const progress = $('[data-progress]');
+    if (!walk || !device || !progress) return;
+    const steps = $$('[data-step]', walk);
+    const screens = $$('[data-screen]', device);
+    const bars = [...progress.children];
+    const DIM = 0.35;
+    let active = 0;
+    let z = 1;
+
+    gsap.set(screens, { opacity: (i) => (i === 0 ? 1 : 0), zIndex: (i) => (i === 0 ? 1 : 0) });
+    gsap.set(steps, { opacity: (i) => (i === 0 ? 1 : DIM) });
+    progress.classList.add('has-fill');
+    const fills = bars.map((b) => b.appendChild(document.createElement('i')));
+
+    // The phone rises in once as the walk-through arrives.
+    gsap.from(device, {
+      y: 40, opacity: 0, duration: 1, ease: 'expo.out',
+      scrollTrigger: { trigger: walk, start: 'top 60%', once: true },
+    });
+
+    function activate(i) {
+      if (i === active) return;
+      active = i;
+      const incoming = screens[i];
+      gsap.killTweensOf(screens);
+      gsap.set(incoming, { zIndex: ++z }); // incoming always on top, so a crossfade never dips through black
+      gsap.fromTo(incoming, { opacity: 0, scale: 1.02 }, {
+        opacity: 1, scale: 1, duration: 0.35, ease: springEase,
+        onComplete: () => screens.forEach((s, k) => k !== i && gsap.set(s, { opacity: 0 })),
+      });
+      steps.forEach((s, k) => gsap.to(s, { opacity: k === i ? 1 : DIM, duration: 0.3, ease: 'power2.out', overwrite: true }));
+      bars.forEach((b, k) => b.classList.toggle('is-done', k <= i));
+    }
+
+    steps.forEach((step, i) => {
+      ScrollTrigger.create({
+        trigger: step, start: 'top center', end: 'bottom center',
+        onToggle: (self) => self.isActive && activate(i),
+      });
+      // Each pill segment fills as you read through its step.
+      gsap.fromTo(fills[i], { scaleX: 0 }, {
+        scaleX: 1, ease: 'none',
+        scrollTrigger: { trigger: step, start: 'top center', end: 'bottom center', scrub: 0.4 },
+      });
+    });
+
+    return () => {
+      fills.forEach((f) => f.remove());
+      progress.classList.remove('has-fill');
+      bars.forEach((b, k) => b.classList.toggle('is-done', k === 0));
+    };
+  }
+
+  /* PRIVACY: the "0" rises and settles once. */
+  function initZero() {
+    const zero = $('[data-zero]');
+    if (!zero) return;
+    const tl = gsap.timeline({ scrollTrigger: { trigger: zero, start: 'top 85%', once: true } });
+    tl.from(zero, { y: 90, opacity: 0, duration: 1.3, ease: 'expo.out' })
+      .from(zero.nextElementSibling, { y: 18, opacity: 0, duration: 0.9, ease: 'expo.out' }, 0.15);
+  }
+
+  /* ================= Comet: plays the app's real layer keyframes ================= */
+  function initComet() {
+    const stage = $('[data-comet-stage]');
+    const svg = $('[data-comet]');
+    if (!stage || !svg) return;
+    const layer = (n) => svg.querySelector(`[data-layer="${n}"]`);
+    const L = {
+      body: layer('body'), tail: layer('tail'), sparkles: layer('sparkles'),
+      face: layer('face'), faceClosed: layer('faceClosed'), faceTalk: layer('faceTalk'),
+    };
+    if (Object.values(L).some((el) => !el)) return;
+    const original = Object.values(L).map((el) => [el, el.getAttribute('transform'), el.getAttribute('opacity')]);
+
+    // JSON track -> state fields
+    const MAP = {
+      'body.offset': ['ox', 'oy'], 'body.offsetX': ['ox'], 'body.offsetY': ['oy'],
+      'body.squash': ['sx', 'sy'], 'body.rotation': ['rot'], 'body.opacity': ['op'],
+      'tail.rotation': ['tr'], 'tail.scale': ['ts'],
+      'sparkles.opacity': ['so'], 'sparkles.scale': ['ss'], 'sparkles.rotation': ['sr'],
+      'face.opacity': ['f0'], 'faceClosed.opacity': ['f1'], 'faceTalk.opacity': ['f2'],
+    };
+    const DEFAULTS = { ox: 0, oy: 0, sx: 1, sy: 1, rot: 0, op: 1, tr: 0, ts: 1, so: 0, ss: 1, sr: 0, f0: 1, f1: 0, f2: 0 };
+    const DISCRETE = new Set(['f0', 'f1', 'f2']); // face swaps are hold keys: never blended
+
+    const compile = (json) => {
+      const tracks = [];
+      for (const [layerName, props] of Object.entries(json.tracks || {})) {
+        for (const [prop, keys] of Object.entries(props)) {
+          const out = MAP[`${layerName}.${prop}`];
+          if (!out || !keys.length) continue;
+          tracks.push({
+            out,
+            keys: keys.map((k) => ({ t: k.t, v: [].concat(k.v), ease: Array.isArray(k.ease) ? cubicBezier(...k.ease) : null })),
+          });
+        }
+      }
+      return { duration: json.duration, loop: !!json.loop, pivots: json.pivots, tracks };
+    };
+
+    const sample = (clip, t, s) => {
+      Object.assign(s, DEFAULTS);
+      for (const { out, keys } of clip.tracks) {
+        let v;
+        const last = keys[keys.length - 1];
+        if (t <= keys[0].t) v = keys[0].v;
+        else if (t >= last.t) v = last.v; // values hold after the last key
+        else {
+          let k = 0;
+          while (t >= keys[k + 1].t) k++;
+          const a = keys[k], b = keys[k + 1];
+          if (!a.ease) v = a.v; // "hold"
+          else {
+            const e = a.ease((t - a.t) / (b.t - a.t));
+            v = a.v.map((x, j) => x + (b.v[j] - x) * e);
+          }
+        }
+        out.forEach((name, j) => { s[name] = v[j]; });
+      }
+      return s;
+    };
+
+    const f = (n) => Math.round(n * 1000) / 1000;
+    const apply = (s, pv) => {
+      const [cx, cy] = pv.ballCenter, [bx, by] = pv.ballBottom;
+      // squash about ballBottom, then rotate about ballCenter, then translate
+      L.body.setAttribute('transform', `translate(${f(s.ox)} ${f(s.oy)}) rotate(${f(s.rot)} ${cx} ${cy}) translate(${bx} ${by}) scale(${f(s.sx)} ${f(s.sy)}) translate(${-bx} ${-by})`);
+      L.body.setAttribute('opacity', f(s.op));
+      L.tail.setAttribute('transform', `rotate(${f(s.tr)} ${cx} ${cy}) translate(${cx} ${cy}) scale(${f(s.ts)}) translate(${-cx} ${-cy})`);
+      L.sparkles.setAttribute('transform', `rotate(${f(s.sr)} ${cx} ${cy}) translate(${cx} ${cy}) scale(${f(s.ss)}) translate(${-cx} ${-cy})`);
+      L.sparkles.setAttribute('opacity', f(s.so));
+      L.face.setAttribute('opacity', s.f0 > 0.5 ? 1 : 0);
+      L.faceClosed.setAttribute('opacity', s.f1 > 0.5 ? 1 : 0);
+      L.faceTalk.setAttribute('opacity', s.f2 > 0.5 ? 1 : 0);
+    };
+
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const s = {};
+    let clips = null, loading = null;
+    let clip = null, clipName = '', t = 0, lastNow = 0, raf = 0;
+    let enabled = false, visible = false, started = false, btn = null;
+    let blendFrom = null, blendT = 0;
+
+    const load = () => loading || (loading = Promise.all(
+      ['jump-in', 'idle', 'celebrate'].map((n) => fetch(`/assets/comet/${n}.keyframes.json`).then((r) => {
+        if (!r.ok) throw new Error(`${n}: ${r.status}`);
+        return r.json();
+      }))
+    ).then(([jump, idle, celebrate]) => { clips = { jump: compile(jump), idle: compile(idle), celebrate: compile(celebrate) }; }));
+
+    const wrap180 = (r) => ((((r + 180) % 360) + 360) % 360) - 180;
+    function start(name, blend) {
+      blendFrom = blend ? { ...s, rot: wrap180(s.rot) } : null;
+      blendT = 0;
+      clip = clips[name];
+      clipName = name;
+      t = 0;
+    }
+
+    const running = () => enabled && started && visible && !document.hidden;
+    function frame(now) {
+      raf = 0;
+      const dt = lastNow ? Math.min(0.05, (now - lastNow) / 1000) : 0;
+      lastNow = now;
+      t += dt;
+      if (t >= clip.duration) {
+        if (clip.loop) t %= clip.duration;
+        else { const over = t - clip.duration; start('idle', false); t = over; } // jump-in/celebrate end on the idle start pose
+      }
+      sample(clip, t, s);
+      if (blendFrom) { // 160ms smoothstep from the interrupted pose into the new clip
+        blendT += dt;
+        const k = Math.min(1, blendT / 0.16), e = k * k * (3 - 2 * k);
+        for (const n in DEFAULTS) if (!DISCRETE.has(n)) s[n] = blendFrom[n] + (s[n] - blendFrom[n]) * e;
+        if (k >= 1) blendFrom = null;
+      }
+      apply(s, clip.pivots);
+      if (running()) raf = requestAnimationFrame(frame);
+    }
+    const resume = () => { if (!raf && running()) { lastNow = 0; raf = requestAnimationFrame(frame); } };
+    const pause = () => { if (raf) cancelAnimationFrame(raf); raf = 0; };
+
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !started && entry.intersectionRatio >= 0.35) { started = true; start('jump', false); }
+      if (visible) resume(); else pause();
+    }, { threshold: [0, 0.35] });
+
+    function celebrate() {
+      if (!enabled || !started || clipName === 'celebrate' || clipName === 'jump') return;
+      start('celebrate', true);
+      resume();
+    }
+
+    async function enable() {
+      try { await load(); } catch (err) { return; } // keyframes missing (e.g. file://): stay static
+      if (enabled || reduce.matches) return;
+      enabled = true;
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'comet-hit';
+      btn.setAttribute('aria-label', 'Comet, Contrail’s mascot. Press to make Comet celebrate.');
+      svg.before(btn);
+      btn.append(svg);
+      btn.addEventListener('click', celebrate);
+      if (started) start('idle', false);
+      else apply(sample(clips.jump, 0, s), clips.jump.pivots); // waiting pose for the jump-in (off-stage)
+      io.observe(stage);
+    }
+    function disable() {
+      enabled = false;
+      pause();
+      io.unobserve(stage);
+      if (btn) { btn.before(svg); btn.remove(); btn = null; }
+      original.forEach(([el, tr, op]) => {
+        if (tr === null) el.removeAttribute('transform'); else el.setAttribute('transform', tr);
+        if (op === null) el.removeAttribute('opacity'); else el.setAttribute('opacity', op);
+      });
+    }
+
+    document.addEventListener('visibilitychange', () => (document.hidden ? pause() : resume()));
+    reduce.addEventListener('change', () => (reduce.matches ? disable() : enable()));
+    if (!reduce.matches) enable();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => { // deferred libraries have run by now
+    initScroll();
+    initComet();
+  });
+})();
+</script>
+
+<script>
+  (function () {
+    var rail = document.querySelector('[data-rail]'); if (!rail) return;
+    var prev = document.querySelector('[data-rail-prev]'), next = document.querySelector('[data-rail-next]');
+    var items = rail.querySelectorAll('.shot');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function step(dir) { var w = items[0].getBoundingClientRect().width + parseFloat(getComputedStyle(rail).columnGap || 32); rail.scrollBy({ left: dir * w, behavior: reduce.matches ? 'auto' : 'smooth' }); }
+    prev.addEventListener('click', function () { step(-1); });
+    next.addEventListener('click', function () { step(1); });
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.target === items[0]) prev.disabled = e.intersectionRatio > 0.95;
+          if (e.target === items[items.length - 1]) next.disabled = e.intersectionRatio > 0.95;
+        });
+      }, { root: rail, threshold: [0, 0.95, 1] });
+      io.observe(items[0]); io.observe(items[items.length - 1]);
+    }
+  })();
+</script>
+
+<script>
+  // Reduced motion on desktop: GSAP stays off, so swap the phone screen instantly as each step reaches the middle.
+  (function () {
+    var mq = window.matchMedia('(prefers-reduced-motion: reduce) and (min-width: 761px)');
+    if (!mq.matches || !('IntersectionObserver' in window)) return;
+    var screens = document.querySelectorAll('[data-screen]');
+    var bars = document.querySelectorAll('[data-progress] > span');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var i = +e.target.getAttribute('data-step');
+        screens.forEach(function (img, n) { img.classList.toggle('is-active', n === i); });
+        bars.forEach(function (b, n) { b.classList.toggle('is-done', n <= i); });
+      });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+    document.querySelectorAll('[data-step]').forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>
