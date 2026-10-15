@@ -341,6 +341,16 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* Examples: two traced swings */
+.examples-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 340px)); gap: var(--space-xl); margin-top: var(--space-2xl); }
+.example { margin: 0; }
+.example-video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 28px; background: #0b0d0b; }
+.example figcaption { margin-top: var(--space-md, 16px); display: grid; gap: 4px; }
+.example figcaption b { font-weight: 600; }
+.example figcaption span { color: var(--white-2); }
+.examples-note { margin-top: var(--space-lg); font-size: 14px; color: var(--white-3, var(--white-2)); }
+@media (max-width: 680px) { .examples-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; } .example-video { border-radius: 18px; } .example figcaption span { display: none; } }
 </style>
 <style data-motion>
 /* Motion layer only. Nothing here hides content: every rule targets classes/elements the motion script adds. */
@@ -471,6 +481,25 @@ html.lenis, html.lenis body { height: auto; }
     </div>
   </section>
 
+
+  <!-- EXAMPLES: two real swings with the tracer drawn in -->
+  <section class="section examples" id="examples" aria-labelledby="examples-title">
+    <div class="wrap">
+      <h2 class="h2" id="examples-title">Real swings, traced.</h2>
+      <p class="sub">Two swings filmed on a phone behind the golfer. The lime line is the kind of tracer Contrail draws over every shot.</p>
+      <div class="examples-grid">
+        <figure class="example">
+          <video class="example-video" src="/assets/video/driver.mp4" poster="/assets/video/driver-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Driver swing filmed from behind, with a lime tracer following the ball from the tee up into the sky and down the range."></video>
+          <figcaption><b>Driver</b><span>Off the tee, filmed from behind on the target line.</span></figcaption>
+        </figure>
+        <figure class="example">
+          <video class="example-video" src="/assets/video/iron.mp4" poster="/assets/video/iron-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Iron shot off a range mat filmed from behind, with a lime tracer following the ball up and out over the range."></video>
+          <figcaption><b>Iron</b><span>Off a range mat, same setup, phone a few steps back.</span></figcaption>
+        </figure>
+      </div>
+      <p class="examples-note">Example clips. The line was drawn for this page to show what the app does.</p>
+    </div>
+  </section>
 
   <!-- BENEFITS (icons: Phosphor regular, MIT) -->
   <section class="section gains" id="benefits" aria-labelledby="gains-title">
@@ -1012,6 +1041,20 @@ html.lenis, html.lenis body { height: auto; }
     }, { rootMargin: '-50% 0px -50% 0px' });
     document.querySelectorAll('[data-step]').forEach(function (el) { io.observe(el); });
   })();
+</script>
+
+<script>
+/* Example clips: play while on screen; stay paused with Reduce Motion (tap to play). */
+(() => {
+  const vids = document.querySelectorAll('[data-example]');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  vids.forEach(v => {
+    if (still) { v.controls = true; v.preload = 'metadata'; return; }
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => { v.controls = true; }); } else v.pause();
+    }, { threshold: 0.35 }).observe(v);
+  });
+})();
 </script>
 </body>
 </html>
