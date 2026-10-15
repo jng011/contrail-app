@@ -49,8 +49,6 @@ apps whose support or privacy links break.
      tapping a ball that's already down is optional and locks focus/exposure)
    - cuts each shot into its own clip and draws the ball's flight over the video
    - keeps every shot in a library grouped by day, where you can favorite, filter to favorites, and delete
-   - is free to download, has a 7-day free trial **the user starts** (a $0 in-app purchase), then a
-     **one-time $2.99 unlock**: no subscription, nothing renews, nothing is charged automatically
    - needs iOS 26+ and works best on iPhone 15 Pro or later
 
    It does **not** (yet) show launch numbers, carry distance, club data, or swing analysis, and has no
@@ -68,7 +66,9 @@ apps whose support or privacy links break.
      Store privacy label must change too: tell Jayden first.
 3. **The site itself collects nothing:** no analytics, cookies, trackers, embeds, third-party scripts or
    fonts from other domains. The privacy policy promises this. Keep everything self-hosted in `public/`.
-4. **Prices:** write "$2.99" only where a US price is fine. The App Store shows local prices elsewhere.
+4. **No prices or purchase terms anywhere on the site** (Jayden's rule): no price, no trial length, no
+   "one-time", "free", "unlock" or "subscription" wording. The App Store shows that. Restore Purchases help
+   on /support may stay, without terms.
 5. **No technical detail about the tracer:** don't describe how detection, tracking or physics work, which
    models are used, or accuracy numbers. Keep it to what the user does and sees.
 6. **No other brands:** no competitor names, and no Apple trademarks beyond the plain device and OS names.
