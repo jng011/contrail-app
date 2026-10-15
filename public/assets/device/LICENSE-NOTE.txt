@@ -1,0 +1,26 @@
+iPhone 18 Pro device bezel (Black, Portrait)
+============================================
+
+Files:
+  iphone-18-pro-black-1104.webp / .png   540 x 1104  (2x)
+  iphone-18-pro-black-552.webp  / .png   270 x 552   (1x)
+
+Source: Apple Design Resources, Product Bezels, "iPhone 18 Pro - Black - Portrait.png" (1350 x 2760)
+(Apple publishes these at https://developer.apple.com/design/resources/).
+
+Licence: Apple Design Resources License Agreement (Apple Inc., LYL142, 06/21/2023). Apple grants a limited
+licence to use the Apple Design Resources to create mock-ups of user interfaces for software that runs only on
+Apple operating systems, including showing them in screenshots, images or other depictions of those mock-ups.
+Contrail is an iOS app; these files frame screenshots and clips of the Contrail iPhone app on contrailgolf.app.
+
+How we use it:
+  - The device image is used as provided. The only change is a proportional resize to web sizes (0.4x and 0.2x);
+    no recolouring, cropping, retouching or other edits.
+  - App screens and clips are placed behind the bezel inside its transparent screen opening.
+  - The bezel is not offered for download, reuse or redistribution as a standalone asset, and must not be
+    extracted from this site for other uses.
+  - Nothing on the site states or implies that Apple sponsors, endorses or is affiliated with Contrail.
+    iPhone is a trademark of Apple Inc., registered in the U.S. and other countries.
+
+Apple and Apple's licensors retain all rights in the Apple Design Resources. If Apple's licence terms change or
+the licence terminates, remove these files and the markup that loads them.

@@ -6,11 +6,12 @@ range photography full-bleed, the lime tracer as the hero element, white Poppins
 functional layer that floats over content (nav capsule, caption chip over the hero photo, the step caption over the
 pinned phone). Everything in the content layer is opaque.
 References: Halide (the product's output as hero, one colour with one job), Arccos (the ball path drawn straight on
-range photography), Flighty (large unframed app screens, a pinned product walk-through), (Not Boring) (one owned
+range photography), Flighty (large app screens, a pinned product walk-through), (Not Boring) (one owned
 character, Comet, carries the personality).
 Motion (scroll-animation-expert): hero pins and the tracer draws itself, scrubbed, from the ball to the landing dot;
 a pinned iPhone steps through Record, Recording, Finding shots, Library and Shot; Comet plays its real layer keyframes;
 Lenis smooth scroll on desktop. Reduced motion shows every final state.
+Phones: every app screen and example clip sits inside Apple's iPhone 18 Pro bezel (.phone, assets/device/).
 -->
 <html lang="en">
 <head>
@@ -86,7 +87,6 @@ Lenis smooth scroll on desktop. Reduced motion shows every final state.
   --r-chip: 10px;      /* chips over media */
   --r-capsule: 999px;  /* floating nav, like the app's tab bar */
   --r-media: 20px;     /* photos */
-  --r-screen: 13.5% / 6.2%; /* iPhone screen corners on 1206x2622 captures */
 
   /* Shadow (two-layer) */
   --sh-float: 0 1px 2px oklch(0% 0 0 / 0.3), 0 18px 48px oklch(0% 0 0 / 0.38);
@@ -174,6 +174,17 @@ p { margin: 0; text-wrap: pretty; }
 .h2 { font-size: var(--text-h2); font-weight: 600; line-height: 1.02; letter-spacing: -0.035em; }
 .sub { margin-top: var(--space-lg); max-width: 38ch; font-size: var(--text-lede); line-height: 1.55; color: var(--white-2); }
 
+/* ---------- Phone: Apple's iPhone 18 Pro bezel (Apple Design Resources, see assets/device/LICENSE-NOTE.txt) ----------
+   The bezel PNG is 1350x2760; its transparent screen opening is 1206x2622 at (72, 69), i.e. left 5.333%, top 2.5%,
+   width 89.333%, height 95%, with ~205px corners. The screen box overscans that by ~2px a side and uses slightly
+   smaller corners, so its edges always sit under the opaque bezel (no hairline gaps, nothing past the glass).
+   The bezel paints over the screen, including the Dynamic Island. Use the image as provided: never recolour or crop it. */
+.phone { position: relative; display: block; aspect-ratio: 1350 / 2760; isolation: isolate; }
+.phone::before { content: ""; position: absolute; inset: 0.6% 1.6%; z-index: -1; border-radius: 17% / 8.3%; box-shadow: var(--sh-device); }
+.phone-screen { position: absolute; z-index: 0; left: 5.185%; top: 2.428%; width: 89.63%; height: 95.145%; display: block; overflow: hidden; border-radius: 16% / 7.4%; background: #000; }
+.phone-screen > img, .phone-screen > video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 0; }
+.phone-bezel { position: absolute; inset: 0; z-index: 1; display: block; width: 100%; height: 100%; max-width: none; pointer-events: none; user-select: none; -webkit-user-select: none; }
+
 /* ---------- How it works: pinned phone walk-through ---------- */
 .how-head { max-width: 760px; }
 .walk { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2xl); margin-top: var(--space-3xl); }
@@ -186,11 +197,10 @@ p { margin: 0; text-wrap: pretty; }
 .step-shot { display: none; }
 .walk-stage { display: contents; } /* a box only in the mobile pinned walk-through */
 .device-col { position: relative; }
-.device { position: sticky; top: calc(50vh - min(37vh, 330px)); margin-inline: auto; width: min(100%, calc(min(74vh, 660px) * 0.46)); }
-.device-screens { position: relative; aspect-ratio: 1206 / 2622; border-radius: var(--r-screen); overflow: hidden; background: #000; box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.16), 0 0 0 6px oklch(30% 0.006 350), 0 0 0 7px oklch(100% 0 0 / 0.1), var(--sh-device); }
-.device-screens img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.device { position: sticky; top: calc(50vh - min(37vh, 330px)); margin-inline: auto; width: min(100%, calc(min(74vh, 660px) * 1350 / 2760)); }
+.device-screens img { opacity: 0; }
 .device-screens img.is-active { opacity: 1; }
-.device-caption { position: absolute; left: 50%; bottom: -26px; translate: -50% 0; white-space: nowrap; }
+.device-caption { position: absolute; left: 50%; bottom: -46px; translate: -50% 0; white-space: nowrap; } /* below the bezel, never over it */
 .progress { display: flex; gap: 6px; }
 .progress span { width: 22px; height: 4px; border-radius: 2px; background: oklch(100% 0 0 / 0.28); transform-origin: left center; }
 .progress span.is-done { background: var(--lime); }
@@ -263,8 +273,6 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .rail::-webkit-scrollbar { display: none; }
 .rail:focus-visible { outline-offset: -2px; }
 .shot { margin: 0; scroll-snap-align: start; }
-.shot .frame { border-radius: var(--r-screen); overflow: hidden; aspect-ratio: 1206 / 2622; background: #000; box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.16), 0 0 0 5px oklch(30% 0.006 350), 0 0 0 6px oklch(100% 0 0 / 0.1), var(--sh-device); margin: 6px; }
-.shot .frame img { width: 100%; height: 100%; object-fit: cover; }
 .shot figcaption { margin-top: var(--space-lg); }
 .shot figcaption b { display: block; font-weight: 600; font-size: 1.0625rem; }
 .shot figcaption span { display: block; margin-top: 2px; font-size: 15px; color: var(--white-2); }
@@ -332,10 +340,10 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .hero-runway.is-sticky .hero { position: sticky; top: 0; }
   /* Motion on: the phone sticks and steps through the five screens; one step caption at a time under it */
   .walk.is-pinned { height: calc(100svh + 300svh); margin-top: var(--space-lg); }
-  .walk.is-pinned .walk-stage { position: sticky; top: 0; display: flex; flex-direction: column; gap: 40px; height: 100vh; height: 100svh; padding: calc(84px + env(safe-area-inset-top)) 0 calc(var(--space-lg) + env(safe-area-inset-bottom)); }
+  .walk.is-pinned .walk-stage { position: sticky; top: 0; display: flex; flex-direction: column; gap: 22px; height: 100vh; height: 100svh; padding: calc(84px + env(safe-area-inset-top)) 0 calc(var(--space-lg) + env(safe-area-inset-bottom)); }
   .walk.is-pinned .device-col { display: flex; justify-content: center; flex: 1 1 auto; min-height: 0; order: -1; }
-  .walk.is-pinned .device { position: relative; top: auto; height: calc(100% - 4px); width: auto; max-width: 100%; aspect-ratio: 1206 / 2622; margin: 0; }
-  .walk.is-pinned .device-screens { height: 100%; }
+  .walk.is-pinned .device { position: relative; top: auto; height: calc(100% - 48px); /* room for the step caption under the bezel */ width: auto; max-width: 100%; aspect-ratio: 1350 / 2760; margin: 0; }
+  .walk.is-pinned .device .phone { height: 100%; }
   .walk.is-pinned .steps { display: grid; flex: none; }
   .walk.is-pinned .step, .walk.is-pinned .step:first-child { grid-area: 1 / 1; min-height: 0; padding: 0; justify-content: flex-start; }
   .walk.is-pinned .step-shot { display: none; }
@@ -344,7 +352,7 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .walk { display: block; margin-top: var(--space-2xl); }
   .device-col { display: none; }
   .step, .step:first-child { min-height: 0; padding-block: var(--space-xl); padding-top: var(--space-xl); }
-  .step-shot { display: block; margin-top: var(--space-lg); width: min(72%, 300px); height: auto; aspect-ratio: 1206 / 2622; border-radius: var(--r-screen); box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.16), var(--sh-device); }
+  .step-shot { display: block; margin-top: var(--space-lg); width: min(72%, 300px); }
   .facts li { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
   .soon-block .wrap { grid-template-columns: minmax(0, 1fr); }
   .soon-media { inset: 0; width: 100%; }
@@ -354,7 +362,7 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .nav-link { padding: 0 var(--space-sm); }
 }
 @media (max-width: 760px) and (max-height: 700px) {
-  .walk.is-pinned .walk-stage { gap: 34px; padding-top: calc(76px + env(safe-area-inset-top)); }
+  .walk.is-pinned .walk-stage { gap: 16px; padding-top: calc(76px + env(safe-area-inset-top)); }
   .walk.is-pinned .step h3 { font-size: 1.375rem; }
   .walk.is-pinned .step p { font-size: 0.9375rem; line-height: 1.5; }
 }
@@ -375,15 +383,17 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 /* Examples: two traced swings */
 .examples-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 340px)); gap: var(--space-xl); margin-top: var(--space-2xl); }
 .example { margin: 0; }
-.example-video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 28px; background: #0b0d0b; }
+/* 9:16 clips fill the taller iPhone screen: cover, nudged left so the golfer and the whole line stay in frame */
+.phone-screen > .example-video { object-position: 35% 50%; background: #0b0d0b; }
 .example figcaption { margin-top: var(--space-md, 16px); display: grid; gap: 4px; }
 .example figcaption b { font-weight: 600; }
 .example figcaption span { color: var(--white-2); }
-.example-open { position: relative; display: block; width: 100%; margin: 0; padding: 0; border: 0; background: none; color: inherit; cursor: zoom-in; border-radius: 28px; -webkit-tap-highlight-color: transparent; }
+.example-open { position: relative; display: block; width: 100%; margin: 0; padding: 0; border: 0; background: none; color: inherit; cursor: zoom-in; border-radius: 17% / 8.3%; -webkit-tap-highlight-color: transparent; }
 .example-open:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
-.example-open .example-video { transition: transform var(--dur) var(--ease-out); }
-.example-open:active .example-video { transform: scale(0.985); }
-.example-cue { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: var(--white); }
+.example-open .phone { transition: transform var(--dur) var(--ease-out); }
+.example-open:active .phone { transform: scale(0.985); }
+/* Sits on the screen, below the Dynamic Island and inside the rounded corner */
+.example-cue { position: absolute; z-index: 1; top: 7%; right: 8%; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: var(--white); }
 .example-cue-ico { width: 18px; height: 18px; }
 .examples-hint { margin-top: var(--space-lg); font-size: 15px; color: var(--white-2); }
 .examples-hint + .examples-note { margin-top: var(--space-2xs); }
@@ -409,7 +419,7 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .speeds button[aria-pressed="true"] { background: var(--lime); color: var(--night); }
 .viewer button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 @media (max-width: 360px) { .speeds button { min-width: 46px; padding: 0 var(--space-xs); } .viewer-bar .v-btn { width: 44px; } }
-@media (max-width: 680px) { .examples-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; } .example-video { border-radius: 18px; } .example-open { border-radius: 18px; } .example-cue { top: 8px; right: 8px; width: 32px; height: 32px; } .example figcaption span { display: none; } }
+@media (max-width: 680px) { .examples-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; } .example-cue { width: 28px; height: 28px; } .example-cue-ico { width: 15px; height: 15px; } .example figcaption span { display: none; } }
 </style>
 <style data-motion>
 /* Motion layer only. Nothing here hides content: every rule targets classes/elements the motion script adds. */
@@ -499,41 +509,44 @@ html.lenis, html.lenis body { height: auto; }
             <span class="step-k">Step 1 of 5</span>
             <h3>Stand it behind you.</h3>
             <p>Put your iPhone on a stand a few steps back, pointing down your target line. Contrail shows a level while you set up and finds the ball on your first swing. If a ball is already down, you can tap it to lock focus.</p>
-            <img class="step-shot" src="/assets/screens/08-record-done.webp" width="720" height="1565" loading="lazy" alt="Contrail’s record screen: the ball on the mat, a dashed target line down the range and the lime record button.">
+            <div class="phone step-shot"><div class="phone-screen"><img src="/assets/screens/08-record-done.webp" width="720" height="1565" loading="lazy" alt="Contrail’s record screen: the ball on the mat, a dashed target line down the range and the lime record button."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div>
           </li>
           <li class="step" data-step="1">
             <span class="step-k">Step 2 of 5</span>
             <h3>Record and keep hitting.</h3>
             <p>Record a few swings at a time, filmed at 240 frames a second. No tapping between swings. Stop when you want to see them.</p>
-            <img class="step-shot" src="/assets/screens/08-record-mat.webp" width="720" height="1565" loading="lazy" alt="Contrail recording at the range: the ball on the mat framed by the square lock brackets, a timer at the top and a stop button.">
+            <div class="phone step-shot"><div class="phone-screen"><img src="/assets/screens/08-record-mat.webp" width="720" height="1565" loading="lazy" alt="Contrail recording at the range: the ball on the mat framed by the square lock brackets, a timer at the top and a stop button."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div>
           </li>
           <li class="step" data-step="2">
             <span class="step-k">Step 3 of 5</span>
             <h3>It finds every swing.</h3>
             <p>When you stop, Contrail goes through the video on the phone and cuts each swing into its own clip. Keep it open or let it work in the background.</p>
-            <img class="step-shot" src="/assets/screens/09-processing.webp" width="720" height="1565" loading="lazy" alt="Contrail finding shots: a count of shots found so far, a progress bar and new clips appearing in a grid.">
+            <div class="phone step-shot"><div class="phone-screen"><img src="/assets/screens/09-processing.webp" width="720" height="1565" loading="lazy" alt="Contrail finding shots: a count of shots found so far, a progress bar and new clips appearing in a grid."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div>
           </li>
           <li class="step" data-step="3">
             <span class="step-k">Step 4 of 5</span>
             <h3>Your shots, by day.</h3>
             <p>Every clip lands in your library, grouped by day, with its tracer already drawn. Favorite the keepers and delete the rest.</p>
-            <img class="step-shot" src="/assets/screens/02-library.webp" width="720" height="1565" loading="lazy" alt="Contrail library: shot thumbnails grouped under Today and Sunday, each showing its tracer line.">
+            <div class="phone step-shot"><div class="phone-screen"><img src="/assets/screens/02-library.webp" width="720" height="1565" loading="lazy" alt="Contrail library: shot thumbnails grouped under Today and Sunday, each showing its tracer line."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div>
           </li>
           <li class="step" data-step="4">
             <span class="step-k">Step 5 of 5</span>
             <h3>Watch it fly. Again.</h3>
             <p>Each shot loops with the line drawn over the ball’s flight. Swipe through the session one ball at a time.</p>
-            <img class="step-shot" src="/assets/screens/02b-shot.webp" width="720" height="1565" loading="lazy" alt="Contrail shot view: a range video with a lime tracer rising into the sky, a strip of other shots below.">
+            <div class="phone step-shot"><div class="phone-screen"><img src="/assets/screens/02b-shot.webp" width="720" height="1565" loading="lazy" alt="Contrail shot view: a range video with a lime tracer rising into the sky, a strip of other shots below."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div>
           </li>
         </ol>
         <div class="device-col" aria-hidden="true">
           <div class="device" data-device>
-            <div class="device-screens">
-              <img class="is-active" src="/assets/screens/08-record-done.webp" width="720" height="1565" alt="" data-screen="0">
-              <img src="/assets/screens/08-record-mat.webp" width="720" height="1565" alt="" loading="lazy" data-screen="1">
-              <img src="/assets/screens/09-processing.webp" width="720" height="1565" alt="" loading="lazy" data-screen="2">
-              <img src="/assets/screens/02-library.webp" width="720" height="1565" alt="" loading="lazy" data-screen="3">
-              <img src="/assets/screens/02b-shot.webp" width="720" height="1565" alt="" loading="lazy" data-screen="4">
+            <div class="phone">
+              <div class="phone-screen device-screens">
+                <img class="is-active" src="/assets/screens/08-record-done.webp" width="720" height="1565" alt="" data-screen="0">
+                <img src="/assets/screens/08-record-mat.webp" width="720" height="1565" alt="" loading="lazy" data-screen="1">
+                <img src="/assets/screens/09-processing.webp" width="720" height="1565" alt="" loading="lazy" data-screen="2">
+                <img src="/assets/screens/02-library.webp" width="720" height="1565" alt="" loading="lazy" data-screen="3">
+                <img src="/assets/screens/02b-shot.webp" width="720" height="1565" alt="" loading="lazy" data-screen="4">
+              </div>
+              <img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" decoding="async">
             </div>
             <div class="chip solid device-caption"><span class="progress" data-progress><span class="is-done"></span><span></span><span></span><span></span><span></span></span></div>
           </div>
@@ -552,15 +565,25 @@ html.lenis, html.lenis body { height: auto; }
       <div class="examples-grid">
         <figure class="example">
           <button class="example-open" type="button" data-example-open aria-label="Watch the driver clip full screen">
-            <video class="example-video" src="/assets/video/driver.mp4" poster="/assets/video/driver-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Driver swing filmed from behind, with a lime tracer following the ball from the tee up into the sky and down the range."></video>
-            <span class="example-cue glass-clear" aria-hidden="true"><svg class="example-cue-ico" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32Z"/></svg></span>
+            <span class="phone">
+              <span class="phone-screen">
+                <video class="example-video" src="/assets/video/driver.mp4" poster="/assets/video/driver-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Driver swing filmed from behind, with a lime tracer following the ball from the tee up into the sky and down the range."></video>
+                <span class="example-cue glass-clear" aria-hidden="true"><svg class="example-cue-ico" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32Z"/></svg></span>
+              </span>
+              <img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 680px) 46vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async">
+            </span>
           </button>
           <figcaption><b>Driver</b><span>Off the tee, filmed from behind on the target line.</span></figcaption>
         </figure>
         <figure class="example">
           <button class="example-open" type="button" data-example-open aria-label="Watch the iron clip full screen">
-            <video class="example-video" src="/assets/video/iron.mp4" poster="/assets/video/iron-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Iron shot off a range mat filmed from behind, with a lime tracer following the ball up and out over the range."></video>
-            <span class="example-cue glass-clear" aria-hidden="true"><svg class="example-cue-ico" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32Z"/></svg></span>
+            <span class="phone">
+              <span class="phone-screen">
+                <video class="example-video" src="/assets/video/iron.mp4" poster="/assets/video/iron-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Iron shot off a range mat filmed from behind, with a lime tracer following the ball up and out over the range."></video>
+                <span class="example-cue glass-clear" aria-hidden="true"><svg class="example-cue-ico" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32Z"/></svg></span>
+              </span>
+              <img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 680px) 46vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async">
+            </span>
           </button>
           <figcaption><b>Iron</b><span>Off a range mat, same setup, phone a few steps back.</span></figcaption>
         </figure>
@@ -599,10 +622,10 @@ html.lenis, html.lenis body { height: auto; }
       </div>
     </div>
     <div class="rail" tabindex="0" role="region" aria-label="App screens, scroll sideways" data-rail>
-      <figure class="shot"><div class="frame"><img src="/assets/screens/01b-home-shots.webp" width="720" height="1565" loading="lazy" alt="Contrail home screen: today’s latest shot with its tracer, a count of 14 shots today, a lime Record button and recent clips."></div><figcaption><b>Home</b><span>Your latest shot, today’s count and one button to record.</span></figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="/assets/screens/06-onboarding-0.webp" width="720" height="1565" loading="lazy" alt="Contrail onboarding: Comet waves next to a speech bubble that says this is how you use the app, above an example shot with a tracer."></div><figcaption><b>First run</b><span>Comet walks you through setup the first time you open the app.</span></figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="/assets/screens/03-library-favorites.webp" width="720" height="1565" loading="lazy" alt="Contrail library filtered to Favorites, showing shots from Today and Sunday."></div><figcaption><b>Favorites</b><span>Filter the library down to the shots you kept.</span></figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="/assets/screens/05-settings.webp" width="720" height="1565" loading="lazy" alt="Contrail settings: a tracer color picker, camera format and the list of permissions."></div><figcaption><b>Your line, your color</b><span>Lime by default, or red, yellow, white or green. Permissions live here too.</span></figcaption></figure>
+      <figure class="shot"><div class="phone frame"><div class="phone-screen"><img src="/assets/screens/01b-home-shots.webp" width="720" height="1565" loading="lazy" alt="Contrail home screen: today’s latest shot with its tracer, a count of 14 shots today, a lime Record button and recent clips."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div><figcaption><b>Home</b><span>Your latest shot, today’s count and one button to record.</span></figcaption></figure>
+      <figure class="shot"><div class="phone frame"><div class="phone-screen"><img src="/assets/screens/06-onboarding-0.webp" width="720" height="1565" loading="lazy" alt="Contrail onboarding: Comet waves next to a speech bubble that says this is how you use the app, above an example shot with a tracer."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div><figcaption><b>First run</b><span>Comet walks you through setup the first time you open the app.</span></figcaption></figure>
+      <figure class="shot"><div class="phone frame"><div class="phone-screen"><img src="/assets/screens/03-library-favorites.webp" width="720" height="1565" loading="lazy" alt="Contrail library filtered to Favorites, showing shots from Today and Sunday."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div><figcaption><b>Favorites</b><span>Filter the library down to the shots you kept.</span></figcaption></figure>
+      <figure class="shot"><div class="phone frame"><div class="phone-screen"><img src="/assets/screens/05-settings.webp" width="720" height="1565" loading="lazy" alt="Contrail settings: a tracer color picker, camera format and the list of permissions."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div><figcaption><b>Your line, your color</b><span>Lime by default, or red, yellow, white or green. Permissions live here too.</span></figcaption></figure>
     </div>
   </section>
 
