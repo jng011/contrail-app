@@ -24,7 +24,13 @@ public/            everything here is served as-is
   support.html     /support   App Store "Support URL"   (must always work)
   privacy.html     /privacy   App Store "Privacy Policy URL" (must always work)
   404.html         any unknown path
-  style.css        shared styles (tokens in :root)
+  style.css        shared styles for /privacy, /support and 404 (tokens in :root)
+  assets/          everything the pages load, self-hosted (rule 3):
+    fonts/         Poppins woff2 subsets + OFL.txt (licence)
+    vendor/        gsap.min.js, ScrollTrigger.min.js (GSAP 3.12.5), lenis.min.js (Lenis 1.1.13)
+    img/           photos as responsive WebP + ATTRIBUTION.csv (source, photographer, licence for each)
+    screens/       app screenshots (from the redesign mockups in jng011/golf-shot)
+    comet/         Comet keyframe files replayed on the home page
 wrangler.jsonc     Worker config: name contrail-app, assets dir, 404 handling
 AGENTS.md          this file (not served)
 README.md          short human summary (not served)
@@ -42,13 +48,15 @@ apps whose support or privacy links break.
    - finds each shot on its own (no tapping between swings; the ball is found on the first swing;
      tapping a ball that's already down is optional and locks focus/exposure)
    - cuts each shot into its own clip and draws the ball's flight over the video
-   - saves kept shots to Photos with the tracer drawn in
+   - keeps every shot in a library grouped by day, where you can favorite, filter to favorites, and delete
    - is free to download, has a 7-day free trial **the user starts** (a $0 in-app purchase), then a
      **one-time $2.99 unlock**: no subscription, nothing renews, nothing is charged automatically
    - needs iOS 26+ and works best on iPhone 15 Pro or later
 
    It does **not** (yet) show launch numbers, carry distance, club data, or swing analysis, and has no
-   Apple Watch app. Don't mention any of these until they ship.
+   Apple Watch app. **Saving a shot to Photos with the tracer drawn in, and sharing the trimmed shot, are not
+   built yet** (the exporter is a future PR; today "Save to Photos" is UI-only and Share sends the whole session
+   video). Don't mention any of these until they ship.
 2. **The privacy policy must match the app exactly.**
    - No account, no server, no analytics, no ads, no tracking. Everything stays on the iPhone.
    - Permissions: Camera, Microphone, Motion & Fitness, Location (while using), Photos (add only).
@@ -65,12 +73,18 @@ apps whose support or privacy links break.
    models are used, or accuracy numbers. Keep it to what the user does and sees.
 6. **No other brands:** no competitor names, and no Apple trademarks beyond the plain device and OS names.
    Use Apple's official App Store badge if you add one, following Apple's badge guidelines.
-7. **Contact:** jaydenghiyam@gmail.com, unless Jayden says otherwise.
+7. **Contact:** sammy@contrailgolf.app or jayden@contrailgolf.app (set by Sammy, the site manager, October 2026).
 
 ## Design
 
-- Dark, quiet and fast. Tokens live in `public/style.css` `:root`: ink `#1d1b1c`, text `#eeece7`, accent
-  `#c8f169` (the tracer lime).
+- Dark, quiet and fast. Tokens: ink `#1d1b1c`, text `#eeece7`, accent `#c8f169` (the tracer lime). They live in
+  `public/style.css` `:root` and, for the home page, in its inline `<style>` (keep the two in sync).
+- Liquid Glass only on things that float over content (the nav capsule, chips over the hero photo), never on cards
+  or flat backgrounds, with `prefers-reduced-transparency` and `prefers-contrast` fallbacks.
+- Motion (home page): GSAP ScrollTrigger + Lenis from `assets/vendor/`. The markup is always the final state; the
+  script only adds motion when `prefers-reduced-motion` allows it. Swapping the hero photo: see the comment above
+  `.hero-frame` in `index.html` (the tracer path is in the photo's own coordinates).
+- Photos must be licence-clean (Pexels/Unsplash licence, CC0, or our own) and listed in `assets/img/ATTRIBUTION.csv`.
 - Brand assets (icon, Comet mascot): `jng011/golf-shot` → `docs/brand/`. Follow `docs/brand/mascot/README.md`.
   Export what you need into `public/` (SVG or optimised PNG/WebP) rather than hot-linking.
 - Phone first: it must work at 320 px wide with no horizontal scroll. Respect `prefers-reduced-motion`.
