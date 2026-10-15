@@ -75,6 +75,9 @@ apps whose support or privacy links break.
    Use Apple's official App Store badge if you add one, following Apple's badge guidelines.
 7. **Contact:** sammy@contrailgolf.app or jayden@contrailgolf.app (set by Sammy, the site manager, October 2026).
 
+
+**Short sessions, not buckets (Jayden, contrail-app#4):** never say "record/hit your whole bucket" or "one take for the bucket". 1080p240 + sensors is about 4.3 MB/s (≈15 GB an hour) and the phone gets hot fast. Describe short sessions: a few swings, stop, let it process.
+
 ## Design
 
 - Dark, quiet and fast. Tokens: ink `#1d1b1c`, text `#eeece7`, accent `#c8f169` (the tracer lime). They live in
