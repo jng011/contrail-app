@@ -158,8 +158,7 @@ p { margin: 0; text-wrap: pretty; }
 .tracer path, .tracer circle { vector-effect: non-scaling-stroke; }
 .tracer path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .t-under { stroke: var(--tracer-under); stroke-width: 10; }
-.t-obs { stroke: var(--lime); stroke-width: 5.5; }
-.t-pred { stroke: var(--lime); stroke-width: 5.5; stroke-dasharray: 13 10; opacity: 0.72; }
+.t-line { stroke: var(--lime); stroke-width: 5.5; } /* one solid, smoothed line: no dashes, ever */
 .t-land { fill: var(--lime); stroke: var(--tracer-under); stroke-width: 2; }
 .hero-copy { position: absolute; inset: auto 0 0 0; padding-bottom: clamp(40px, 9vh, 96px); }
 .hero h1 { text-shadow: 0 2px 28px oklch(0% 0 0 / 0.35); font-size: var(--text-display); font-weight: 600; line-height: 0.98; letter-spacing: -0.04em; max-width: 9ch; }
@@ -185,6 +184,7 @@ p { margin: 0; text-wrap: pretty; }
 .step h3 { margin-top: var(--space-xs); font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem); font-weight: 600; line-height: 1.08; letter-spacing: -0.03em; max-width: 14ch; }
 .step p { margin-top: var(--space-md); max-width: 36ch; font-size: 1.125rem; color: var(--white-2); }
 .step-shot { display: none; }
+.walk-stage { display: contents; } /* a box only in the mobile pinned walk-through */
 .device-col { position: relative; }
 .device { position: sticky; top: calc(50vh - min(37vh, 330px)); margin-inline: auto; width: min(100%, calc(min(74vh, 660px) * 0.46)); }
 .device-screens { position: relative; aspect-ratio: 1206 / 2622; border-radius: var(--r-screen); overflow: hidden; background: #000; box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.16), 0 0 0 6px oklch(30% 0.006 350), 0 0 0 7px oklch(100% 0 0 / 0.1), var(--sh-device); }
@@ -312,14 +312,35 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .comet-stage { max-width: 360px; order: -1; }
 }
 @media (max-width: 760px) {
-  .hero { height: auto; min-height: 0; display: flex; flex-direction: column; padding-top: calc(76px + env(safe-area-inset-top)); }
-  .hero-media { --frame-x: 50%; --frame-shift: -50%; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%); mask-image: linear-gradient(to bottom, transparent 0, #000 14%); }
-  .hero-media { position: relative; inset: auto; height: 46svh; min-height: 320px; z-index: 0; overflow: clip; }
-  .hero-scrim { background: linear-gradient(to bottom, var(--night-55) 0%, transparent 20%, transparent 70%, var(--night) 100%); }
-  .hero-copy { position: relative; order: -1; padding-top: var(--space-lg); padding-bottom: var(--space-xl); }
-  .hero .download { margin-bottom: var(--space-lg); }
+  /* Full-bleed photo like desktop (centred, so the golfer and the whole tracer are in frame); download block on top,
+     headline and intro at the bottom over the scrim. svh: the URL bar never resizes it. */
+  .hero { height: 100vh; height: 100svh; min-height: 560px; }
+  .hero-media { --frame-x: 50%; --frame-shift: -50%; }
+  .hero-scrim { background:
+    linear-gradient(to bottom, var(--night-55) 0%, transparent 20%),
+    linear-gradient(to top, var(--night) 0%, var(--night) 24%, var(--night-80) 42%, var(--night-35) 56%, transparent 70%); }
+  .hero-copy { inset: 0; display: flex; padding-bottom: 0; }
+  .hero-copy .wrap { display: flex; flex-direction: column; align-items: flex-start; padding-top: calc(80px + env(safe-area-inset-top)); padding-bottom: calc(var(--space-lg) + env(safe-area-inset-bottom)); }
+  .hero .download { margin-bottom: auto; }
+  .hero h1 { font-size: clamp(2.75rem, 1.9rem + 4.2vw, 3.5rem); }
+  .hero .lede { margin-top: var(--space-md); }
+  .hero .cta-row { margin-top: var(--space-xs); }
   .nav-link[href="#how"] { display: none; }
-  .hero-chip { top: auto; bottom: 18%; }
+  .hero-chip { top: calc(env(safe-area-inset-top) + 168px); }
+  /* Motion on: the hero sticks for 90svh of scroll while the tracer finishes (class added by the script) */
+  .hero-runway.is-sticky { height: calc(max(560px, 100svh) + 90svh); }
+  .hero-runway.is-sticky .hero { position: sticky; top: 0; }
+  /* Motion on: the phone sticks and steps through the five screens; one step caption at a time under it */
+  .walk.is-pinned { height: calc(100svh + 300svh); margin-top: var(--space-lg); }
+  .walk.is-pinned .walk-stage { position: sticky; top: 0; display: flex; flex-direction: column; gap: 40px; height: 100vh; height: 100svh; padding: calc(84px + env(safe-area-inset-top)) 0 calc(var(--space-lg) + env(safe-area-inset-bottom)); }
+  .walk.is-pinned .device-col { display: flex; justify-content: center; flex: 1 1 auto; min-height: 0; order: -1; }
+  .walk.is-pinned .device { position: relative; top: auto; height: calc(100% - 4px); width: auto; max-width: 100%; aspect-ratio: 1206 / 2622; margin: 0; }
+  .walk.is-pinned .device-screens { height: 100%; }
+  .walk.is-pinned .steps { display: grid; flex: none; }
+  .walk.is-pinned .step, .walk.is-pinned .step:first-child { grid-area: 1 / 1; min-height: 0; padding: 0; justify-content: flex-start; }
+  .walk.is-pinned .step-shot { display: none; }
+  .walk.is-pinned .step h3 { font-size: 1.625rem; max-width: none; }
+  .walk.is-pinned .step p { margin-top: var(--space-xs); font-size: 1rem; line-height: 1.55; }
   .walk { display: block; margin-top: var(--space-2xl); }
   .device-col { display: none; }
   .step, .step:first-child { min-height: 0; padding-block: var(--space-xl); padding-top: var(--space-xl); }
@@ -331,6 +352,15 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .soon-media::after { background: linear-gradient(to bottom, var(--night) 0%, var(--night-55) 40%, var(--night) 100%); }
   .nav-inner { height: 56px; }
   .nav-link { padding: 0 var(--space-sm); }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  .walk.is-pinned .walk-stage { gap: 34px; padding-top: calc(76px + env(safe-area-inset-top)); }
+  .walk.is-pinned .step h3 { font-size: 1.375rem; }
+  .walk.is-pinned .step p { font-size: 0.9375rem; line-height: 1.5; }
+}
+/* Portrait tablets on the desktop layout: centre the photo so the tracer stays in frame */
+@media (min-width: 761px) and (max-aspect-ratio: 1/1) {
+  .hero-media { --frame-x: 50%; --frame-shift: -50%; }
 }
 @media (max-width: 480px) {
   .hide-xs { display: none; }
@@ -349,8 +379,37 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .example figcaption { margin-top: var(--space-md, 16px); display: grid; gap: 4px; }
 .example figcaption b { font-weight: 600; }
 .example figcaption span { color: var(--white-2); }
+.example-open { position: relative; display: block; width: 100%; margin: 0; padding: 0; border: 0; background: none; color: inherit; cursor: zoom-in; border-radius: 28px; -webkit-tap-highlight-color: transparent; }
+.example-open:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.example-open .example-video { transition: transform var(--dur) var(--ease-out); }
+.example-open:active .example-video { transform: scale(0.985); }
+.example-cue { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: var(--white); }
+.example-cue-ico { width: 18px; height: 18px; }
+.examples-hint { margin-top: var(--space-lg); font-size: 15px; color: var(--white-2); }
+.examples-hint + .examples-note { margin-top: var(--space-2xs); }
 .examples-note { margin-top: var(--space-lg); font-size: 14px; color: var(--white-3, var(--white-2)); }
-@media (max-width: 680px) { .examples-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; } .example-video { border-radius: 18px; } .example figcaption span { display: none; } }
+/* Full-screen viewer (the controls float over the video, so they may be glass) */
+.viewer { position: fixed; inset: 0; z-index: 60; height: 100vh; height: 100dvh; background: oklch(12% 0.004 345.6 / 0.94); overscroll-behavior: contain; touch-action: none; }
+.viewer:not([hidden]) { animation: viewer-in 200ms var(--ease-out); }
+@keyframes viewer-in { from { opacity: 0; } }
+.viewer-stage { position: absolute; inset: calc(76px + env(safe-area-inset-top)) var(--space-md) calc(104px + env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: center; }
+.viewer-video { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; aspect-ratio: 9 / 16; border-radius: 20px; background: #0b0d0b; cursor: pointer; }
+.viewer-top { position: absolute; top: calc(var(--space-md) + env(safe-area-inset-top)); right: var(--space-md); display: flex; gap: var(--space-xs); }
+.viewer-bar { position: absolute; left: 50%; bottom: calc(var(--space-lg) + env(safe-area-inset-bottom)); translate: -50% 0; display: flex; align-items: center; gap: var(--space-2xs); padding: 4px; border-radius: var(--r-capsule); max-width: calc(100% - 2 * var(--space-md)); }
+.v-btn { display: inline-grid; place-items: center; flex: none; width: 48px; height: 48px; padding: 0; border-radius: 50%; color: var(--white); cursor: pointer; }
+.v-btn[hidden] { display: none; }
+.v-btn svg { width: 20px; height: 20px; }
+.viewer-bar .v-btn { background: none; border: 0; }
+.v-btn:hover { background-color: oklch(100% 0 0 / 0.1); }
+.v-play .i-play, .v-play.is-paused .i-pause { display: none; }
+.v-play.is-paused .i-play { display: block; }
+.speeds { display: flex; gap: 2px; }
+.speeds button { min-width: 52px; min-height: 48px; padding: 0 var(--space-sm); border: 0; border-radius: var(--r-capsule); background: none; color: var(--white); font: 600 16px/1 var(--font); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.speeds button:hover { background: oklch(100% 0 0 / 0.1); }
+.speeds button[aria-pressed="true"] { background: var(--lime); color: var(--night); }
+.viewer button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+@media (max-width: 360px) { .speeds button { min-width: 46px; padding: 0 var(--space-xs); } .viewer-bar .v-btn { width: 44px; } }
+@media (max-width: 680px) { .examples-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; } .example-video { border-radius: 18px; } .example-open { border-radius: 18px; } .example-cue { top: 8px; right: 8px; width: 32px; height: 32px; } .example figcaption span { display: none; } }
 </style>
 <style data-motion>
 /* Motion layer only. Nothing here hides content: every rule targets classes/elements the motion script adds. */
@@ -390,6 +449,7 @@ html.lenis, html.lenis body { height: auto; }
 
 <main id="main">
   <!-- HERO: pinned by JS; the tracer draws as you scroll. Static default = finished tracer. -->
+  <div class="hero-runway" data-hero-runway>
   <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
     <div class="hero-media" data-hero-media>
       <!-- HERO PHOTO: swap here only. Keep --hero-ar (CSS) = width/height of the photo; the tracer viewBox is the photo
@@ -407,8 +467,7 @@ html.lenis, html.lenis body { height: auto; }
           </defs>
           <g mask="url(#tracer-reveal)">
             <path class="t-under" d="M518 448 C 536 372, 566 272, 606 205 C 628 168, 656 152, 676 160 C 688 165, 694 176, 696 188"/>
-            <path class="t-obs" d="M518 448 C 536 372, 566 272, 606 205"/>
-            <path class="t-pred" d="M606 205 C 628 168, 656 152, 676 160 C 688 165, 694 176, 696 188"/>
+            <path class="t-line" d="M518 448 C 536 372, 566 272, 606 205 C 628 168, 656 152, 676 160 C 688 165, 694 176, 696 188"/>
           </g>
           <circle class="t-land" data-tracer-land cx="696" cy="188" r="6"/>
         </svg>
@@ -424,6 +483,7 @@ html.lenis, html.lenis body { height: auto; }
       </div>
     </div>
   </section>
+  </div>
 
   <!-- HOW IT WORKS: pinned phone steps through the real app screens -->
   <section class="section how" id="how" aria-labelledby="how-title">
@@ -433,6 +493,7 @@ html.lenis, html.lenis body { height: auto; }
         <p class="sub">No holding the phone, no trimming video. Set it up once and leave it running.</p>
       </div>
       <div class="walk" data-walk>
+        <div class="walk-stage">
         <ol class="steps">
           <li class="step" data-step="0">
             <span class="step-k">Step 1 of 5</span>
@@ -477,6 +538,7 @@ html.lenis, html.lenis body { height: auto; }
             <div class="chip solid device-caption"><span class="progress" data-progress><span class="is-done"></span><span></span><span></span><span></span><span></span></span></div>
           </div>
         </div>
+        </div>
       </div>
     </div>
   </section>
@@ -489,14 +551,21 @@ html.lenis, html.lenis body { height: auto; }
       <p class="sub">Two swings filmed on a phone behind the golfer. The lime line is the kind of tracer Contrail draws over every shot.</p>
       <div class="examples-grid">
         <figure class="example">
-          <video class="example-video" src="/assets/video/driver.mp4" poster="/assets/video/driver-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Driver swing filmed from behind, with a lime tracer following the ball from the tee up into the sky and down the range."></video>
+          <button class="example-open" type="button" data-example-open aria-label="Watch the driver clip full screen">
+            <video class="example-video" src="/assets/video/driver.mp4" poster="/assets/video/driver-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Driver swing filmed from behind, with a lime tracer following the ball from the tee up into the sky and down the range."></video>
+            <span class="example-cue glass-clear" aria-hidden="true"><svg class="example-cue-ico" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32Z"/></svg></span>
+          </button>
           <figcaption><b>Driver</b><span>Off the tee, filmed from behind on the target line.</span></figcaption>
         </figure>
         <figure class="example">
-          <video class="example-video" src="/assets/video/iron.mp4" poster="/assets/video/iron-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Iron shot off a range mat filmed from behind, with a lime tracer following the ball up and out over the range."></video>
+          <button class="example-open" type="button" data-example-open aria-label="Watch the iron clip full screen">
+            <video class="example-video" src="/assets/video/iron.mp4" poster="/assets/video/iron-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Iron shot off a range mat filmed from behind, with a lime tracer following the ball up and out over the range."></video>
+            <span class="example-cue glass-clear" aria-hidden="true"><svg class="example-cue-ico" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32Z"/></svg></span>
+          </button>
           <figcaption><b>Iron</b><span>Off a range mat, same setup, phone a few steps back.</span></figcaption>
         </figure>
       </div>
+      <p class="examples-hint">Tap a clip to watch it full screen and slow it down.</p>
       <p class="examples-note">Example clips. The line was drawn for this page to show what the app does.</p>
     </div>
   </section>
@@ -614,6 +683,26 @@ html.lenis, html.lenis body { height: auto; }
   </div>
 </footer>
 
+<!-- Example viewer: custom overlay (not the Fullscreen API) so the speed controls work the same on iPhone. -->
+<div class="viewer" role="dialog" aria-modal="true" aria-label="Example clip" hidden data-viewer>
+  <div class="viewer-stage" data-viewer-stage>
+    <video class="viewer-video" muted loop playsinline width="720" height="1280" data-viewer-video></video>
+  </div>
+  <div class="viewer-top">
+    <button class="v-btn glass" type="button" aria-label="Full screen" hidden data-viewer-fs><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V88a8,8,0,0,1-16,0V56H168a8,8,0,0,1,0-16h40A8,8,0,0,1,216,48ZM88,200H56V168a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H88a8,8,0,0,0,0-16Zm120-40a8,8,0,0,0-8,8v32H168a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V168A8,8,0,0,0,208,160ZM88,40H48a8,8,0,0,0-8,8V88a8,8,0,0,0,16,0V56H88a8,8,0,0,0,0-16Z"/></svg></button>
+    <button class="v-btn glass" type="button" aria-label="Close" data-viewer-close><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button>
+  </div>
+  <div class="viewer-bar glass">
+    <button class="v-btn v-play" type="button" aria-label="Pause" data-viewer-play><svg class="i-pause" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V208a16,16,0,0,1-16,16H160a16,16,0,0,1-16-16V48a16,16,0,0,1,16-16h40A16,16,0,0,1,216,48ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Z"/></svg><svg class="i-play" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></svg></button>
+    <div class="speeds" role="group" aria-label="Playback speed">
+      <button type="button" data-rate="0.25" aria-pressed="false" aria-label="Quarter speed">¼×</button>
+      <button type="button" data-rate="0.5" aria-pressed="false" aria-label="Half speed">½×</button>
+      <button type="button" data-rate="1" aria-pressed="true" aria-label="Normal speed">1×</button>
+      <button type="button" data-rate="2" aria-pressed="false" aria-label="Double speed">2×</button>
+    </div>
+  </div>
+</div>
+
 <!-- Motion layer. The markup above is already the final state; this only sets start states when motion is allowed. -->
 <script defer src="/assets/vendor/gsap.min.js"></script>
 <script defer src="/assets/vendor/ScrollTrigger.min.js"></script>
@@ -672,16 +761,19 @@ html.lenis, html.lenis body { height: auto; }
     }, (ctx) => {
       const { desktop, mobile, smooth } = ctx.conditions;
       if (!desktop && !mobile) return; // reduced motion: nothing runs, markup stays final
-      // Created top-to-bottom: hero pin, walk, privacy.
-      const cleanups = [smooth && initLenis(), initHero(desktop), desktop && initWalk(), initZero()];
+      // Created top-to-bottom: hero pin, walk, privacy. Phones get the same story: CSS-sticky hero and phone
+      // (no JS pin, so the URL bar can't make them jump), scrubbed by ScrollTrigger. No Lenis on touch.
+      const cleanups = [smooth && initLenis(), initHero(desktop), initWalk(mobile), initZero()];
       return () => cleanups.forEach((fn) => typeof fn === 'function' && fn());
     });
     if (document.fonts) document.fonts.ready.then(() => ScrollTrigger.refresh());
   }
 
+  let lenisRef = null; // the example viewer stops/starts it
   function initLenis() {
     if (!window.Lenis) return;
     const lenis = new Lenis();
+    lenisRef = lenis;
     lenis.on('scroll', ScrollTrigger.update);
     const tick = (time) => lenis.raf(time * 1000); // one clock: GSAP's ticker drives Lenis
     gsap.ticker.add(tick);
@@ -706,6 +798,7 @@ html.lenis, html.lenis body { height: auto; }
       gsap.ticker.remove(tick);
       gsap.ticker.lagSmoothing(500, 33);
       lenis.destroy();
+      lenisRef = null;
     };
   }
 
@@ -733,41 +826,39 @@ html.lenis, html.lenis body { height: auto; }
     render();
     gsap.set(land, { scale: 0, transformOrigin: '50% 50%' });
     gsap.set(chip, { opacity: 0, y: 10 });
+    const media = [img, svg]; // scaled together so the line stays registered to the photo
+    // Draw part of the climb on load (the first frame is never empty); scrolling finishes the curl and drops the dot.
+    const INTRO = desktop ? 0.72 : 0.58;
+    const runway = $('[data-hero-runway]');
+    gsap.set(media, { scale: desktop ? 1.08 : 1.1, transformOrigin: '50% 50%' });
+    let scrollTrigger;
     if (desktop) {
-      const media = [img, svg]; // scaled together so the line stays registered to the photo
-      const INTRO = 0.72; // draw most of the climb on load; scrolling finishes the curl and drops the landing dot
-      gsap.set(media, { scale: 1.08, transformOrigin: '50% 50%' });
-      const tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: hero, start: 'top top', end: '+=120%',
-          pin: true, scrub: 0.8, anticipatePin: 1, invalidateOnRefresh: true,
-        },
-      });
-      tl.to(draw, { scroll: 1 - INTRO, duration: 0.7, onUpdate: render }, 0)
-        .to(media, { scale: 1, duration: 1 }, 0)
-        .to(copy, { y: -36, duration: 1 }, 0)
-        .to(land, { scale: 1, duration: 0.08, ease: 'back.out(2.6)' }, 0.7)
-        .to(chip, { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out' }, 0.76);
-      const intro = gsap.to(draw, { intro: INTRO, duration: 1.4, delay: 0.15, ease: 'power3.out', onUpdate: render, paused: true });
-      imageReady(img).then(() => intro.play());
+      scrollTrigger = { trigger: hero, start: 'top top', end: '+=120%', pin: true, scrub: 0.8, anticipatePin: 1, invalidateOnRefresh: true };
     } else {
-      // Mobile: no pin. One timed draw on load, decelerating into the apex like a real ball.
-      const tl = gsap.timeline({ paused: true, delay: 0.1 });
-      // (No photo scale here: the stacked mobile hero doesn't clip the media box, so a scale would spill.)
-      tl.to(draw, { intro: 1, duration: 1.7, ease: 'power3.out', onUpdate: render }, 0)
-        .to(land, { scale: 1, duration: 0.4, ease: 'back.out(2.6)' }, 1.3)
-        .to(chip, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 1.45);
-      imageReady(img).then(() => tl.play());
+      // Phones: the hero is CSS-sticky inside a 90svh runway (compositor-pinned, immune to the URL bar).
+      runway.classList.add('is-sticky');
+      scrollTrigger = { trigger: runway, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true };
     }
+    const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger });
+    tl.to(draw, { scroll: 1 - INTRO, duration: 0.7, onUpdate: render }, 0)
+      .to(media, { scale: 1, duration: 1 }, 0)
+      .to(land, { scale: 1, duration: 0.08, ease: 'back.out(2.6)' }, 0.7)
+      .to(chip, { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out' }, 0.76);
+    if (desktop) tl.to(copy, { y: -36, duration: 1 }, 0);
+    // Phones: headline and intro recede (the download block stays) so the finished line reads over the photo.
+    else tl.to([...copy.children].filter((el) => !el.classList.contains('download')), { y: -44, opacity: 0.14, duration: 0.75 }, 0.08);
+    const intro = gsap.to(draw, { intro: INTRO, duration: desktop ? 1.4 : 1.5, delay: 0.15, ease: 'power3.out', onUpdate: render, paused: true });
+    imageReady(img).then(() => intro.play());
     return () => {
       live = false;
+      if (runway) runway.classList.remove('is-sticky');
       mask.style.strokeDasharray = mask.style.strokeDashoffset = mask.style.vectorEffect = '';
     };
   }
 
-  /* HOW IT WORKS: CSS-sticky phone; each step crossing the viewport centre swaps the screen. */
-  function initWalk() {
+  /* HOW IT WORKS: CSS-sticky phone. Desktop: each step crossing the viewport centre swaps the screen.
+     Phones: the phone and one caption stick for the whole walk; scroll progress picks the step. */
+  function initWalk(mobile) {
     const walk = $('[data-walk]');
     const device = $('[data-device]');
     const progress = $('[data-progress]');
@@ -775,23 +866,26 @@ html.lenis, html.lenis body { height: auto; }
     const steps = $$('[data-step]', walk);
     const screens = $$('[data-screen]', device);
     const bars = [...progress.children];
-    const DIM = 0.35;
+    const N = steps.length;
+    const DIM = mobile ? 0 : 0.35; // phones stack the captions, so inactive ones vanish
     let active = 0;
     let z = 1;
 
+    if (mobile) walk.classList.add('is-pinned'); // before any trigger measures the page
     gsap.set(screens, { opacity: (i) => (i === 0 ? 1 : 0), zIndex: (i) => (i === 0 ? 1 : 0) });
-    gsap.set(steps, { opacity: (i) => (i === 0 ? 1 : DIM) });
+    gsap.set(steps, { opacity: (i) => (i === 0 ? 1 : DIM), y: (i) => (mobile && i ? 14 : 0) });
     progress.classList.add('has-fill');
     const fills = bars.map((b) => b.appendChild(document.createElement('i')));
 
     // The phone rises in once as the walk-through arrives.
     gsap.from(device, {
       y: 40, opacity: 0, duration: 1, ease: 'expo.out',
-      scrollTrigger: { trigger: walk, start: 'top 60%', once: true },
+      scrollTrigger: { trigger: walk, start: mobile ? 'top 85%' : 'top 60%', once: true },
     });
 
     function activate(i) {
       if (i === active) return;
+      const dir = i > active ? 1 : -1;
       active = i;
       const incoming = screens[i];
       gsap.killTweensOf(screens);
@@ -800,23 +894,38 @@ html.lenis, html.lenis body { height: auto; }
         opacity: 1, scale: 1, duration: 0.35, ease: springEase,
         onComplete: () => screens.forEach((s, k) => k !== i && gsap.set(s, { opacity: 0 })),
       });
-      steps.forEach((s, k) => gsap.to(s, { opacity: k === i ? 1 : DIM, duration: 0.3, ease: 'power2.out', overwrite: true }));
+      steps.forEach((s, k) => gsap.to(s, {
+        opacity: k === i ? 1 : DIM, y: mobile && k !== i ? -14 * dir : 0,
+        duration: mobile && k !== i ? 0.2 : 0.3, ease: 'power2.out', overwrite: true,
+      }));
       bars.forEach((b, k) => b.classList.toggle('is-done', k <= i));
     }
 
-    steps.forEach((step, i) => {
-      ScrollTrigger.create({
-        trigger: step, start: 'top center', end: 'bottom center',
-        onToggle: (self) => self.isActive && activate(i),
+    if (mobile) {
+      gsap.set(fills, { scaleX: 0 });
+      const setFill = fills.map((f) => gsap.quickSetter(f, 'scaleX'));
+      const update = (self) => {
+        const p = self.progress * N;
+        activate(Math.min(N - 1, Math.floor(p)));
+        setFill.forEach((set, k) => set(Math.min(1, Math.max(0, p - k))));
+      };
+      ScrollTrigger.create({ trigger: walk, start: 'top top', end: 'bottom bottom', onUpdate: update, onRefresh: update });
+    } else {
+      steps.forEach((step, i) => {
+        ScrollTrigger.create({
+          trigger: step, start: 'top center', end: 'bottom center',
+          onToggle: (self) => self.isActive && activate(i),
+        });
+        // Each pill segment fills as you read through its step.
+        gsap.fromTo(fills[i], { scaleX: 0 }, {
+          scaleX: 1, ease: 'none',
+          scrollTrigger: { trigger: step, start: 'top center', end: 'bottom center', scrub: 0.4 },
+        });
       });
-      // Each pill segment fills as you read through its step.
-      gsap.fromTo(fills[i], { scaleX: 0 }, {
-        scaleX: 1, ease: 'none',
-        scrollTrigger: { trigger: step, start: 'top center', end: 'bottom center', scrub: 0.4 },
-      });
-    });
+    }
 
     return () => {
+      walk.classList.remove('is-pinned');
       fills.forEach((f) => f.remove());
       progress.classList.remove('has-fill');
       bars.forEach((b, k) => b.classList.toggle('is-done', k === 0));
@@ -996,9 +1105,107 @@ html.lenis, html.lenis body { height: auto; }
     if (!reduce.matches) enable();
   }
 
+  /* ================= Examples: inline loops + full-screen viewer with speed control ================= */
+  function initExamples() {
+    const openers = $$('[data-example-open]');
+    const viewer = $('[data-viewer]');
+    if (!openers.length || !viewer) return;
+    const vids = openers.map((b) => $('video', b));
+    const vv = $('[data-viewer-video]', viewer);
+    const stage = $('[data-viewer-stage]', viewer);
+    const playBtn = $('[data-viewer-play]', viewer);
+    const closeBtn = $('[data-viewer-close]', viewer);
+    const fsBtn = $('[data-viewer-fs]', viewer);
+    const rates = $$('[data-rate]', viewer);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const inView = new Set();
+    let opener = null;
+
+    // Inline: play while on screen (not with Reduce Motion, and not while the viewer is open).
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      const v = e.target;
+      if (e.isIntersecting) inView.add(v); else { inView.delete(v); v.pause(); }
+      syncInline();
+    }), { threshold: 0.35 });
+    function syncInline() {
+      vids.forEach((v) => {
+        if (!reduce.matches && !opener && inView.has(v)) { v.preload = 'auto'; v.play().catch(() => {}); }
+        else v.pause();
+      });
+    }
+    vids.forEach((v) => { if (reduce.matches) v.preload = 'metadata'; io.observe(v); });
+
+    const setRate = (r) => {
+      vv.defaultPlaybackRate = r; vv.playbackRate = r;
+      rates.forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.rate === r)));
+    };
+    const syncPlay = () => {
+      const paused = vv.paused;
+      playBtn.classList.toggle('is-paused', paused);
+      playBtn.setAttribute('aria-label', paused ? 'Play' : 'Pause');
+    };
+    const togglePlay = () => (vv.paused ? vv.play().catch(() => {}) : vv.pause());
+    vv.addEventListener('play', syncPlay);
+    vv.addEventListener('pause', syncPlay);
+
+    const outside = [$('header.nav'), $('main'), $('footer'), $('.skip')].filter(Boolean);
+    function open(btn, src) {
+      opener = btn;
+      syncInline(); // pauses the small clips
+      vv.poster = src.poster;
+      vv.src = src.currentSrc || src.src;
+      setRate(1);
+      viewer.hidden = false;
+      document.documentElement.style.overflow = 'hidden';
+      if (lenisRef) lenisRef.stop();
+      outside.forEach((el) => { el.inert = true; });
+      if (reduce.matches) syncPlay(); // Reduce Motion: wait for the user to press play
+      else vv.play().catch(syncPlay);
+      syncPlay();
+      playBtn.focus();
+    }
+    function close() {
+      if (!opener) return;
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      vv.pause();
+      vv.removeAttribute('src');
+      vv.load();
+      viewer.hidden = true;
+      document.documentElement.style.overflow = '';
+      if (lenisRef) lenisRef.start();
+      outside.forEach((el) => { el.inert = false; });
+      const back = opener;
+      opener = null;
+      back.focus({ preventScroll: true });
+      syncInline();
+    }
+
+    openers.forEach((btn, i) => btn.addEventListener('click', () => open(btn, vids[i])));
+    closeBtn.addEventListener('click', close);
+    playBtn.addEventListener('click', togglePlay);
+    vv.addEventListener('click', togglePlay);
+    rates.forEach((b) => b.addEventListener('click', () => setRate(+b.dataset.rate)));
+    // Tapping the dark area around the video closes (the stage box is bigger than the picture).
+    viewer.addEventListener('click', (e) => { if (e.target === viewer || e.target === stage) close(); });
+    viewer.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key !== 'Tab') return;
+      const f = $$('button:not([hidden])', viewer);
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    if (document.fullscreenEnabled && viewer.requestFullscreen) {
+      fsBtn.hidden = false;
+      fsBtn.addEventListener('click', () => (document.fullscreenElement ? document.exitFullscreen() : viewer.requestFullscreen()).catch(() => {}));
+      document.addEventListener('fullscreenchange', () => fsBtn.setAttribute('aria-label', document.fullscreenElement ? 'Exit full screen' : 'Full screen'));
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', () => { // deferred libraries have run by now
     initScroll();
     initComet();
+    initExamples();
   });
 })();
 </script>
@@ -1043,18 +1250,5 @@ html.lenis, html.lenis body { height: auto; }
   })();
 </script>
 
-<script>
-/* Example clips: play while on screen; stay paused with Reduce Motion (tap to play). */
-(() => {
-  const vids = document.querySelectorAll('[data-example]');
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  vids.forEach(v => {
-    if (still) { v.controls = true; v.preload = 'metadata'; return; }
-    new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => { v.controls = true; }); } else v.pause();
-    }, { threshold: 0.35 }).observe(v);
-  });
-})();
-</script>
 </body>
 </html>
