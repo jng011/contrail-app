@@ -380,11 +380,12 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
   *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; animation-iteration-count: 1 !important; }
 }
 
-/* Examples: two traced swings */
-.examples-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 340px)); gap: var(--space-xl); margin-top: var(--space-2xl); }
+/* Examples: three traced swings */
+.examples-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 340px)); gap: var(--space-xl); margin-top: var(--space-2xl); }
 .example { margin: 0; }
 /* 9:16 clips fill the taller iPhone screen: cover, nudged left so the golfer and the whole line stay in frame */
 .phone-screen > .example-video { object-position: 35% 50%; background: #0b0d0b; }
+.phone-screen > .example-video.frame-left { object-position: 10% 50%; } /* slice: golfer and curve sit left of centre */
 .example figcaption { margin-top: var(--space-md, 16px); display: grid; gap: 4px; }
 .example figcaption b { font-weight: 600; }
 .example figcaption span { color: var(--white-2); }
@@ -419,7 +420,7 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .speeds button[aria-pressed="true"] { background: var(--lime); color: var(--night); }
 .viewer button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 @media (max-width: 360px) { .speeds button { min-width: 46px; padding: 0 var(--space-xs); } .viewer-bar .v-btn { width: 44px; } }
-@media (max-width: 680px) { .examples-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; } .example-cue { width: 28px; height: 28px; } .example-cue-ico { width: 15px; height: 15px; } .example figcaption span { display: none; } }
+@media (max-width: 680px) { .examples-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; } .example-cue { width: 24px; height: 24px; } .example-cue-ico { width: 13px; height: 13px; } .example figcaption span { display: none; } }
 </style>
 <style data-motion>
 /* Motion layer only. Nothing here hides content: every rule targets classes/elements the motion script adds. */
@@ -557,11 +558,11 @@ html.lenis, html.lenis body { height: auto; }
   </section>
 
 
-  <!-- EXAMPLES: two real swings with the tracer drawn in -->
+  <!-- EXAMPLES: three real swings with the tracer drawn in -->
   <section class="section examples" id="examples" aria-labelledby="examples-title">
     <div class="wrap">
       <h2 class="h2" id="examples-title">Real swings, traced.</h2>
-      <p class="sub">Two swings filmed on a phone behind the golfer. The lime line is the kind of tracer Contrail draws over every shot.</p>
+      <p class="sub">Three swings filmed on a phone behind the golfer. The lime line is the kind of tracer Contrail draws over every shot.</p>
       <div class="examples-grid">
         <figure class="example">
           <button class="example-open" type="button" data-example-open aria-label="Watch the driver clip full screen">
@@ -570,7 +571,7 @@ html.lenis, html.lenis body { height: auto; }
                 <video class="example-video" src="/assets/video/driver.mp4" poster="/assets/video/driver-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Driver swing filmed from behind, with a lime tracer following the ball from the tee up into the sky and down the range."></video>
                 <span class="example-cue glass-clear" aria-hidden="true"><svg class="example-cue-ico" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32Z"/></svg></span>
               </span>
-              <img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 680px) 46vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async">
+              <img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 680px) 31vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async">
             </span>
           </button>
           <figcaption><b>Driver</b><span>Off the tee, filmed from behind on the target line.</span></figcaption>
@@ -582,10 +583,22 @@ html.lenis, html.lenis body { height: auto; }
                 <video class="example-video" src="/assets/video/iron.mp4" poster="/assets/video/iron-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Iron shot off a range mat filmed from behind, with a lime tracer following the ball up and out over the range."></video>
                 <span class="example-cue glass-clear" aria-hidden="true"><svg class="example-cue-ico" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32Z"/></svg></span>
               </span>
-              <img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 680px) 46vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async">
+              <img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 680px) 31vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async">
             </span>
           </button>
           <figcaption><b>Iron</b><span>Off a range mat, same setup, phone a few steps back.</span></figcaption>
+        </figure>
+        <figure class="example">
+          <button class="example-open" type="button" data-example-open aria-label="Watch the slice clip full screen">
+            <span class="phone">
+              <span class="phone-screen">
+                <video class="example-video frame-left" src="/assets/video/bad-shot.mp4" poster="/assets/video/bad-shot-poster.webp" width="720" height="1280" muted loop playsinline preload="none" data-example aria-label="Drive filmed from behind that starts left and curves away to the right, with a lime tracer following the ball along its curve."></video>
+                <span class="example-cue glass-clear" aria-hidden="true"><svg class="example-cue-ico" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32Z"/></svg></span>
+              </span>
+              <img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 680px) 31vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async">
+            </span>
+          </button>
+          <figcaption><b>Slice</b><span>Even the bad ones. Hit a slice and it still traces where the ball went.</span></figcaption>
         </figure>
       </div>
       <p class="examples-hint">Tap a clip to watch it full screen and slow it down.</p>
