@@ -29,8 +29,8 @@ public/            everything here is served as-is
     fonts/         Poppins woff2 subsets + OFL.txt (licence)
     vendor/        gsap.min.js, ScrollTrigger.min.js (GSAP 3.12.5), lenis.min.js (Lenis 1.1.13)
     img/           photos as responsive WebP + ATTRIBUTION.csv (source, photographer, licence for each)
-    screens/       app screenshots (from the redesign mockups in jng011/golf-shot; the mockup's painted
-                   Dynamic Island is removed because the bezel draws the real one)
+    screens/       app screenshots as WebP at 720w + 1080w (srcset), from 1206x2622 simulator captures with a
+                   clean 9:41 status bar and no painted Dynamic Island (the bezel draws the real one)
     device/        Apple's iPhone 18 Pro black bezel (Apple Design Resources) at 2x/1x + LICENSE-NOTE.txt.
                    Every phone on the site uses it (.phone / .phone-screen / .phone-bezel in index.html).
                    Use it unaltered (resize only) and never imply Apple endorsement.
