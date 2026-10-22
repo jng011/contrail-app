@@ -44,3 +44,44 @@ footer ul { display: flex; gap: 0 24px; list-style: none; margin: 0; padding: 0;
 footer a { display: inline-flex; min-height: 44px; align-items: center; text-decoration: none; }
 footer p { margin: 0; color: var(--muted); }
 @media (max-width: 420px) { .brand span { display: none; } .nav ul a { padding: 0 10px; } }
+
+/* ---------- Legal pages (/privacy, /terms) ----------
+   All content text on these two pages is 8px (0.5rem, so it still follows the reader's font-size setting and zoom)
+   at the site owner's request. The shared nav and footer keep their normal size. Conspicuous clauses (warranty
+   disclaimer, liability cap, arbitration, jury waiver, opt-out) stay bold caps with an accent rule so they stand out. */
+.legal main { max-width: 1120px; padding-top: clamp(40px, 7vw, 80px); font-size: 0.5rem; line-height: 1.45; }
+.legal main h1, .legal main h2, .legal main h3, .legal main p, .legal main li, .legal main dt, .legal main dd, .legal .updated { font-size: 0.5rem; line-height: 1.45; letter-spacing: 0; }
+.legal main h1 { font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.legal main h2 { margin: 2.4em 0 0; font-weight: 600; color: var(--text); }
+.legal-body section { scroll-margin-top: 96px; }
+.legal main h3 { margin: 1.6em 0 0; font-weight: 600; color: var(--text); }
+.legal main p, .legal main li, .legal main dd { max-width: 90ch; color: var(--text-2); }
+.legal main p { margin: 0.6em 0 0; }
+.legal main ul, .legal main ol { margin: 0.6em 0 0; }
+.legal main li + li { margin-top: 0.3em; }
+.legal .updated { margin-top: 0.4em; color: var(--muted); }
+.legal-head { max-width: 90ch; }
+.legal .summary { margin-top: 1.6em; padding: 1em 1.4em; border-radius: 12px; }
+.legal .summary h2 { margin-top: 0; }
+.legal-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2em; margin-top: 2em; }
+.toc { padding: 1em 1.4em; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); align-self: start; }
+.legal main .toc-title { margin: 0; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.06em; }
+.toc ol { columns: 2 14em; column-gap: 2em; }
+.legal main .toc li { margin: 0 0 0.25em; break-inside: avoid; }
+.toc a { color: var(--text-2); text-decoration: none; }
+.toc a:hover { color: var(--text); text-decoration: underline; }
+@media (min-width: 1000px) {
+  .legal-grid { grid-template-columns: 200px minmax(0, 1fr); gap: 48px; }
+  .toc { position: sticky; top: 96px; max-height: calc(100vh - 120px); overflow-y: auto; }
+  .toc ol { columns: auto; }
+}
+.legal-body section:first-child h2 { margin-top: 0; }
+.legal main .conspicuous, .legal main .conspicuous-heading, .legal main .caps-inline { font-weight: 600; color: var(--text); text-transform: uppercase; }
+.legal main .conspicuous { padding-left: 1em; border-left: 2px solid var(--accent); }
+.legal main .conspicuous-heading { letter-spacing: 0.03em; }
+.defs { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0.6em 0 0; max-width: 90ch; }
+.legal main dt { margin-top: 0.8em; font-weight: 600; color: var(--text); }
+.legal main dd { margin: 0.1em 0 0; }
+.legal main .back { margin-top: 3em; }
+.legal a { word-break: break-word; }
+@media (max-width: 400px) { .nav-home { display: none; } }
