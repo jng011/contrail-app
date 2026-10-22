@@ -32,6 +32,7 @@ Phones: every app screen and example clip sits inside Apple's iPhone 18 Pro beze
 <link rel="preload" href="/assets/fonts/poppins-semibold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/poppins-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/webp" imagesrcset="/assets/img/hero-drive-900.webp 900w, /assets/img/hero-drive-1600.webp 1600w, /assets/img/hero-drive-2400.webp 2400w" imagesizes="(max-width: 760px) 200vw, 125vw">
+<link rel="stylesheet" href="/assets/demo/demo.css">
 <style>
 @font-face { font-family: "Poppins"; src: url("/assets/fonts/poppins-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: "Poppins"; src: url("/assets/fonts/poppins-semibold.woff2") format("woff2"); font-weight: 500 600; font-style: normal; font-display: swap; }
@@ -450,6 +451,7 @@ html.lenis, html.lenis body { height: auto; }
     <nav aria-label="Site">
       <ul>
         <li><a class="nav-link" href="#how">How it works</a></li>
+        <li class="hide-xs"><a class="nav-link" href="#demo">Try it</a></li>
         <li><a class="nav-link" href="#privacy">Privacy</a></li>
         <li class="hide-xs"><a class="nav-link" href="#faq">FAQ</a></li>
         <li><a class="nav-dl" href="#download">Download</a></li>
@@ -606,6 +608,33 @@ html.lenis, html.lenis body { height: auto; }
     </div>
   </section>
 
+  <!-- INTERACTIVE DEMO: a working mock of the app inside the bezel (assets/demo/demo.js builds it when the section comes
+       near; without JS the phone shows the Home screenshot). Nothing in the phone links out or navigates the page. -->
+  <section class="section demo" id="demo" aria-labelledby="demo-title">
+    <div class="wrap demo-wrap">
+      <div class="demo-copy">
+        <h2 class="h2" id="demo-title">Try it. This is an interactive demo.</h2>
+        <p class="sub">An example you can tap through. No camera, nothing recorded.</p>
+        <ul class="demo-tries" role="list">
+          <li><b>Start a session</b> and watch the ring lock onto the ball.</li>
+          <li><b>Tap record.</b> Four example swings play, each with its line.</li>
+          <li><b>Stop, then open a shot.</b> Scrub it, slow it to ⅛×, swipe to the next one.</li>
+          <li><b>Look around Settings</b>, and tap Comet in the intro.</li>
+        </ul>
+        <p class="demo-note">Example clips and a rendered practice range. The lines were drawn for this page to show what the app does.</p>
+      </div>
+      <div class="demo-device">
+        <div class="phone demo-phone">
+          <div class="phone-screen demo-screen" data-demo-root role="region" aria-label="Contrail app demo. Everything here stays inside the phone.">
+            <img class="demo-fallback" src="/assets/screens/01-home-720.webp" srcset="/assets/screens/01-home-720.webp 720w, /assets/screens/01-home-1080.webp 1080w" sizes="340px" width="720" height="1566" loading="lazy" alt="Contrail home screen: an example shot with its lime tracer over a driving range and a lime Start Session button.">
+          </div>
+          <img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="380px" width="540" height="1104" alt="" loading="lazy" decoding="async">
+        </div>
+        <button class="demo-restart" type="button" data-demo-restart><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4v4h4"/></svg>Restart demo</button>
+      </div>
+    </div>
+  </section>
+
   <!-- BENEFITS (icons: Phosphor regular, MIT) -->
   <section class="section gains" id="benefits" aria-labelledby="gains-title">
     <div class="wrap">
@@ -741,6 +770,7 @@ html.lenis, html.lenis body { height: auto; }
 <script defer src="/assets/vendor/gsap.min.js"></script>
 <script defer src="/assets/vendor/ScrollTrigger.min.js"></script>
 <script defer src="/assets/vendor/lenis.min.js"></script>
+<script defer src="/assets/demo/demo.js"></script>
 <script>
 (() => {
   'use strict';

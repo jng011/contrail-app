@@ -35,6 +35,11 @@ public/            everything here is served as-is
                    Every phone on the site uses it (.phone / .phone-screen / .phone-bezel in index.html).
                    Use it unaltered (resize only) and never imply Apple endorsement.
     comet/         Comet keyframe files replayed on the home page
+    demo/          the interactive app demo on the home page (#demo): demo.css + demo.js build a working mock of the
+                   app inside the bezel (Home, Record, Finding your shots, Library, shot viewer, Settings, Comet's intro).
+                   Range render crops as WebP (our own Blender render, see img/ATTRIBUTION.csv) and Comet's voice lines.
+                   It reuses video/ clips and loads them only once a session starts. Nothing in the phone may link out or
+                   navigate the page. Keep its copy to shipping features (rule 1): no Watch, Save to Photos or Share.
 wrangler.jsonc     Worker config: name contrail-app, assets dir, 404 handling
 AGENTS.md          this file (not served)
 README.md          short human summary (not served)
