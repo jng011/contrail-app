@@ -371,6 +371,9 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 @media (min-width: 761px) and (max-aspect-ratio: 1/1) {
   .hero-media { --frame-x: 50%; --frame-shift: -50%; }
 }
+@media (max-width: 900px) {
+  .hide-sm { display: none; }
+}
 @media (max-width: 480px) {
   .hide-xs { display: none; }
 }
@@ -452,8 +455,9 @@ html.lenis, html.lenis body { height: auto; }
       <ul>
         <li><a class="nav-link" href="#how">How it works</a></li>
         <li class="hide-xs"><a class="nav-link" href="#demo">Try it</a></li>
-        <li><a class="nav-link" href="#privacy">Privacy</a></li>
+        <li><a class="nav-link" href="/privacy">Privacy</a></li>
         <li class="hide-xs"><a class="nav-link" href="#faq">FAQ</a></li>
+        <li class="hide-sm"><a class="nav-link" href="/terms">Terms</a></li>
         <li><a class="nav-dl" href="#download">Download</a></li>
       </ul>
     </nav>
@@ -741,6 +745,7 @@ html.lenis, html.lenis body { height: auto; }
     <p>Contrail for iPhone. Made by Sammy and Jayden.</p>
     <ul>
       <li><a href="/privacy">Privacy policy</a></li>
+      <li><a href="/terms">Terms of use</a></li>
       <li><a href="/support">Support</a></li>
     </ul>
   </div>

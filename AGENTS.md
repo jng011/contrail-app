@@ -23,8 +23,9 @@ public/            everything here is served as-is
   index.html       /          home
   support.html     /support   App Store "Support URL"   (must always work)
   privacy.html     /privacy   App Store "Privacy Policy URL" (must always work)
+  terms.html       /terms     Terms of Use (linked from every nav and footer)
   404.html         any unknown path
-  style.css        shared styles for /privacy, /support and 404 (tokens in :root)
+  style.css        shared styles for /privacy, /terms, /support and 404 (tokens in :root)
   assets/          everything the pages load, self-hosted (rule 3):
     fonts/         Poppins woff2 subsets + OFL.txt (licence)
     vendor/        gsap.min.js, ScrollTrigger.min.js (GSAP 3.12.5), lenis.min.js (Lenis 1.1.13)
