@@ -32,6 +32,8 @@ public/            everything here is served as-is
     img/           photos as responsive WebP + ATTRIBUTION.csv (source, photographer, licence for each)
     screens/       app screenshots as WebP at 720w + 1080w (srcset), from 1206x2622 simulator captures with a
                    clean 9:41 status bar and no painted Dynamic Island (the bezel draws the real one)
+      duo/         unfolded iPhone Duo screens for the home page's #duo section, WebP at 720w + 1080w (srcset), from
+                   2853x2007 captures. Shown as plain rounded screens (no device frame: there's no official Duo bezel).
     device/        Apple's iPhone 18 Pro black bezel (Apple Design Resources) at 2x/1x + LICENSE-NOTE.txt.
                    Every phone on the site uses it (.phone / .phone-screen / .phone-bezel in index.html).
                    Use it unaltered (resize only) and never imply Apple endorsement.
@@ -65,6 +67,10 @@ apps whose support or privacy links break.
    Apple Watch app. **Saving a shot to Photos with the tracer drawn in, and sharing the trimmed shot, are not
    built yet** (the exporter is a future PR; today "Save to Photos" is UI-only and Share sends the whole session
    video). Don't mention any of these until they ship.
+   **iPhone Duo (#duo on the home page):** the Duo-optimized layout (unfolded, every screen in two halves) and the
+   outside-display replay are not in the App Store build yet, so the section carries a "Coming soon" tag and says
+   "Also coming" for the replay. Don't say the app "runs on" iPhone Duo as a feature (every iPhone app does). Once the
+   Duo build ships, remove the tag and the "coming" wording.
 2. **The privacy policy must match the app exactly.**
    - No account, no server, no analytics, no ads, no tracking. Everything stays on the iPhone.
    - Permissions: Camera, Microphone, Motion & Fitness, Location (while using), Photos (add only).

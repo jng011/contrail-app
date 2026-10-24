@@ -278,6 +278,30 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .shot figcaption b { display: block; font-weight: 600; font-size: 1.0625rem; }
 .shot figcaption span { display: block; margin-top: 2px; font-size: 15px; color: var(--white-2); }
 
+/* ---------- iPhone Duo: a compact, secondary section under the gallery. Tagged "Coming soon" until the Duo build ships (AGENTS.md). ---------- */
+.duo { padding-bottom: clamp(var(--space-3xl), 10vw, var(--space-4xl)); }
+.duo-inner { padding-top: var(--space-xl); border-top: 1px solid var(--hairline); }
+.duo-head { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-lg) var(--space-2xl); align-items: start; }
+.duo-head h2 { font-size: 1.75rem; font-weight: 600; line-height: 1.15; letter-spacing: -0.025em; }
+.duo-tag { display: inline-block; margin-top: var(--space-sm); padding: 3px 10px; border: 1px solid var(--hairline); border-radius: var(--r-capsule); font-size: 13px; font-weight: 500; line-height: 1.5; color: var(--white-2); }
+.duo-head p:not(.duo-tag) { max-width: 46ch; color: var(--white-2); }
+.duo-head p + p:not(.duo-tag) { margin-top: var(--space-sm); }
+.duo-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl) var(--space-lg); margin-top: var(--space-xl); }
+.duo-points figure { margin: 0; }
+.duo-points img { display: block; width: 100%; height: auto; aspect-ratio: 720 / 507; border-radius: var(--r-media); border: 1px solid var(--hairline); background: var(--night-raised); }
+.duo-points h3 { margin-top: var(--space-md); font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
+.duo-points figcaption p { margin-top: 2px; max-width: 40ch; font-size: 15px; color: var(--white-2); }
+@media (max-width: 900px) {
+  .duo-head { grid-template-columns: minmax(0, 1fr); }
+  .duo-points { grid-template-columns: minmax(0, 1fr); }
+  .duo-points figure { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-lg); align-items: center; }
+  .duo-points h3 { margin-top: 0; }
+}
+@media (max-width: 560px) {
+  .duo-points figure { display: block; }
+  .duo-points h3 { margin-top: var(--space-md); }
+}
+
 /* ---------- FAQ ---------- */
 .faq .wrap { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-2xl); }
 .faq-list { border-top: 1px solid var(--hairline); }
@@ -672,6 +696,29 @@ html.lenis, html.lenis body { height: auto; }
       <figure class="shot"><div class="phone frame"><div class="phone-screen"><img src="/assets/screens/06-comet-tutorial-720.webp" srcset="/assets/screens/06-comet-tutorial-720.webp 720w, /assets/screens/06-comet-tutorial-1080.webp 1080w" sizes="(max-width: 760px) 65vw, 305px" width="720" height="1566" loading="lazy" alt="Contrail first-run tutorial: Comet says tap record and hit a few balls, I find the ball on your first swing, short sessions work best, above a small record screen with the ball locked."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div><figcaption><b>First run</b><span>Comet walks you through setup the first time you open the app.</span></figcaption></figure>
       <figure class="shot"><div class="phone frame"><div class="phone-screen"><img src="/assets/screens/07-settings-720.webp" srcset="/assets/screens/07-settings-720.webp 720w, /assets/screens/07-settings-1080.webp 1080w" sizes="(max-width: 760px) 65vw, 305px" width="720" height="1566" loading="lazy" alt="Contrail settings: a tracer preview with color choices lime, red, yellow, white and green, the camera format 1080p at 240 fps and the list of permissions."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div><figcaption><b>Your line, your color</b><span>Lime by default, or red, yellow, white or green. Permissions live here too.</span></figcaption></figure>
     </div>
+  </section>
+
+  <!-- IPHONE DUO: compact and secondary to the iPhone content. Rule 1: the Duo-optimized (unfolded, two-half) layout and the
+       outside-display replay are NOT in the App Store build yet, so the section carries a "Coming soon" tag and the replay line
+       says "coming". Remove the tag and the "coming" wording only once the Duo build ships. -->
+  <section class="duo" id="duo" aria-labelledby="duo-title">
+    <div class="wrap"><div class="duo-inner">
+      <div class="duo-head">
+        <div>
+          <h2 id="duo-title">Optimized for iPhone Duo.</h2>
+          <p class="duo-tag">Coming soon</p>
+        </div>
+        <div>
+          <p>Unfold it and Contrail splits in two: your shot on one side, the rest of your session on the other. Folded, it’s the app you know.</p>
+          <p>Also coming: after each shot, the outside display can replay it, so you can glance at it without picking up your phone.</p>
+        </div>
+      </div>
+      <div class="duo-points">
+        <figure><img src="/assets/screens/duo/05-library-720.webp" srcset="/assets/screens/duo/05-library-720.webp 720w, /assets/screens/duo/05-library-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 380px" width="720" height="507" loading="lazy" decoding="async" alt="Contrail unfolded on iPhone Duo, library: a shot with its lime tracer playing on one half, and a grid of the day’s shots on the other."><figcaption><h3>Watch and pick at once</h3><p>Your shot plays big on one half, all your shots on the other. Tap one and it plays, even in full screen.</p></figcaption></figure>
+        <figure><img src="/assets/screens/duo/04-record-recording-720.webp" srcset="/assets/screens/duo/04-record-recording-720.webp 720w, /assets/screens/duo/04-record-recording-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 380px" width="720" height="507" loading="lazy" decoding="async" alt="Contrail unfolded on iPhone Duo, recording: the camera view on one half, and the last shot replaying with its tracer above a stop button on the other."><figcaption><h3>Film and replay side by side</h3><p>The camera on one half, your last shot replaying on the other, while the recording keeps going.</p></figcaption></figure>
+        <figure><img src="/assets/screens/duo/07-settings-720.webp" srcset="/assets/screens/duo/07-settings-720.webp 720w, /assets/screens/duo/07-settings-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 380px" width="720" height="507" loading="lazy" decoding="async" alt="Contrail unfolded on iPhone Duo, settings: a tracer preview on one half, and tracer colors, camera format and permissions on the other."><figcaption><h3>Everything in reach</h3><p>Home, Settings and every other screen split in two. Nothing stretched, nothing on the fold.</p></figcaption></figure>
+      </div>
+    </div></div>
   </section>
 
   <!-- PRIVACY: one honest number -->
