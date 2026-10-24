@@ -294,10 +294,6 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .duo figcaption p { margin-top: 2px; max-width: 46ch; font-size: 15px; color: var(--white-2); }
 .duo-stage { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-lg) var(--space-2xl); align-items: center; margin-top: var(--space-2xl); }
 .duo-stage figcaption { grid-row: 1; grid-column: 1; }
-.duo-stage .round-btn { margin-top: var(--space-lg); }
-.duo-stage .round-btn[hidden] { display: none; }
-.duo-stage .round-btn [data-icon="play"], .duo-stage .round-btn[aria-pressed="true"] [data-icon="pause"] { display: none; }
-.duo-stage .round-btn[aria-pressed="true"] [data-icon="play"] { display: block; }
 .duo-view { grid-row: 1; grid-column: 2; container-type: inline-size; position: relative; }
 .duo-tilt, .duo-device { transform-style: preserve-3d; }
 .duo-device { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); }
@@ -306,7 +302,9 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .duo-face-front .duo-art { left: -1.983%; top: -2.771%; width: 103.966%; height: 105.542%; }
 .duo-face-back .duo-art { left: -1.345%; top: -1.502%; width: 102.723%; height: 103.005%; }
 .duo-art img { width: 100%; height: 100%; }
-.duo-art video { position: absolute; left: 51.374%; top: 3.646%; width: 45.746%; height: 92.707%; object-fit: cover; background: #000; }
+.duo-art video { position: absolute; object-fit: cover; background: #000; }
+.duo-face-back .duo-art video { left: 51.374%; top: 3.646%; width: 45.746%; height: 92.707%; }
+.duo-face-front .duo-art video { left: 3.880%; top: 5.340%; width: 92.240%; height: 89.319%; }
 .duo-art video + img { position: absolute; inset: 0; }
 .duo-edge, .duo-sheen, .duo-shadow { display: none; }
 /* Scroll-driven 3D (added by JS when motion is allowed): a sticky stage inside a tall runway. */
@@ -323,6 +321,7 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
   background: linear-gradient(105deg, transparent 38%, oklch(100% 0 0 / 0.16) 50%, transparent 62%) no-repeat;
   background-size: 260% 100%; background-position: calc(115% - var(--p, 0) * 130%) 0;
   -webkit-mask: var(--mask) center / 100% 100% no-repeat; mask: var(--mask) center / 100% 100% no-repeat; }
+.duo.is-scrub .duo-face > .duo-sheen { border-radius: 8.4% / 11.7%; -webkit-mask: none; mask: none; }
 .duo.is-scrub .duo-shadow { display: block; position: absolute; left: 12%; right: 12%; bottom: -9%; height: 10%; border-radius: 50%;
   background: radial-gradient(closest-side, oklch(0% 0 0 / 0.55), transparent); filter: blur(6px); will-change: transform, opacity; }
 .duo-points { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-2xl); margin-top: var(--space-2xl); }
@@ -649,9 +648,12 @@ html.lenis, html.lenis body { height: auto; }
             <div class="duo-tilt" data-duo-tilt>
               <div class="duo-device" data-duo-device>
                 <span class="duo-edge" style="--z:-1.639;--edge:oklch(28% 0.03 262)"></span><span class="duo-edge" style="--z:-1.518;--edge:oklch(29% 0.03 262)"></span><span class="duo-edge" style="--z:-1.396;--edge:oklch(30% 0.03 262)"></span><span class="duo-edge" style="--z:-1.275;--edge:oklch(31% 0.03 262)"></span><span class="duo-edge" style="--z:-1.154;--edge:oklch(32% 0.03 262)"></span><span class="duo-edge" style="--z:-1.032;--edge:oklch(33% 0.03 262)"></span><span class="duo-edge" style="--z:-0.911;--edge:oklch(34% 0.03 262)"></span><span class="duo-edge" style="--z:-0.789;--edge:oklch(34% 0.03 262)"></span><span class="duo-edge" style="--z:-0.668;--edge:oklch(35% 0.03 262)"></span><span class="duo-edge" style="--z:-0.546;--edge:oklch(36% 0.03 262)"></span><span class="duo-edge" style="--z:-0.425;--edge:oklch(37% 0.03 262)"></span><span class="duo-edge" style="--z:-0.304;--edge:oklch(38% 0.03 262)"></span><span class="duo-edge" style="--z:-0.182;--edge:oklch(39% 0.03 262)"></span><span class="duo-edge" style="--z:-0.061;--edge:oklch(40% 0.03 262)"></span><span class="duo-edge" style="--z:0.061;--edge:oklch(40% 0.03 262)"></span><span class="duo-edge" style="--z:0.182;--edge:oklch(39% 0.03 262)"></span><span class="duo-edge" style="--z:0.304;--edge:oklch(38% 0.03 262)"></span><span class="duo-edge" style="--z:0.425;--edge:oklch(37% 0.03 262)"></span><span class="duo-edge" style="--z:0.546;--edge:oklch(36% 0.03 262)"></span><span class="duo-edge" style="--z:0.668;--edge:oklch(35% 0.03 262)"></span><span class="duo-edge" style="--z:0.789;--edge:oklch(34% 0.03 262)"></span><span class="duo-edge" style="--z:0.911;--edge:oklch(34% 0.03 262)"></span><span class="duo-edge" style="--z:1.032;--edge:oklch(33% 0.03 262)"></span><span class="duo-edge" style="--z:1.154;--edge:oklch(32% 0.03 262)"></span><span class="duo-edge" style="--z:1.275;--edge:oklch(31% 0.03 262)"></span><span class="duo-edge" style="--z:1.396;--edge:oklch(30% 0.03 262)"></span><span class="duo-edge" style="--z:1.518;--edge:oklch(29% 0.03 262)"></span><span class="duo-edge" style="--z:1.639;--edge:oklch(28% 0.03 262)"></span>
-                <div class="duo-face duo-face-front"><div class="duo-art"><img src="/assets/screens/duo/04-record-recording-720.webp" srcset="/assets/screens/duo/04-record-recording-720.webp 720w, /assets/screens/duo/04-record-recording-1080.webp 1080w" sizes="(max-width: 900px) calc(100vw - 32px), 760px" width="720" height="524" loading="lazy" decoding="async" alt="iPhone Duo unfolded, inside screen: Contrail recording, with the camera view on one half and the last shot replaying on the other."><span class="duo-sheen" style="--mask:url('/assets/screens/duo/04-record-recording-720.webp')"></span></div></div>
+                <div class="duo-face duo-face-front"><div class="duo-art">
+                  <video muted loop playsinline autoplay preload="none" width="1200" height="844" poster="/assets/screens/duo/inner-recording-poster.webp" aria-label="iPhone Duo unfolded, inside screen: Contrail recording, with the camera view on the left, the shot numbers and stop button in the middle, and the last shot replaying with its tracer on the right." data-duo-video><source data-src="/assets/screens/duo/inner-recording.webm" type="video/webm"><source data-src="/assets/screens/duo/inner-recording.mp4" type="video/mp4"></video>
+                  <img src="/assets/device/iphone-duo-night-sky-inner-open-landscape-720.webp" srcset="/assets/device/iphone-duo-night-sky-inner-open-landscape-720.webp 720w, /assets/device/iphone-duo-night-sky-inner-open-landscape-1080.webp 1080w" sizes="(max-width: 900px) calc(100vw - 32px), 760px" width="720" height="523" loading="lazy" decoding="async" alt="">
+                </div><span class="duo-sheen"></span></div>
                 <div class="duo-face duo-face-back"><div class="duo-art">
-                  <video muted loop playsinline preload="none" width="540" height="786" poster="/assets/screens/duo/replay-outer-poster.webp" aria-label="The outside screen of iPhone Duo, facing the golfer, replaying the last swing full screen with its lime tracer." data-duo-video><source data-src="/assets/screens/duo/replay-outer.mp4" type="video/mp4"></video>
+                  <video muted loop playsinline autoplay preload="none" width="540" height="786" poster="/assets/screens/duo/replay-outer-poster.webp" aria-label="The outside screen of iPhone Duo, facing the golfer, replaying the last swing full screen with its lime tracer." data-duo-video><source data-src="/assets/screens/duo/replay-outer.mp4" type="video/mp4"></video>
                   <img src="/assets/device/iphone-duo-night-sky-outer-open-720.webp" srcset="/assets/device/iphone-duo-night-sky-outer-open-720.webp 720w, /assets/device/iphone-duo-night-sky-outer-open-1080.webp 1080w" sizes="(max-width: 900px) calc(100vw - 32px), 760px" width="720" height="517" loading="lazy" decoding="async" alt="">
                   <span class="duo-sheen" style="--mask:url('/assets/device/iphone-duo-night-sky-outer-open-720.webp')"></span>
                 </div></div>
@@ -662,7 +664,6 @@ html.lenis, html.lenis body { height: auto; }
           <figcaption>
             <h3>See your last shot while you hit the next</h3>
             <p>While you hit, the camera fills the inside screen and the outside screen faces you with your last swing, tracer and all.</p>
-            <button class="round-btn solid" type="button" aria-label="Pause video" aria-pressed="false" hidden data-duo-pause><svg data-icon="pause" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M200,32H160a16,16,0,0,0-16,16V208a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V48A16,16,0,0,0,200,32ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Z"/></svg><svg data-icon="play" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></svg></button>
           </figcaption>
         </figure>
       </div>
@@ -1431,24 +1432,29 @@ html.lenis, html.lenis body { height: auto; }
 <script>
   // iPhone Duo (#duo): scroll turns the phone from the inside screen (recording) to the outside screen (last swing replaying).
   // CSS-sticky stage in a tall runway (no JS pin, like the hero on phones), scrubbed by ScrollTrigger; transforms only.
-  // The replay video plays whenever the stage is on screen; scroll drives only the pose. Reduced motion (or no GSAP): both
-  // sides side by side, nothing turns, the video waits for the play button.
+  // Both screens (inside: recording; outside: replay) loop whenever the stage is on screen, with no controls; scroll drives
+  // only the pose. Reduced motion: both sides side by side, nothing turns, the videos stay on their posters.
   (function () {
     var sec = document.querySelector('[data-duo]'); if (!sec) return;
-    var video = sec.querySelector('[data-duo-video]'), btn = sec.querySelector('[data-duo-pause]');
+    var videos = [].slice.call(sec.querySelectorAll('[data-duo-video]'));
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var paused = reduce.matches, inView = false, loaded = false;
+    var inView = false, loaded = false;
     function load() {
       if (loaded) return; loaded = true;
-      var src = video.querySelector('source[data-src]'); src.src = src.getAttribute('data-src'); video.load();
+      videos.forEach(function (v) {
+        [].forEach.call(v.querySelectorAll('source[data-src]'), function (s) { s.src = s.getAttribute('data-src'); });
+        v.load();
+      });
     }
-    function sync() { if (inView && !paused) { load(); video.play().catch(function () {}); } else video.pause(); }
-    function setBtn() { btn.setAttribute('aria-pressed', String(paused)); btn.setAttribute('aria-label', paused ? 'Play video' : 'Pause video'); }
-    btn.hidden = false; setBtn();
-    btn.addEventListener('click', function () { paused = !paused; setBtn(); if (!paused) load(); sync(); });
+    function sync() {
+      var on = inView && !reduce.matches;
+      if (on) load();
+      videos.forEach(function (v) { if (on) v.play().catch(function () {}); else v.pause(); });
+    }
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (e) { inView = e[0].isIntersecting; sync(); }, { rootMargin: '10% 0px' }).observe(sec.querySelector('[data-duo-view]'));
     }
+    if (reduce.addEventListener) reduce.addEventListener('change', sync);
 
     document.addEventListener('DOMContentLoaded', function () { // after the page's own ScrollTriggers (registered earlier)
       if (!window.gsap || !window.ScrollTrigger) return;

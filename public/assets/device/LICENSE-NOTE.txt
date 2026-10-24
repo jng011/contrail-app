@@ -31,6 +31,9 @@ iPhone Duo device bezel (Night Sky)
 
 Files:
   iphone-duo-night-sky-outer-open-1080.webp / -720.webp   (from "iPhone Duo - Night Sky - Outer Open.png", 3056 x 2194)
+  iphone-duo-night-sky-inner-open-landscape-1080.webp / -720.webp
+                                                           (from "iPhone Duo - Night Sky - Inner Open Landscape.png",
+                                                           3093 x 2247; the inside-screen clip plays under it)
   ../screens/duo/*-720.webp / *-1080.webp                  app screens composited into
                                                            "iPhone Duo - Night Sky - Inner Open Landscape.png" (3093 x 2247)
 
