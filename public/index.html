@@ -278,6 +278,35 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .shot figcaption b { display: block; font-weight: 600; font-size: 1.0625rem; }
 .shot figcaption span { display: block; margin-top: 2px; font-size: 15px; color: var(--white-2); }
 
+/* ---------- iPhone Duo: a compact section right after "How it works". Tagged "Coming soon" until the Duo build ships (AGENTS.md).
+   Two photos: the inside (unfolded) and the outside screen, each an app still composited into Apple's iPhone Duo bezel
+   (Apple Design Resources, see assets/device/LICENSE-NOTE.txt), bezels unaltered apart from resizing. No motion. ---------- */
+.duo { padding-block: clamp(var(--space-2xl), 8vw, var(--space-3xl)) clamp(var(--space-3xl), 10vw, var(--space-4xl)); }
+.duo-head { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-lg) var(--space-2xl); align-items: start; }
+.duo-head h2 { font-size: 1.75rem; font-weight: 600; line-height: 1.15; letter-spacing: -0.025em; }
+.duo-tag { display: inline-block; margin-top: var(--space-sm); padding: 3px 10px; border: 1px solid var(--hairline); border-radius: var(--r-capsule); font-size: 13px; font-weight: 500; line-height: 1.5; color: var(--white-2); }
+.duo-head p:not(.duo-tag) { max-width: 46ch; color: var(--white-2); }
+.duo figure { margin: 0; }
+.duo img { display: block; }
+.duo h3 { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
+.duo figcaption p, .duo-lead p { margin-top: 2px; max-width: 46ch; font-size: 15px; color: var(--white-2); }
+.duo-stage { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-lg) var(--space-2xl); align-items: center; margin-top: var(--space-2xl); }
+.duo-photos { display: grid; grid-template-columns: minmax(0, 2985fr) minmax(0, 1531fr); gap: var(--space-lg); align-items: end; }
+.duo-photos img { width: 100%; height: auto; }
+.duo-photos figcaption { margin-top: var(--space-sm); font-size: 14px; color: var(--white-2); }
+.duo-points { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-2xl); margin-top: var(--space-2xl); }
+.duo-points figure { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-md); align-items: center; }
+.duo-points img { width: 100%; height: auto; }
+@media (max-width: 900px) {
+  .duo-head, .duo-stage, .duo-points { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .duo-photos { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
+  .duo-photos figure:last-child { width: 62%; margin-inline: auto; }
+  .duo-points figure { display: block; }
+  .duo-points figcaption { margin-top: var(--space-sm); }
+}
+
 /* ---------- FAQ ---------- */
 .faq .wrap { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-2xl); }
 .faq-list { border-top: 1px solid var(--hairline); }
@@ -563,6 +592,38 @@ html.lenis, html.lenis body { height: auto; }
     </div>
   </section>
 
+
+  <!-- IPHONE DUO: compact, after "How it works". Rule 1: the Duo-optimized layout (unfolded, every screen in two halves) and the
+       outside-screen replay are NOT in the App Store build yet, so the section carries a "Coming soon" tag. Remove the tag only once
+       the Duo build ships. Footage is the app itself: the inside screen is a simulator capture of Record unfolded (the debug
+       recording state holds its clock at 0:45), the outside-screen loop is a simulator recording of the replay view
+       (-coverPreview). Bezels: Apple's, unaltered, resize only. Scroll turns the phone (JS adds .is-scrub); without motion both
+       sides show side by side. -->
+  <section class="duo" id="duo" aria-labelledby="duo-title">
+    <div class="wrap">
+      <div class="duo-head">
+        <div>
+          <h2 id="duo-title">Optimized for iPhone Duo.</h2>
+          <p class="duo-tag">Coming soon</p>
+        </div>
+        <p>Unfold it and Contrail splits in two: your shot on one side, the rest of your session on the other. Folded, it’s the app you know.</p>
+      </div>
+      <div class="duo-stage">
+        <div class="duo-lead">
+          <h3>See your last shot while you hit the next</h3>
+          <p>While you hit, the camera fills the inside screen and the outside screen faces you with your last swing, tracer and all.</p>
+        </div>
+        <div class="duo-photos">
+          <figure><img src="/assets/screens/duo/duo-front-800.webp" srcset="/assets/screens/duo/duo-front-800.webp 800w, /assets/screens/duo/duo-front-1600.webp 1600w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 62vw, 500px" width="800" height="573" loading="lazy" decoding="async" alt="iPhone Duo unfolded, inside screen: Contrail recording, with the camera view on the left, the shot numbers and stop button in the middle, and the last shot replaying with its lime tracer on the right."><figcaption>Films while you play</figcaption></figure>
+          <figure><img src="/assets/screens/duo/duo-rear-410.webp" srcset="/assets/screens/duo/duo-rear-410.webp 410w, /assets/screens/duo/duo-rear-820.webp 820w" sizes="(max-width: 560px) 62vw, (max-width: 900px) 32vw, 260px" width="410" height="573" loading="lazy" decoding="async" alt="The outside screen of iPhone Duo replaying the last swing full screen, with its lime tracer."><figcaption>Your last swing replays facing you</figcaption></figure>
+        </div>
+      </div>
+      <div class="duo-points">
+        <figure><img src="/assets/screens/duo/05-library-720.webp" srcset="/assets/screens/duo/05-library-720.webp 720w, /assets/screens/duo/05-library-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 270px" width="720" height="524" loading="lazy" decoding="async" alt="iPhone Duo unfolded: the Contrail library, with a shot playing on one half and a grid of the day’s shots on the other."><figcaption><h3>Watch and pick at once</h3><p>Your shot plays big on one half, all your shots on the other. Tap one and it plays, even in full screen.</p></figcaption></figure>
+        <figure><img src="/assets/screens/duo/07-settings-720.webp" srcset="/assets/screens/duo/07-settings-720.webp 720w, /assets/screens/duo/07-settings-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 270px" width="720" height="524" loading="lazy" decoding="async" alt="iPhone Duo unfolded: Contrail settings, with a tracer preview on one half and tracer colors, camera format and permissions on the other."><figcaption><h3>Everything in reach</h3><p>Home, Settings and every other screen split in two. Nothing stretched, nothing on the fold.</p></figcaption></figure>
+      </div>
+    </div>
+  </section>
 
   <!-- EXAMPLES: three real swings with the tracer drawn in -->
   <section class="section examples" id="examples" aria-labelledby="examples-title">

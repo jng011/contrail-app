@@ -32,9 +32,15 @@ public/            everything here is served as-is
     img/           photos as responsive WebP + ATTRIBUTION.csv (source, photographer, licence for each)
     screens/       app screenshots as WebP at 720w + 1080w (srcset), from 1206x2622 simulator captures with a
                    clean 9:41 status bar and no painted Dynamic Island (the bezel draws the real one)
+      duo/         the home page's #duo section: duo-front (800w/1600w), the unfolded inside screen (a still from the
+                   Duo simulator recording: clock, shot numbers, last shot with its tracer) in Apple's "Inner Open
+                   Landscape" bezel; duo-rear (410w/820w), the outside screen replaying the last swing in the "Outer Closed
+                   Portrait" bezel (it shows no Apple logo; never use a bezel view that does). 05-library / 07-settings:
+                   unfolded screens in the Inner Open Landscape bezel, WebP at 720w + 1080w. All composited through the
+                   bezel's own transparent screen opening, so corners match exactly.
     device/        Apple's iPhone 18 Pro black bezel (Apple Design Resources) at 2x/1x + LICENSE-NOTE.txt.
                    Every phone on the site uses it (.phone / .phone-screen / .phone-bezel in index.html).
-                   Use it unaltered (resize only) and never imply Apple endorsement.
+                   Use bezels unaltered (resize only) and never imply Apple endorsement.
     comet/         Comet keyframe files replayed on the home page
     demo/          the interactive app demo on the home page (#demo): demo.css + demo.js build a working mock of the
                    app inside the bezel (Home, Record, Finding your shots, Library, shot viewer, Settings, Comet's intro).
@@ -65,6 +71,11 @@ apps whose support or privacy links break.
    Apple Watch app. **Saving a shot to Photos with the tracer drawn in, and sharing the trimmed shot, are not
    built yet** (the exporter is a future PR; today "Save to Photos" is UI-only and Share sends the whole session
    video). Don't mention any of these until they ship.
+   **iPhone Duo (#duo on the home page):** the Duo-optimized layout (unfolded, every screen in two halves) and the
+   outside-screen replay are not in the App Store build yet, so the section carries a "Coming soon" tag. Don't say the
+   app "runs on" iPhone Duo as a feature (every iPhone app does). Once the Duo build ships, remove the tag. The section
+   sits after "How it works" and is two still photos (inside and outside screen) plus two smaller points, with no
+   motion (Sammy, October 2026).
 2. **The privacy policy must match the app exactly.**
    - No account, no server, no analytics, no ads, no tracking. Everything stays on the iPhone.
    - Permissions: Camera, Microphone, Motion & Fitness, Location (while using), Photos (add only).
