@@ -24,3 +24,16 @@ How we use it:
 
 Apple and Apple's licensors retain all rights in the Apple Design Resources. If Apple's licence terms change or
 the licence terminates, remove these files and the markup that loads them.
+
+
+iPhone Duo device bezel (Night Sky)
+===================================
+
+Files:
+  iphone-duo-night-sky-outer-open-1080.webp / -720.webp   (from "iPhone Duo - Night Sky - Outer Open.png", 3056 x 2194)
+  ../screens/duo/*-720.webp / *-1080.webp                  app screens composited into
+                                                           "iPhone Duo - Night Sky - Inner Open Landscape.png" (3093 x 2247)
+
+Source and licence: as above (Apple Design Resources, Product Bezels; Apple Design Resources License Agreement).
+Same rules: proportional resize only, app screens and clips placed in the transparent screen opening, no other edits,
+not offered for reuse, no implied endorsement. iPhone is a trademark of Apple Inc.

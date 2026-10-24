@@ -278,28 +278,68 @@ footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .shot figcaption b { display: block; font-weight: 600; font-size: 1.0625rem; }
 .shot figcaption span { display: block; margin-top: 2px; font-size: 15px; color: var(--white-2); }
 
-/* ---------- iPhone Duo: a compact, secondary section under the gallery. Tagged "Coming soon" until the Duo build ships (AGENTS.md). ---------- */
-.duo { padding-bottom: clamp(var(--space-3xl), 10vw, var(--space-4xl)); }
-.duo-inner { padding-top: var(--space-xl); border-top: 1px solid var(--hairline); }
+/* ---------- iPhone Duo: a compact section right after "How it works". Tagged "Coming soon" until the Duo build ships (AGENTS.md).
+   Apple's iPhone Duo bezels (Apple Design Resources, see assets/device/LICENSE-NOTE.txt), unaltered apart from resizing.
+   Lead visual: a 3D Duo (front/back bezels + a stack of thin edge layers for thickness) that scroll turns from the inside
+   screen (recording) to the outside screen (last swing replaying). Device geometry is the bezels' body box (2975 x 2129 px
+   in both PNGs); the faces' images overhang it by the PNGs' transparent margins. ---------- */
+.duo { padding-block: clamp(var(--space-2xl), 8vw, var(--space-3xl)) clamp(var(--space-3xl), 10vw, var(--space-4xl)); }
 .duo-head { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-lg) var(--space-2xl); align-items: start; }
 .duo-head h2 { font-size: 1.75rem; font-weight: 600; line-height: 1.15; letter-spacing: -0.025em; }
 .duo-tag { display: inline-block; margin-top: var(--space-sm); padding: 3px 10px; border: 1px solid var(--hairline); border-radius: var(--r-capsule); font-size: 13px; font-weight: 500; line-height: 1.5; color: var(--white-2); }
 .duo-head p:not(.duo-tag) { max-width: 46ch; color: var(--white-2); }
-.duo-head p + p:not(.duo-tag) { margin-top: var(--space-sm); }
-.duo-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl) var(--space-lg); margin-top: var(--space-xl); }
-.duo-points figure { margin: 0; }
-.duo-points img { display: block; width: 100%; height: auto; aspect-ratio: 720 / 507; border-radius: var(--r-media); border: 1px solid var(--hairline); background: var(--night-raised); }
-.duo-points h3 { margin-top: var(--space-md); font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
-.duo-points figcaption p { margin-top: 2px; max-width: 40ch; font-size: 15px; color: var(--white-2); }
+.duo figure { margin: 0; }
+.duo img, .duo video { display: block; }
+.duo h3 { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
+.duo figcaption p { margin-top: 2px; max-width: 46ch; font-size: 15px; color: var(--white-2); }
+.duo-stage { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-lg) var(--space-2xl); align-items: center; margin-top: var(--space-2xl); }
+.duo-stage figcaption { grid-row: 1; grid-column: 1; }
+.duo-stage .round-btn { margin-top: var(--space-lg); }
+.duo-stage .round-btn[hidden] { display: none; }
+.duo-stage .round-btn [data-icon="play"], .duo-stage .round-btn[aria-pressed="true"] [data-icon="pause"] { display: none; }
+.duo-stage .round-btn[aria-pressed="true"] [data-icon="play"] { display: block; }
+.duo-view { grid-row: 1; grid-column: 2; container-type: inline-size; position: relative; }
+.duo-tilt, .duo-device { transform-style: preserve-3d; }
+.duo-device { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); }
+.duo-face { position: relative; aspect-ratio: 2975 / 2129; }
+.duo-art { position: absolute; }
+.duo-face-front .duo-art { left: -1.983%; top: -2.771%; width: 103.966%; height: 105.542%; }
+.duo-face-back .duo-art { left: -1.345%; top: -1.502%; width: 102.723%; height: 103.005%; }
+.duo-art img { width: 100%; height: 100%; }
+.duo-art video { position: absolute; left: 51.374%; top: 3.646%; width: 45.746%; height: 92.707%; object-fit: cover; background: #000; }
+.duo-art video + img { position: absolute; inset: 0; }
+.duo-edge, .duo-sheen, .duo-shadow { display: none; }
+/* Scroll-driven 3D (added by JS when motion is allowed): a sticky stage inside a tall runway. */
+.duo.is-scrub .duo-runway { height: 260vh; }
+.duo.is-scrub .duo-stage { position: sticky; top: 0; height: 100vh; margin-top: 0; }
+.duo.is-scrub .duo-view { perspective: 1400px; }
+.duo.is-scrub .duo-tilt { will-change: transform; }
+.duo.is-scrub .duo-device { display: block; aspect-ratio: 2975 / 2129; will-change: transform; }
+.duo.is-scrub .duo-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.duo.is-scrub .duo-face-front { transform: translateZ(1.7cqw); }
+.duo.is-scrub .duo-face-back { transform: rotateY(180deg) translateZ(1.7cqw); }
+.duo.is-scrub .duo-edge { display: block; position: absolute; inset: 0.15%; border-radius: 8.4% / 11.7%; background: var(--edge, #3b475c); transform: translateZ(calc(var(--z) * 1cqw)); }
+.duo.is-scrub .duo-sheen { display: block; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(105deg, transparent 38%, oklch(100% 0 0 / 0.16) 50%, transparent 62%) no-repeat;
+  background-size: 260% 100%; background-position: calc(115% - var(--p, 0) * 130%) 0;
+  -webkit-mask: var(--mask) center / 100% 100% no-repeat; mask: var(--mask) center / 100% 100% no-repeat; }
+.duo.is-scrub .duo-shadow { display: block; position: absolute; left: 12%; right: 12%; bottom: -9%; height: 10%; border-radius: 50%;
+  background: radial-gradient(closest-side, oklch(0% 0 0 / 0.55), transparent); filter: blur(6px); will-change: transform, opacity; }
+.duo-points { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-2xl); margin-top: var(--space-2xl); }
+.duo-points figure { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-md); align-items: center; }
+.duo-points img { width: 100%; height: auto; }
 @media (max-width: 900px) {
-  .duo-head { grid-template-columns: minmax(0, 1fr); }
-  .duo-points { grid-template-columns: minmax(0, 1fr); }
-  .duo-points figure { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-lg); align-items: center; }
-  .duo-points h3 { margin-top: 0; }
+  .duo-head, .duo-stage, .duo-points { grid-template-columns: minmax(0, 1fr); }
+  .duo-view, .duo-stage figcaption { grid-column: 1; }
+  .duo-stage figcaption { grid-row: 2; }
+  .duo.is-scrub .duo-stage { align-content: center; gap: var(--space-xl); height: 100svh; }
+  .duo.is-scrub .duo-runway { height: 240svh; }
 }
 @media (max-width: 560px) {
+  .duo-device { grid-template-columns: minmax(0, 1fr); }
+  .duo.is-scrub .duo-tilt { margin-inline: 7%; }
   .duo-points figure { display: block; }
-  .duo-points h3 { margin-top: var(--space-md); }
+  .duo-points figcaption { margin-top: var(--space-sm); }
 }
 
 /* ---------- FAQ ---------- */
@@ -588,6 +628,51 @@ html.lenis, html.lenis body { height: auto; }
   </section>
 
 
+  <!-- IPHONE DUO: compact, after "How it works". Rule 1: the Duo-optimized layout (unfolded, every screen in two halves) and the
+       outside-screen replay are NOT in the App Store build yet, so the section carries a "Coming soon" tag. Remove the tag only once
+       the Duo build ships. Footage is the app itself: the inside screen is a simulator capture of Record unfolded (the debug
+       recording state holds its clock at 0:45), the outside-screen loop is a simulator recording of the replay view
+       (-coverPreview). Bezels: Apple's, unaltered, resize only. Scroll turns the phone (JS adds .is-scrub); without motion both
+       sides show side by side. -->
+  <section class="duo" id="duo" aria-labelledby="duo-title" data-duo>
+    <div class="wrap">
+      <div class="duo-head">
+        <div>
+          <h2 id="duo-title">Optimized for iPhone Duo.</h2>
+          <p class="duo-tag">Coming soon</p>
+        </div>
+        <p>Unfold it and Contrail splits in two: your shot on one side, the rest of your session on the other. Folded, it’s the app you know.</p>
+      </div>
+      <div class="duo-runway" data-duo-runway>
+        <figure class="duo-stage">
+          <div class="duo-view" data-duo-view>
+            <div class="duo-tilt" data-duo-tilt>
+              <div class="duo-device" data-duo-device>
+                <span class="duo-edge" style="--z:-1.639;--edge:oklch(28% 0.03 262)"></span><span class="duo-edge" style="--z:-1.518;--edge:oklch(29% 0.03 262)"></span><span class="duo-edge" style="--z:-1.396;--edge:oklch(30% 0.03 262)"></span><span class="duo-edge" style="--z:-1.275;--edge:oklch(31% 0.03 262)"></span><span class="duo-edge" style="--z:-1.154;--edge:oklch(32% 0.03 262)"></span><span class="duo-edge" style="--z:-1.032;--edge:oklch(33% 0.03 262)"></span><span class="duo-edge" style="--z:-0.911;--edge:oklch(34% 0.03 262)"></span><span class="duo-edge" style="--z:-0.789;--edge:oklch(34% 0.03 262)"></span><span class="duo-edge" style="--z:-0.668;--edge:oklch(35% 0.03 262)"></span><span class="duo-edge" style="--z:-0.546;--edge:oklch(36% 0.03 262)"></span><span class="duo-edge" style="--z:-0.425;--edge:oklch(37% 0.03 262)"></span><span class="duo-edge" style="--z:-0.304;--edge:oklch(38% 0.03 262)"></span><span class="duo-edge" style="--z:-0.182;--edge:oklch(39% 0.03 262)"></span><span class="duo-edge" style="--z:-0.061;--edge:oklch(40% 0.03 262)"></span><span class="duo-edge" style="--z:0.061;--edge:oklch(40% 0.03 262)"></span><span class="duo-edge" style="--z:0.182;--edge:oklch(39% 0.03 262)"></span><span class="duo-edge" style="--z:0.304;--edge:oklch(38% 0.03 262)"></span><span class="duo-edge" style="--z:0.425;--edge:oklch(37% 0.03 262)"></span><span class="duo-edge" style="--z:0.546;--edge:oklch(36% 0.03 262)"></span><span class="duo-edge" style="--z:0.668;--edge:oklch(35% 0.03 262)"></span><span class="duo-edge" style="--z:0.789;--edge:oklch(34% 0.03 262)"></span><span class="duo-edge" style="--z:0.911;--edge:oklch(34% 0.03 262)"></span><span class="duo-edge" style="--z:1.032;--edge:oklch(33% 0.03 262)"></span><span class="duo-edge" style="--z:1.154;--edge:oklch(32% 0.03 262)"></span><span class="duo-edge" style="--z:1.275;--edge:oklch(31% 0.03 262)"></span><span class="duo-edge" style="--z:1.396;--edge:oklch(30% 0.03 262)"></span><span class="duo-edge" style="--z:1.518;--edge:oklch(29% 0.03 262)"></span><span class="duo-edge" style="--z:1.639;--edge:oklch(28% 0.03 262)"></span>
+                <div class="duo-face duo-face-front"><div class="duo-art"><img src="/assets/screens/duo/04-record-recording-720.webp" srcset="/assets/screens/duo/04-record-recording-720.webp 720w, /assets/screens/duo/04-record-recording-1080.webp 1080w" sizes="(max-width: 900px) calc(100vw - 32px), 760px" width="720" height="524" loading="lazy" decoding="async" alt="iPhone Duo unfolded, inside screen: Contrail recording, with the camera view on one half and the last shot replaying on the other."><span class="duo-sheen" style="--mask:url('/assets/screens/duo/04-record-recording-720.webp')"></span></div></div>
+                <div class="duo-face duo-face-back"><div class="duo-art">
+                  <video muted loop playsinline preload="none" width="540" height="786" poster="/assets/screens/duo/replay-outer-poster.webp" aria-label="The outside screen of iPhone Duo, facing the golfer, replaying the last swing full screen with its lime tracer." data-duo-video><source data-src="/assets/screens/duo/replay-outer.mp4" type="video/mp4"></video>
+                  <img src="/assets/device/iphone-duo-night-sky-outer-open-720.webp" srcset="/assets/device/iphone-duo-night-sky-outer-open-720.webp 720w, /assets/device/iphone-duo-night-sky-outer-open-1080.webp 1080w" sizes="(max-width: 900px) calc(100vw - 32px), 760px" width="720" height="517" loading="lazy" decoding="async" alt="">
+                  <span class="duo-sheen" style="--mask:url('/assets/device/iphone-duo-night-sky-outer-open-720.webp')"></span>
+                </div></div>
+              </div>
+            </div>
+            <div class="duo-shadow" aria-hidden="true" data-duo-shadow></div>
+          </div>
+          <figcaption>
+            <h3>See your last shot while you hit the next</h3>
+            <p>While you hit, the camera fills the inside screen and the outside screen faces you with your last swing, tracer and all.</p>
+            <button class="round-btn solid" type="button" aria-label="Pause video" aria-pressed="false" hidden data-duo-pause><svg data-icon="pause" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M200,32H160a16,16,0,0,0-16,16V208a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V48A16,16,0,0,0,200,32ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Z"/></svg><svg data-icon="play" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></svg></button>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="duo-points">
+        <figure><img src="/assets/screens/duo/05-library-720.webp" srcset="/assets/screens/duo/05-library-720.webp 720w, /assets/screens/duo/05-library-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 270px" width="720" height="524" loading="lazy" decoding="async" alt="iPhone Duo unfolded: the Contrail library, with a shot playing on one half and a grid of the day’s shots on the other."><figcaption><h3>Watch and pick at once</h3><p>Your shot plays big on one half, all your shots on the other. Tap one and it plays, even in full screen.</p></figcaption></figure>
+        <figure><img src="/assets/screens/duo/07-settings-720.webp" srcset="/assets/screens/duo/07-settings-720.webp 720w, /assets/screens/duo/07-settings-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 270px" width="720" height="524" loading="lazy" decoding="async" alt="iPhone Duo unfolded: Contrail settings, with a tracer preview on one half and tracer colors, camera format and permissions on the other."><figcaption><h3>Everything in reach</h3><p>Home, Settings and every other screen split in two. Nothing stretched, nothing on the fold.</p></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
   <!-- EXAMPLES: three real swings with the tracer drawn in -->
   <section class="section examples" id="examples" aria-labelledby="examples-title">
     <div class="wrap">
@@ -696,29 +781,6 @@ html.lenis, html.lenis body { height: auto; }
       <figure class="shot"><div class="phone frame"><div class="phone-screen"><img src="/assets/screens/06-comet-tutorial-720.webp" srcset="/assets/screens/06-comet-tutorial-720.webp 720w, /assets/screens/06-comet-tutorial-1080.webp 1080w" sizes="(max-width: 760px) 65vw, 305px" width="720" height="1566" loading="lazy" alt="Contrail first-run tutorial: Comet says tap record and hit a few balls, I find the ball on your first swing, short sessions work best, above a small record screen with the ball locked."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div><figcaption><b>First run</b><span>Comet walks you through setup the first time you open the app.</span></figcaption></figure>
       <figure class="shot"><div class="phone frame"><div class="phone-screen"><img src="/assets/screens/07-settings-720.webp" srcset="/assets/screens/07-settings-720.webp 720w, /assets/screens/07-settings-1080.webp 1080w" sizes="(max-width: 760px) 65vw, 305px" width="720" height="1566" loading="lazy" alt="Contrail settings: a tracer preview with color choices lime, red, yellow, white and green, the camera format 1080p at 240 fps and the list of permissions."></div><img class="phone-bezel" src="/assets/device/iphone-18-pro-black-1104.webp" srcset="/assets/device/iphone-18-pro-black-552.webp 270w, /assets/device/iphone-18-pro-black-1104.webp 540w" sizes="(max-width: 760px) 72vw, 340px" width="540" height="1104" alt="" loading="lazy" decoding="async"></div><figcaption><b>Your line, your color</b><span>Lime by default, or red, yellow, white or green. Permissions live here too.</span></figcaption></figure>
     </div>
-  </section>
-
-  <!-- IPHONE DUO: compact and secondary to the iPhone content. Rule 1: the Duo-optimized (unfolded, two-half) layout and the
-       outside-display replay are NOT in the App Store build yet, so the section carries a "Coming soon" tag and the replay line
-       says "coming". Remove the tag and the "coming" wording only once the Duo build ships. -->
-  <section class="duo" id="duo" aria-labelledby="duo-title">
-    <div class="wrap"><div class="duo-inner">
-      <div class="duo-head">
-        <div>
-          <h2 id="duo-title">Optimized for iPhone Duo.</h2>
-          <p class="duo-tag">Coming soon</p>
-        </div>
-        <div>
-          <p>Unfold it and Contrail splits in two: your shot on one side, the rest of your session on the other. Folded, it’s the app you know.</p>
-          <p>Also coming: after each shot, the outside display can replay it, so you can glance at it without picking up your phone.</p>
-        </div>
-      </div>
-      <div class="duo-points">
-        <figure><img src="/assets/screens/duo/05-library-720.webp" srcset="/assets/screens/duo/05-library-720.webp 720w, /assets/screens/duo/05-library-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 380px" width="720" height="507" loading="lazy" decoding="async" alt="Contrail unfolded on iPhone Duo, library: a shot with its lime tracer playing on one half, and a grid of the day’s shots on the other."><figcaption><h3>Watch and pick at once</h3><p>Your shot plays big on one half, all your shots on the other. Tap one and it plays, even in full screen.</p></figcaption></figure>
-        <figure><img src="/assets/screens/duo/04-record-recording-720.webp" srcset="/assets/screens/duo/04-record-recording-720.webp 720w, /assets/screens/duo/04-record-recording-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 380px" width="720" height="507" loading="lazy" decoding="async" alt="Contrail unfolded on iPhone Duo, recording: the camera view on one half, and the last shot replaying with its tracer above a stop button on the other."><figcaption><h3>Film and replay side by side</h3><p>The camera on one half, your last shot replaying on the other, while the recording keeps going.</p></figcaption></figure>
-        <figure><img src="/assets/screens/duo/07-settings-720.webp" srcset="/assets/screens/duo/07-settings-720.webp 720w, /assets/screens/duo/07-settings-1080.webp 1080w" sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, 380px" width="720" height="507" loading="lazy" decoding="async" alt="Contrail unfolded on iPhone Duo, settings: a tracer preview on one half, and tracer colors, camera format and permissions on the other."><figcaption><h3>Everything in reach</h3><p>Home, Settings and every other screen split in two. Nothing stretched, nothing on the fold.</p></figcaption></figure>
-      </div>
-    </div></div>
   </section>
 
   <!-- PRIVACY: one honest number -->
@@ -1363,6 +1425,59 @@ html.lenis, html.lenis body { height: auto; }
       });
     }, { rootMargin: '-50% 0px -50% 0px' });
     document.querySelectorAll('[data-step]').forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+<script>
+  // iPhone Duo (#duo): scroll turns the phone from the inside screen (recording) to the outside screen (last swing replaying).
+  // CSS-sticky stage in a tall runway (no JS pin, like the hero on phones), scrubbed by ScrollTrigger; transforms only.
+  // The replay video plays whenever the stage is on screen; scroll drives only the pose. Reduced motion (or no GSAP): both
+  // sides side by side, nothing turns, the video waits for the play button.
+  (function () {
+    var sec = document.querySelector('[data-duo]'); if (!sec) return;
+    var video = sec.querySelector('[data-duo-video]'), btn = sec.querySelector('[data-duo-pause]');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var paused = reduce.matches, inView = false, loaded = false;
+    function load() {
+      if (loaded) return; loaded = true;
+      var src = video.querySelector('source[data-src]'); src.src = src.getAttribute('data-src'); video.load();
+    }
+    function sync() { if (inView && !paused) { load(); video.play().catch(function () {}); } else video.pause(); }
+    function setBtn() { btn.setAttribute('aria-pressed', String(paused)); btn.setAttribute('aria-label', paused ? 'Play video' : 'Pause video'); }
+    btn.hidden = false; setBtn();
+    btn.addEventListener('click', function () { paused = !paused; setBtn(); if (!paused) load(); sync(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) { inView = e[0].isIntersecting; sync(); }, { rootMargin: '10% 0px' }).observe(sec.querySelector('[data-duo-view]'));
+    }
+
+    document.addEventListener('DOMContentLoaded', function () { // after the page's own ScrollTriggers (registered earlier)
+      if (!window.gsap || !window.ScrollTrigger) return;
+      var tilt = sec.querySelector('[data-duo-tilt]'), device = sec.querySelector('[data-duo-device]');
+      var shadow = sec.querySelector('[data-duo-shadow]'), runway = sec.querySelector('[data-duo-runway]');
+      gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', function () {
+        sec.classList.add('is-scrub');
+        gsap.set(tilt, { xPercent: -5, scale: 0.86, rotationX: 14, rotationZ: -2 });
+        gsap.set(device, { rotationY: 0 });
+        var tl = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: { trigger: runway, start: 'top top', end: 'bottom bottom', scrub: 1 },
+          onUpdate: function () {
+            var p = tl.progress(), ry = gsap.getProperty(device, 'rotationY') * Math.PI / 180;
+            device.style.setProperty('--p', p.toFixed(4));
+            gsap.set(shadow, { scaleX: 0.5 + 0.5 * Math.abs(Math.cos(ry)), opacity: 0.55 + 0.45 * Math.abs(Math.cos(ry)) });
+          }
+        });
+        tl.to(tilt, { scale: 1, rotationX: 9, duration: 0.15, ease: 'power2.out' }, 0)
+          .to(device, { rotationY: 180, duration: 0.7, ease: 'power2.inOut' }, 0.15)
+          .to(tilt, { xPercent: 5, rotationZ: 2, duration: 0.7, ease: 'sine.inOut' }, 0.15)
+          .to(tilt, { rotationX: 5, duration: 0.35, ease: 'sine.inOut' }, 0.15)
+          .to(tilt, { rotationX: 9, duration: 0.35, ease: 'sine.inOut' }, 0.5)
+          .to({}, { duration: 0.15 }, 0.85);
+        ScrollTrigger.sort();
+        ScrollTrigger.refresh();
+        return function () { sec.classList.remove('is-scrub'); gsap.set([tilt, device, shadow], { clearProps: 'all' }); ScrollTrigger.refresh(); };
+      });
+    });
   })();
 </script>
 
